@@ -1,0 +1,141 @@
+import Foundation
+import os
+
+struct WhisperConfiguration: Equatable {
+    var executablePath: String
+    var model: String
+    var language: String
+
+    static func current(defaults: UserDefaults = AppSettings.defaults) -> WhisperConfiguration {
+        WhisperConfiguration(
+            executablePath: defaults.string(forKey: AppSettings.mlxExecutablePathKey) ?? AppSettings.defaultMLXExecutablePath,
+            model: defaults.string(forKey: AppSettings.mlxModelKey) ?? AppSettings.defaultMLXModel,
+            language: defaults.string(forKey: AppSettings.languageKey) ?? "pt"
+        )
+    }
+}
+
+enum WhisperTranscriberError: LocalizedError {
+    case executableMissing(String)
+    case modelMissing
+    case processFailed(String)
+    case transcriptMissing
+
+    var errorDescription: String? {
+        switch self {
+        case .executableMissing(let path):
+            return "Executavel do MLX Whisper nao encontrado: \(path)"
+        case .modelMissing:
+            return "Configure o modelo MLX antes de transcrever."
+        case .processFailed(let output):
+            return output.isEmpty ? "MLX Whisper falhou sem mensagem util." : output
+        case .transcriptMissing:
+            return "MLX Whisper terminou, mas nao gerou transcricao."
+        }
+    }
+}
+
+struct WhisperCommand: Equatable {
+    let executableURL: URL
+    let arguments: [String]
+    let outputTextURL: URL
+}
+
+final class WhisperTranscriber {
+    private let logger = Logger(subsystem: "com.gmalonso.whisper-dictate-mac", category: "Whisper")
+
+    func transcribe(audioURL: URL, configuration: WhisperConfiguration = .current()) async throws -> String {
+        let command = try makeCommand(audioURL: audioURL, configuration: configuration)
+        defer {
+            try? FileManager.default.removeItem(at: command.outputTextURL.deletingLastPathComponent())
+        }
+
+        let output = try await run(command)
+
+        if !output.exitOK {
+            throw WhisperTranscriberError.processFailed(output.text)
+        }
+
+        guard FileManager.default.fileExists(atPath: command.outputTextURL.path) else {
+            throw WhisperTranscriberError.transcriptMissing
+        }
+
+        let text = try String(contentsOf: command.outputTextURL, encoding: .utf8)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
+        logger.info("Whisper completed with \(text.count) chars")
+        return text
+    }
+
+    func makeCommand(audioURL: URL, configuration: WhisperConfiguration) throws -> WhisperCommand {
+        let executablePath = expandedPath(configuration.executablePath)
+        guard FileManager.default.isExecutableFile(atPath: executablePath) else {
+            throw WhisperTranscriberError.executableMissing(executablePath)
+        }
+
+        let model = configuration.model.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !model.isEmpty else {
+            throw WhisperTranscriberError.modelMissing
+        }
+
+        let outputDirectory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("whisper-dictate-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
+
+        let outputName = "transcript"
+        let outputTextURL = outputDirectory.appendingPathComponent(outputName).appendingPathExtension("txt")
+
+        var arguments = [
+            audioURL.path,
+            "--model", expandedPath(model),
+            "--output-dir", outputDirectory.path,
+            "--output-name", outputName,
+            "--output-format", "txt",
+            "--verbose", "False"
+        ]
+
+        let language = configuration.language.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !language.isEmpty, language.lowercased() != "auto" {
+            arguments.append(contentsOf: ["--language", language])
+        }
+
+        return WhisperCommand(
+            executableURL: URL(fileURLWithPath: executablePath),
+            arguments: arguments,
+            outputTextURL: outputTextURL
+        )
+    }
+
+    private struct ProcessOutput {
+        let exitOK: Bool
+        let text: String
+    }
+
+    private func run(_ command: WhisperCommand) async throws -> ProcessOutput {
+        try await withCheckedThrowingContinuation { continuation in
+            let process = Process()
+            let pipe = Pipe()
+
+            process.executableURL = command.executableURL
+            process.arguments = command.arguments
+            process.standardOutput = pipe
+            process.standardError = pipe
+
+            process.terminationHandler = { process in
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                let text = String(data: data, encoding: .utf8) ?? ""
+                continuation.resume(returning: ProcessOutput(exitOK: process.terminationStatus == 0, text: text))
+            }
+
+            do {
+                try process.run()
+            } catch {
+                continuation.resume(throwing: error)
+            }
+        }
+    }
+
+    private func expandedPath(_ path: String) -> String {
+        NSString(string: path.trimmingCharacters(in: .whitespacesAndNewlines)).expandingTildeInPath
+    }
+}
