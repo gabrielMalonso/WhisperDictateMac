@@ -45,3 +45,15 @@ targets:
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
         NSMicrophoneUsageDescription: "Precisamos acessar o microfone para transcrever sua voz"
+
+  DictateOSSTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: DictateOSSTests
+    dependencies:
+      - target: DictateOSS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.dictate-oss.tests
+        GENERATE_INFOPLIST_FILE: true

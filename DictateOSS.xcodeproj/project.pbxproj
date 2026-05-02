@@ -44,6 +44,7 @@
 		6EA56A4E6E7468FC91C86FFE /* OnboardingHotkeyStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEFBAA383A18ADF0BE190D /* OnboardingHotkeyStep.swift */; };
 		6F490C2E6B87236BAB979689 /* ExecutableResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E71C014B53E15CCF7D181 /* ExecutableResolver.swift */; };
 		73EA4D10EC7F94D592F427C5 /* TranscriptionPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2B908124EA57DFEEE8F3E5 /* TranscriptionPipeline.swift */; };
+		7C6CD8FDEEB754DD1F41EB4C /* MLXWhisperCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7272BFB477AA3BCA1D1A935B /* MLXWhisperCommandTests.swift */; };
 		7DCD312915A32960DFBB12A9 /* AudioFeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B013FB016A60028D2929B897 /* AudioFeedbackManager.swift */; };
 		7DD2FC6595C79F83B744C160 /* OnboardingPermissionBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A5EA952F8CE63C4AC0507 /* OnboardingPermissionBadge.swift */; };
 		7F7FEA013A2FF7D4C19635C9 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC98F9A9A2A5FF0F0822D942 /* OnboardingView.swift */; };
@@ -81,6 +82,16 @@
 		FBD79C9D1C7AD9A5F6099448 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1BC6D2F97E8CD2D248277 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		63E15A98A14BA8D5BD7D5999 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D288A34AB90E4E7465F4EC3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 97903CA88878B428295CF180;
+			remoteInfo = DictateOSS;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		04FE8F63B791CB8B7F0DC97B /* OverlaySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlaySettingsView.swift; sourceTree = "<group>"; };
 		08B3F23FE466D2535FE7A9AE /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
@@ -113,6 +124,7 @@
 		6A1E71C014B53E15CCF7D181 /* ExecutableResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutableResolver.swift; sourceTree = "<group>"; };
 		6A67E3342DE3E2652F5DE39E /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		718687111C39B3AA90C0AA51 /* FormattingMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingMode.swift; sourceTree = "<group>"; };
+		7272BFB477AA3BCA1D1A935B /* MLXWhisperCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLXWhisperCommandTests.swift; sourceTree = "<group>"; };
 		736C3E7102C78F5F08895861 /* ClipboardSwapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSwapManager.swift; sourceTree = "<group>"; };
 		7425089CE4BC93EB3F9E0BFA /* AppTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTypography.swift; sourceTree = "<group>"; };
 		762AB210FEC289C8F2C6E19D /* UserDefaults+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+App.swift"; sourceTree = "<group>"; };
@@ -121,6 +133,7 @@
 		7F5A508938F9455B5F899873 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		8216175935752C5E1266B20F /* RetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryPolicy.swift; sourceTree = "<group>"; };
 		83C2DFF6633C0F710709263D /* OnboardingAccessibilityStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAccessibilityStep.swift; sourceTree = "<group>"; };
+		89CF6CA50C81FF14AC7D64F2 /* DictateOSSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DictateOSSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CC2B964D8BD0E5F43AA3831 /* Date+RelativeShort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RelativeShort.swift"; sourceTree = "<group>"; };
 		8FE352A36F73A92C9F2E54CD /* OnboardingWelcomeStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomeStep.swift; sourceTree = "<group>"; };
 		93BD2AAF57CFEAAD00E18185 /* GeneralSettingsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsSheetView.swift; sourceTree = "<group>"; };
@@ -186,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				4ED30E8EE87DB22FFD68526B /* DictateOSS */,
+				FC0653093738A61CA320A7AA /* DictateOSSTests */,
 				44D029B5B6EBABC7DA6FE90E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -205,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				0AB91B4D86190AD78E6D7C10 /* DictateOSS.app */,
+				89CF6CA50C81FF14AC7D64F2 /* DictateOSSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -353,9 +368,35 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		FC0653093738A61CA320A7AA /* DictateOSSTests */ = {
+			isa = PBXGroup;
+			children = (
+				7272BFB477AA3BCA1D1A935B /* MLXWhisperCommandTests.swift */,
+			);
+			path = DictateOSSTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		825DFA2ECA8613289F213B89 /* DictateOSSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65ADDD795882ECCFC084EE0B /* Build configuration list for PBXNativeTarget "DictateOSSTests" */;
+			buildPhases = (
+				BA51B6069E39B99E331547D8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82FD9012BB998ADE1080853E /* PBXTargetDependency */,
+			);
+			name = DictateOSSTests;
+			packageProductDependencies = (
+			);
+			productName = DictateOSSTests;
+			productReference = 89CF6CA50C81FF14AC7D64F2 /* DictateOSSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		97903CA88878B428295CF180 /* DictateOSS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D95768A8718A3EC6D07FAEAF /* Build configuration list for PBXNativeTarget "DictateOSS" */;
@@ -401,6 +442,7 @@
 			projectRoot = "";
 			targets = (
 				97903CA88878B428295CF180 /* DictateOSS */,
+				825DFA2ECA8613289F213B89 /* DictateOSSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -495,7 +537,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BA51B6069E39B99E331547D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C6CD8FDEEB754DD1F41EB4C /* MLXWhisperCommandTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		82FD9012BB998ADE1080853E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 97903CA88878B428295CF180 /* DictateOSS */;
+			targetProxy = 63E15A98A14BA8D5BD7D5999 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5203F78CC94AF339DC60E8BC /* Release */ = {
@@ -663,6 +721,40 @@
 			};
 			name = Release;
 		};
+		E6265556C1E1AC847569AF2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gmalonso.dictate-oss.tests";
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DictateOSS.app/Contents/MacOS/DictateOSS";
+			};
+			name = Debug;
+		};
+		E70E9D5CABECD72ABCCAEADD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gmalonso.dictate-oss.tests";
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DictateOSS.app/Contents/MacOS/DictateOSS";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -671,6 +763,15 @@
 			buildConfigurations = (
 				A1DFBBC7C0A0199EF16099B9 /* Debug */,
 				5203F78CC94AF339DC60E8BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		65ADDD795882ECCFC084EE0B /* Build configuration list for PBXNativeTarget "DictateOSSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6265556C1E1AC847569AF2A /* Debug */,
+				E70E9D5CABECD72ABCCAEADD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

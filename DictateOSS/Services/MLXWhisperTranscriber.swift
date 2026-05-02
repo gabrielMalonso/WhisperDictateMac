@@ -78,7 +78,10 @@ final class MLXWhisperTranscriber {
             transcriptURL = command.outputTextURL
         } else if let fallbackURL = firstTextOutput(in: command.outputDirectoryURL) {
             logger.warning(
-                "Expected transcript missing at \(command.outputTextURL.path, privacy: .public); using fallback \(fallbackURL.path, privacy: .public)"
+                """
+                Expected transcript missing at \(command.outputTextURL.path, privacy: .public); \
+                using fallback \(fallbackURL.path, privacy: .public)
+                """
             )
             transcriptURL = fallbackURL
         } else {
@@ -106,7 +109,7 @@ final class MLXWhisperTranscriber {
             throw MLXWhisperError.executableMissing(expandedExecutable)
         }
 
-        let model = configuration.model.trimmingCharacters(in: .whitespacesAndNewlines)
+        let model = ExecutableResolver.expandedPath(configuration.model)
         guard !model.isEmpty else {
             throw MLXWhisperError.modelMissing
         }
@@ -221,8 +224,7 @@ final class MLXWhisperTranscriber {
         }
         return files
             .filter { $0.pathExtension.lowercased() == "txt" }
-            .sorted { $0.lastPathComponent < $1.lastPathComponent }
-            .first
+            .min { $0.lastPathComponent < $1.lastPathComponent }
     }
 
     private func render(_ command: MLXWhisperCommand) -> String {
