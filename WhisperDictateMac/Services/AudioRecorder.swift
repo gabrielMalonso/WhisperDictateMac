@@ -119,7 +119,8 @@ private final class AudioCaptureCoordinator: NSObject, AVCaptureAudioDataOutputS
                     AVNumberOfChannelsKey: 1,
                     AVLinearPCMBitDepthKey: 16,
                     AVLinearPCMIsFloatKey: false,
-                    AVLinearPCMIsBigEndianKey: false
+                    AVLinearPCMIsBigEndianKey: false,
+                    AVLinearPCMIsNonInterleaved: false
                 ]
                 let input = AVAssetWriterInput(mediaType: .audio, outputSettings: settings)
                 input.expectsMediaDataInRealTime = true
@@ -233,4 +234,3 @@ private final class AudioCaptureCoordinator: NSObject, AVCaptureAudioDataOutputS
         }
     }
 }
-
