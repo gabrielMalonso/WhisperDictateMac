@@ -94,6 +94,14 @@ enum SettingsComponents {
     static func brandedHeader(_ title: String = "DictateOSS") -> some View {
         BrandedHeaderView(title: title)
     }
+
+    static func sidebarLogo() -> some View {
+        Image("SidebarLogo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 56, height: 56)
+            .accessibilityLabel("DictateOSS")
+    }
 }
 
 private struct SettingsRowView<Trailing: View>: View {

@@ -185,8 +185,7 @@ struct ContentView: View {
 
     private var sidebar: some View {
         VStack(spacing: 0) {
-            // Branded header — aligned left
-            SettingsComponents.brandedHeader()
+            SettingsComponents.sidebarLogo()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
