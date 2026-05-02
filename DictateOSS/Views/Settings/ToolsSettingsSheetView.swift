@@ -12,6 +12,7 @@ struct ToolsSettingsSheetView: View {
 
     @State private var refreshID = UUID()
     @State private var downloadingModels: Set<String> = []
+    @State private var deletingModels: Set<String> = []
     @State private var deletionTargetModel: String?
     @State private var modelManagementError: String?
 
@@ -258,6 +259,7 @@ struct ToolsSettingsSheetView: View {
         let isSelected = mlxModel == preset.id
         let isInstalled = MLXWhisperModelCatalog.isInstalled(preset.id)
         let isDownloading = downloadingModels.contains(preset.id)
+        let isDeleting = deletingModels.contains(preset.id)
 
         return HStack(spacing: 12) {
             Button {
@@ -296,6 +298,11 @@ struct ToolsSettingsSheetView: View {
                     .font(SettingsComponents.helperFont.weight(.medium))
                     .foregroundStyle(accentColor)
                     .lineLimit(1)
+            } else if isDeleting {
+                Text(String(localized: "Excluindo"))
+                    .font(SettingsComponents.helperFont.weight(.medium))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
             } else if isInstalled {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.body)
@@ -304,8 +311,8 @@ struct ToolsSettingsSheetView: View {
                     .help(String(localized: "Modelo instalado"))
             }
 
-            modelDownloadButton(for: preset.id, isInstalled: isInstalled, isDownloading: isDownloading)
-            modelDeleteButton(for: preset.id, isInstalled: isInstalled, isDownloading: isDownloading)
+            modelDownloadButton(for: preset.id, isInstalled: isInstalled, isDownloading: isDownloading, isDeleting: isDeleting)
+            modelDeleteButton(for: preset.id, isInstalled: isInstalled, isDownloading: isDownloading, isDeleting: isDeleting)
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 14)
@@ -330,7 +337,7 @@ struct ToolsSettingsSheetView: View {
         .background(Color.primary.opacity(0.025))
     }
 
-    private func modelDownloadButton(for model: String, isInstalled: Bool, isDownloading: Bool) -> some View {
+    private func modelDownloadButton(for model: String, isInstalled: Bool, isDownloading: Bool, isDeleting: Bool) -> some View {
         Group {
             if isDownloading {
                 ProgressView()
@@ -346,8 +353,8 @@ struct ToolsSettingsSheetView: View {
                 }
                 .buttonStyle(.borderless)
                 .foregroundStyle(accentColor)
-                .disabled(isInstalled || !executableIsReady)
-                .opacity(isInstalled ? 0.35 : 1)
+                .disabled(isInstalled || isDeleting || !executableIsReady)
+                .opacity(isInstalled || isDeleting ? 0.35 : 1)
                 .help(
                     executableIsReady
                         ? String(localized: "Baixar modelo")
@@ -358,25 +365,33 @@ struct ToolsSettingsSheetView: View {
         .frame(width: 30, height: 30)
     }
 
-    private func modelDeleteButton(for model: String, isInstalled: Bool, isDownloading: Bool) -> some View {
-        Button {
-            deletionTargetModel = model
-        } label: {
-            Image(systemName: "trash")
-                .font(.title3)
+    private func modelDeleteButton(for model: String, isInstalled: Bool, isDownloading: Bool, isDeleting: Bool) -> some View {
+        Group {
+            if isDeleting {
+                ProgressView()
+                    .controlSize(.small)
+                    .frame(width: 28, height: 28)
+                    .help(String(localized: "Excluindo modelo"))
+            } else {
+                Button {
+                    deletionTargetModel = model
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.title3)
+                }
+                .buttonStyle(.borderless)
+                .foregroundStyle(isInstalled ? .red.opacity(0.85) : .secondary)
+                .disabled(!isInstalled || isDownloading)
+                .opacity(isInstalled ? 1 : 0.35)
+                .help(String(localized: "Excluir modelo baixado"))
+            }
         }
-        .buttonStyle(.borderless)
-        .foregroundStyle(isInstalled ? .red.opacity(0.85) : .secondary)
-        .disabled(!isInstalled || isDownloading)
-        .opacity(isInstalled ? 1 : 0.35)
-        .help(String(localized: "Excluir modelo baixado"))
         .frame(width: 30, height: 30)
     }
 
     private func downloadModel(_ model: String) {
         guard !downloadingModels.contains(model) else { return }
 
-        mlxModel = model
         downloadingModels.insert(model)
 
         Task {
@@ -397,14 +412,27 @@ struct ToolsSettingsSheetView: View {
 
     private func deletePendingModel() {
         guard let model = deletionTargetModel else { return }
+        guard !deletingModels.contains(model) else { return }
 
-        do {
-            try MLXWhisperModelManager.delete(model: model)
-            deletionTargetModel = nil
-            refreshID = UUID()
-        } catch {
-            deletionTargetModel = nil
-            modelManagementError = error.localizedDescription
+        deletionTargetModel = nil
+        deletingModels.insert(model)
+
+        Task {
+            do {
+                try await Task.detached(priority: .userInitiated) {
+                    try MLXWhisperModelManager.delete(model: model)
+                }.value
+
+                await MainActor.run {
+                    deletingModels.remove(model)
+                    refreshID = UUID()
+                }
+            } catch {
+                await MainActor.run {
+                    deletingModels.remove(model)
+                    modelManagementError = error.localizedDescription
+                }
+            }
         }
     }
 }
