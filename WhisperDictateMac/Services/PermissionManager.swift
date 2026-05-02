@@ -10,6 +10,14 @@ enum PermissionManager {
         AXIsProcessTrusted()
     }
 
+    static func requestAccessibilityAccess(prompt: Bool = true) -> Bool {
+        let options = [
+            kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: prompt
+        ] as CFDictionary
+
+        return AXIsProcessTrustedWithOptions(options)
+    }
+
     static func requestMicrophoneAccess() async -> Bool {
         let status = AVCaptureDevice.authorizationStatus(for: .audio)
         if status == .authorized {
@@ -29,5 +37,8 @@ enum PermissionManager {
         }
         NSWorkspace.shared.open(url)
     }
-}
 
+    static var appLocation: String {
+        Bundle.main.bundleURL.path
+    }
+}

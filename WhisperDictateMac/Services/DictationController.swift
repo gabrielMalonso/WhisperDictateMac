@@ -118,9 +118,9 @@ final class DictationController: ObservableObject {
             return
         }
 
-        guard PermissionManager.accessibilityGranted else {
+        guard PermissionManager.requestAccessibilityAccess() else {
             PermissionManager.openAccessibilitySettings()
-            errorMessage = "Permita Acessibilidade para o app conseguir colar o texto no app ativo."
+            errorMessage = "Acessibilidade ainda nao foi reconhecida. Se ja estiver marcada, remova o app da lista e adicione este build de novo."
             return
         }
 

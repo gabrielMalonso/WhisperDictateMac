@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var controller: DictationController
+    @Environment(\.scenePhase) private var scenePhase
     @AppStorage(AppSettings.mlxExecutablePathKey, store: AppSettings.defaults)
     private var executablePath = AppSettings.defaultMLXExecutablePath
     @AppStorage(AppSettings.mlxModelKey, store: AppSettings.defaults)
@@ -10,6 +11,7 @@ struct ContentView: View {
     private var language = "pt"
     @AppStorage(AppSettings.restoreClipboardKey, store: AppSettings.defaults)
     private var restoreClipboard = true
+    @State private var accessibilityGranted = PermissionManager.accessibilityGranted
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
@@ -19,11 +21,19 @@ struct ContentView: View {
 
             settings
 
+            permissionsPanel
+
             dependencyPanel
 
             Spacer(minLength: 0)
         }
         .padding(28)
+        .onAppear(perform: refreshPermissions)
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                refreshPermissions()
+            }
+        }
     }
 
     private var header: some View {
@@ -117,6 +127,40 @@ struct ContentView: View {
         }
     }
 
+    private var permissionsPanel: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Label(
+                    accessibilityGranted ? "Acessibilidade pronta" : "Acessibilidade pendente",
+                    systemImage: accessibilityGranted ? "checkmark.circle.fill" : "exclamationmark.triangle.fill"
+                )
+                .font(.headline)
+                .foregroundStyle(accessibilityGranted ? .green : .orange)
+
+                Spacer()
+
+                Button("Abrir Ajustes") {
+                    PermissionManager.openAccessibilitySettings()
+                }
+
+                Button("Reverificar") {
+                    refreshPermissions()
+                }
+            }
+
+            if !accessibilityGranted {
+                Text("App atual: \(PermissionManager.appLocation)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+                    .truncationMode(.middle)
+                    .textSelection(.enabled)
+            }
+        }
+        .padding(16)
+        .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 8))
+    }
+
     private var dependencyPanel: some View {
         let status = dependencyStatus
 
@@ -157,5 +201,9 @@ struct ContentView: View {
                 language: language
             )
         )
+    }
+
+    private func refreshPermissions() {
+        accessibilityGranted = PermissionManager.requestAccessibilityAccess(prompt: false)
     }
 }
