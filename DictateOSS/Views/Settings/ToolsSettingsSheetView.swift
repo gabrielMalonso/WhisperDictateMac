@@ -11,6 +11,9 @@ struct ToolsSettingsSheetView: View {
     private var accentColorRaw: String = AccentColorOption.default.rawValue
 
     @State private var refreshID = UUID()
+    @State private var downloadingModels: Set<String> = []
+    @State private var deletionTargetModel: String?
+    @State private var modelManagementError: String?
 
     let modalSize: CGSize
 
@@ -49,6 +52,44 @@ struct ToolsSettingsSheetView: View {
         .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
         .shadow(color: .black.opacity(0.14), radius: 24, y: 10)
         .id(refreshID)
+        .confirmationDialog(
+            String(localized: "Excluir modelo?"),
+            isPresented: Binding(
+                get: { deletionTargetModel != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        deletionTargetModel = nil
+                    }
+                }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button(String(localized: "Excluir do cache"), role: .destructive) {
+                deletePendingModel()
+            }
+            Button(String(localized: "Cancelar"), role: .cancel) {
+                deletionTargetModel = nil
+            }
+        } message: {
+            Text(deletionTargetModel ?? "")
+        }
+        .alert(
+            String(localized: "Não deu para gerenciar o modelo"),
+            isPresented: Binding(
+                get: { modelManagementError != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        modelManagementError = nil
+                    }
+                }
+            )
+        ) {
+            Button(String(localized: "OK"), role: .cancel) {
+                modelManagementError = nil
+            }
+        } message: {
+            Text(modelManagementError ?? "")
+        }
     }
 
     private var header: some View {
@@ -83,12 +124,7 @@ struct ToolsSettingsSheetView: View {
 
             SettingsComponents.divider()
 
-            statusRow(
-                icon: MLXWhisperModelCatalog.isInstalled(mlxModel) ? "checkmark.circle.fill" : "arrow.down.circle",
-                title: MLXWhisperModelCatalog.installStateLabel(for: mlxModel),
-                detail: mlxModel,
-                color: MLXWhisperModelCatalog.isInstalled(mlxModel) ? .green : accentColor
-            )
+            modelStatusRow
         }
     }
 
@@ -139,6 +175,8 @@ struct ToolsSettingsSheetView: View {
                 }
             }
 
+            modelDownloadFootnote
+
             SettingsComponents.divider()
 
             VStack(alignment: .leading, spacing: 10) {
@@ -184,44 +222,190 @@ struct ToolsSettingsSheetView: View {
         .padding(.vertical, 14)
     }
 
-    private func modelPresetRow(_ preset: MLXWhisperModelPreset) -> some View {
-        Button {
-            mlxModel = preset.id
-        } label: {
-            HStack(spacing: 12) {
-                Image(systemName: mlxModel == preset.id ? "largecircle.fill.circle" : "circle")
-                    .font(.body)
-                    .foregroundStyle(mlxModel == preset.id ? accentColor : .secondary)
+    private var modelStatusRow: some View {
+        let isDownloading = downloadingModels.contains(mlxModel)
+        let isInstalled = MLXWhisperModelCatalog.isInstalled(mlxModel)
+
+        return HStack(spacing: 12) {
+            if isDownloading {
+                ProgressView()
+                    .controlSize(.small)
                     .frame(width: 24)
+            } else {
+                Image(systemName: isInstalled ? "checkmark.circle.fill" : "arrow.down.circle")
+                    .font(.body)
+                    .foregroundStyle(isInstalled ? .green : accentColor)
+                    .frame(width: 24)
+            }
 
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 8) {
-                        Text(preset.name)
-                            .font(SettingsComponents.rowFont)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(isDownloading ? String(localized: "Baixando modelo") : MLXWhisperModelCatalog.installStateLabel(for: mlxModel))
+                    .font(SettingsComponents.rowFont)
+                Text(mlxModel)
+                    .font(SettingsComponents.helperFont)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+                    .truncationMode(.middle)
+            }
 
-                        Text(preset.approximateSize)
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+    }
+
+    private func modelPresetRow(_ preset: MLXWhisperModelPreset) -> some View {
+        let isSelected = mlxModel == preset.id
+        let isInstalled = MLXWhisperModelCatalog.isInstalled(preset.id)
+        let isDownloading = downloadingModels.contains(preset.id)
+
+        return HStack(spacing: 12) {
+            Button {
+                mlxModel = preset.id
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: isSelected ? "largecircle.fill.circle" : "circle")
+                        .font(.body)
+                        .foregroundStyle(isSelected ? accentColor : .secondary)
+                        .frame(width: 24)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 8) {
+                            Text(preset.name)
+                                .font(SettingsComponents.rowFont)
+
+                            Text(preset.approximateSize)
+                                .font(SettingsComponents.helperFont)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Text(preset.detail)
                             .font(SettingsComponents.helperFont)
                             .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-
-                    Text(preset.detail)
-                        .font(SettingsComponents.helperFont)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
                 }
-
-                Spacer(minLength: 12)
-
-                Text(MLXWhisperModelCatalog.installStateLabel(for: preset.id))
-                    .font(SettingsComponents.helperFont.weight(.medium))
-                    .foregroundStyle(MLXWhisperModelCatalog.isInstalled(preset.id) ? .green : accentColor)
-                    .lineLimit(1)
+                .contentShape(Rectangle())
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
-            .contentShape(Rectangle())
+            .buttonStyle(.plain)
+
+            Spacer(minLength: 12)
+
+            if isDownloading {
+                Text(String(localized: "Baixando"))
+                    .font(SettingsComponents.helperFont.weight(.medium))
+                    .foregroundStyle(accentColor)
+                    .lineLimit(1)
+            } else if isInstalled {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.body)
+                    .foregroundStyle(.green)
+                    .frame(width: 22, height: 22)
+                    .help(String(localized: "Modelo instalado"))
+            }
+
+            modelDownloadButton(for: preset.id, isInstalled: isInstalled, isDownloading: isDownloading)
+            modelDeleteButton(for: preset.id, isInstalled: isInstalled, isDownloading: isDownloading)
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+        .contentShape(Rectangle())
+    }
+
+    private var modelDownloadFootnote: some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: "info.circle")
+                .font(SettingsComponents.helperFont)
+                .foregroundStyle(.secondary)
+                .padding(.top, 1)
+
+            Text(String(localized: "Modelos ainda não baixados serão baixados automaticamente no primeiro uso. Se quiser evitar espera na primeira transcrição, use o botão de download agora."))
+                .font(SettingsComponents.helperFont)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.primary.opacity(0.025))
+    }
+
+    private func modelDownloadButton(for model: String, isInstalled: Bool, isDownloading: Bool) -> some View {
+        Group {
+            if isDownloading {
+                ProgressView()
+                    .controlSize(.small)
+                    .frame(width: 28, height: 28)
+                    .help(String(localized: "Baixando modelo"))
+            } else {
+                Button {
+                    downloadModel(model)
+                } label: {
+                    Image(systemName: "arrow.down.circle")
+                        .font(.title3)
+                }
+                .buttonStyle(.borderless)
+                .foregroundStyle(accentColor)
+                .disabled(isInstalled || !executableIsReady)
+                .opacity(isInstalled ? 0.35 : 1)
+                .help(
+                    executableIsReady
+                        ? String(localized: "Baixar modelo")
+                        : String(localized: "Configure o executável antes de baixar")
+                )
+            }
+        }
+        .frame(width: 30, height: 30)
+    }
+
+    private func modelDeleteButton(for model: String, isInstalled: Bool, isDownloading: Bool) -> some View {
+        Button {
+            deletionTargetModel = model
+        } label: {
+            Image(systemName: "trash")
+                .font(.title3)
+        }
+        .buttonStyle(.borderless)
+        .foregroundStyle(isInstalled ? .red.opacity(0.85) : .secondary)
+        .disabled(!isInstalled || isDownloading)
+        .opacity(isInstalled ? 1 : 0.35)
+        .help(String(localized: "Excluir modelo baixado"))
+        .frame(width: 30, height: 30)
+    }
+
+    private func downloadModel(_ model: String) {
+        guard !downloadingModels.contains(model) else { return }
+
+        mlxModel = model
+        downloadingModels.insert(model)
+
+        Task {
+            do {
+                try await MLXWhisperModelManager.download(model: model, executablePath: mlxExecutablePath)
+                await MainActor.run {
+                    downloadingModels.remove(model)
+                    refreshID = UUID()
+                }
+            } catch {
+                await MainActor.run {
+                    downloadingModels.remove(model)
+                    modelManagementError = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    private func deletePendingModel() {
+        guard let model = deletionTargetModel else { return }
+
+        do {
+            try MLXWhisperModelManager.delete(model: model)
+            deletionTargetModel = nil
+            refreshID = UUID()
+        } catch {
+            deletionTargetModel = nil
+            modelManagementError = error.localizedDescription
+        }
     }
 }
 
