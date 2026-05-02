@@ -1,0 +1,58 @@
+# SwiftLint Configuration - Dictate for Mac
+
+# Paths to include
+included:
+  - DictateApp
+  - DictateAppTests
+
+# Paths to exclude
+excluded:
+  - DictateApp.xcodeproj
+  - .build
+
+# Rules disabled
+disabled_rules:
+  # SwiftUI uses multiple trailing closures extensively (Section, Button, etc.)
+  - multiple_closures_with_trailing_closure
+
+# Rules opted in (not enabled by default)
+opt_in_rules:
+  - empty_count                    # Prefer .isEmpty over .count == 0
+  - closure_spacing                # Consistent closure formatting
+  - contains_over_first_not_nil    # Prefer .contains over .first != nil
+  - force_unwrapping               # Discourage force unwrap (!)
+  - redundant_nil_coalescing       # Remove unnecessary ?? nil
+  - sorted_first_last              # Prefer .first/.last over .sorted().first
+
+# Rule configurations
+line_length:
+  warning: 140
+  error: 200
+  ignores_comments: true
+  ignores_urls: true
+
+file_length:
+  warning: 500
+  error: 800
+
+type_body_length:
+  warning: 250
+  error: 350
+
+function_body_length:
+  warning: 50
+  error: 100
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  excluded:
+    - id
+    - x
+    - y
+    - i
+
+# String(data:encoding:) returns optional in Swift - this is intentional in many cases
+non_optional_string_data_conversion:
+  severity: warning

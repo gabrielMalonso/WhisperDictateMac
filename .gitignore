@@ -14,17 +14,16 @@ DerivedData/
 # Swift Package Manager
 .build/
 .swiftpm/
-Package.resolved
 
 # Environment and local secrets
 .env
 .env.*
 *.pem
+*.p8
 *.key
+*.mobileprovision
 
-# Logs
+# Logs and coverage
 *.log
-
-# LLVM coverage
 *.profraw
 *.profdata

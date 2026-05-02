@@ -1,9 +1,10 @@
-name: WhisperDictateMac
+name: DictateApp
 options:
   bundleIdPrefix: com.gmalonso
   deploymentTarget:
     macOS: "14.0"
   xcodeVersion: "16.0"
+  generateEmptyDirectories: true
 
 settings:
   base:
@@ -12,39 +13,31 @@ settings:
     ENABLE_DEBUG_DYLIB: false
 
 targets:
-  WhisperDictateMac:
+  DictateApp:
     type: application
     platform: macOS
     sources:
-      - path: WhisperDictateMac
+      - path: DictateApp
         excludes:
           - "**/.DS_Store"
+          - "Info.plist"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.whisper-dictate-mac
-        CODE_SIGN_ENTITLEMENTS: WhisperDictateMac/WhisperDictateMac.entitlements
-        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_ENTITLEMENTS: DictateApp/DictateApp.entitlements
+        ENABLE_HARDENED_RUNTIME: true
         COMBINE_HIDPI_IMAGES: true
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         MARKETING_VERSION: "0.1.0"
         CURRENT_PROJECT_VERSION: "1"
+      configs:
+        Debug:
+          CODE_SIGN_STYLE: Automatic
     info:
-      path: WhisperDictateMac/Info.plist
+      path: DictateApp/Info.plist
       properties:
         CFBundleDevelopmentRegion: pt-BR
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
-        NSMicrophoneUsageDescription: "O app precisa acessar o microfone para transcrever sua voz localmente."
-
-  WhisperDictateMacTests:
-    type: bundle.unit-test
-    platform: macOS
-    sources:
-      - path: WhisperDictateMacTests
-    dependencies:
-      - target: WhisperDictateMac
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.whisper-dictate-mac.tests
-        GENERATE_INFOPLIST_FILE: true
+        NSMicrophoneUsageDescription: "Precisamos acessar o microfone para transcrever sua voz"
