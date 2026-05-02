@@ -12,25 +12,25 @@ enum MLXWhisperModelCatalog {
         MLXWhisperModelPreset(
             id: "mlx-community/whisper-large-v3-turbo",
             name: "Large v3 Turbo",
-            detail: "Melhor ponto de partida: rapido, forte em portugues e bom para uso diario.",
+            detail: "Recomendado para uso diario: bom equilibrio entre velocidade e precisao.",
             approximateSize: "1.61 GB"
         ),
         MLXWhisperModelPreset(
             id: "mlx-community/whisper-large-v3-mlx",
             name: "Large v3",
-            detail: "Mais pesado. Use se quiser priorizar qualidade acima de velocidade.",
+            detail: "Prioriza precisao em transcricoes longas ou mais exigentes.",
             approximateSize: "~3 GB"
         ),
         MLXWhisperModelPreset(
             id: "mlx-community/whisper-small-mlx",
             name: "Small",
-            detail: "Mais leve. Bom para testes rapidos e Macs com menos folga.",
+            detail: "Opcao leve para respostas rapidas e Macs com recursos limitados.",
             approximateSize: "~1 GB"
         ),
         MLXWhisperModelPreset(
             id: "mlx-community/whisper-tiny",
             name: "Tiny",
-            detail: "Muito leve. Serve para validar instalacao, nao para qualidade final.",
+            detail: "Indicado para validacao tecnica, nao para transcricao de producao.",
             approximateSize: "74 MB"
         )
     ]
