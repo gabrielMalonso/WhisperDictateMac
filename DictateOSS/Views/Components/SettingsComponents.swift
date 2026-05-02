@@ -95,12 +95,8 @@ enum SettingsComponents {
         BrandedHeaderView(title: title)
     }
 
-    static func sidebarLogo() -> some View {
-        Image("SidebarLogo")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 56, height: 56)
-            .accessibilityLabel("DictateOSS")
+    static func sidebarBrandHeader() -> some View {
+        SidebarBrandHeaderView()
     }
 }
 
@@ -215,5 +211,32 @@ private struct BrandedHeaderView: View {
                 .font(.system(size: 32, weight: .bold, design: .serif))
                 .foregroundStyle(accentColor)
         }
+    }
+}
+
+private struct SidebarBrandHeaderView: View {
+    @AppStorage(MacAppKeys.keyboardAccentColor, store: .app)
+    private var accentColorRaw: String = AccentColorOption.default.rawValue
+
+    private var accentColor: Color {
+        (AccentColorOption(rawValue: accentColorRaw) ?? .default).color
+    }
+
+    var body: some View {
+        VStack(alignment: .trailing, spacing: -5) {
+            HStack(alignment: .lastTextBaseline, spacing: 0) {
+                Text("dictate")
+                    .font(.system(size: 34, weight: .bold, design: .serif))
+                Text(".")
+                    .font(.system(size: 34, weight: .bold, design: .serif))
+                    .foregroundStyle(accentColor)
+            }
+
+            Text("(OSS)")
+                .font(.system(size: 10, weight: .bold, design: .serif))
+                .padding(.trailing, 1)
+        }
+        .fixedSize()
+        .accessibilityLabel("Dictate OSS")
     }
 }

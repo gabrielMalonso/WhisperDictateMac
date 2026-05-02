@@ -185,11 +185,11 @@ struct ContentView: View {
 
     private var sidebar: some View {
         VStack(spacing: 0) {
-            SettingsComponents.sidebarLogo()
+            SettingsComponents.sidebarBrandHeader()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 16)
-                .padding(.top, 12)
-                .padding(.bottom, 12)
+                .padding(.top, 14)
+                .padding(.bottom, 10)
 
             // Custom sidebar items
             VStack(spacing: 2) {
