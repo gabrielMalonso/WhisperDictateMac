@@ -5,10 +5,11 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
-    name: Build and test
+    name: Build and test macOS app
     runs-on: macos-latest
 
     steps:
@@ -21,10 +22,12 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
-      - name: Run tests
+      - name: Test DictateOSS
         run: |
           xcodebuild test \
-            -project WhisperDictateMac.xcodeproj \
-            -scheme WhisperDictateMac \
+            -project DictateOSS.xcodeproj \
+            -scheme DictateOSS \
+            -configuration Debug \
             -destination 'platform=macOS' \
+            -derivedDataPath "$RUNNER_TEMP/DictateOSSDerivedData" \
             CODE_SIGNING_ALLOWED=NO

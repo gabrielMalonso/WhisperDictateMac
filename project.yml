@@ -1,9 +1,10 @@
-name: WhisperDictateMac
+name: DictateOSS
 options:
   bundleIdPrefix: com.gmalonso
   deploymentTarget:
     macOS: "14.0"
   xcodeVersion: "16.0"
+  generateEmptyDirectories: true
 
 settings:
   base:
@@ -12,39 +13,47 @@ settings:
     ENABLE_DEBUG_DYLIB: false
 
 targets:
-  WhisperDictateMac:
+  DictateOSS:
     type: application
     platform: macOS
     sources:
-      - path: WhisperDictateMac
+      - path: DictateOSS
         excludes:
           - "**/.DS_Store"
+          - "Info.plist"
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.whisper-dictate-mac
-        CODE_SIGN_ENTITLEMENTS: WhisperDictateMac/WhisperDictateMac.entitlements
-        CODE_SIGN_STYLE: Automatic
+        PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.dictate-oss
+        CODE_SIGN_ENTITLEMENTS: DictateOSS/DictateOSS.entitlements
+        ENABLE_HARDENED_RUNTIME: true
         COMBINE_HIDPI_IMAGES: true
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         MARKETING_VERSION: "0.1.0"
         CURRENT_PROJECT_VERSION: "1"
+        PRODUCT_NAME: DictateOSS
+      configs:
+        Debug:
+          CODE_SIGN_STYLE: Automatic
+          DEVELOPMENT_TEAM: 387JVJ66Z3
     info:
-      path: WhisperDictateMac/Info.plist
+      path: DictateOSS/Info.plist
       properties:
         CFBundleDevelopmentRegion: pt-BR
+        CFBundleDisplayName: DictateOSS
+        CFBundleName: DictateOSS
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
-        NSMicrophoneUsageDescription: "O app precisa acessar o microfone para transcrever sua voz localmente."
+        NSMicrophoneUsageDescription: "Precisamos acessar o microfone para transcrever sua voz"
 
-  WhisperDictateMacTests:
+  DictateOSSTests:
     type: bundle.unit-test
     platform: macOS
     sources:
-      - path: WhisperDictateMacTests
+      - path: DictateOSSTests
     dependencies:
-      - target: WhisperDictateMac
+      - target: DictateOSS
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.whisper-dictate-mac.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.dictate-oss.tests
         GENERATE_INFOPLIST_FILE: true
