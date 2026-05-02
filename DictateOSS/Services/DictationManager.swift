@@ -475,6 +475,103 @@ final class DictationManager: ObservableObject {
 
         let totalDuration = defaults.double(forKey: MacAppKeys.localTotalDurationSeconds)
         defaults.set(totalDuration + audioDuration, forKey: MacAppKeys.localTotalDurationSeconds)
+
+        refreshUsageStats()
+    }
+
+    private func refreshUsageStats(now: Date = .now) {
+        guard let modelContext,
+              let records = try? modelContext.fetch(FetchDescriptor<TranscriptionRecord>()) else {
+            return
+        }
+
+        let calendar = AppUILanguage.current.calendar
+        let todayStart = calendar.startOfDay(for: now)
+        let currentWeekStart = weekStart(for: now, calendar: calendar)
+        let nextWeekStart = calendar.date(byAdding: .day, value: 7, to: currentWeekStart) ?? now
+        let currentMonth = calendar.dateComponents([.year, .month], from: now)
+        let last7DaysStart = calendar.date(byAdding: .day, value: -6, to: todayStart) ?? todayStart
+
+        let currentWeekRecords = records.filter { record in
+            record.createdAt >= currentWeekStart && record.createdAt < nextWeekStart
+        }
+        defaults.set(currentWeekRecords.count, forKey: MacAppKeys.localWeekDictations)
+        defaults.set(currentWeekRecords.reduce(0) { $0 + $1.wordCount }, forKey: MacAppKeys.localWeekWords)
+        defaults.set(currentWeekRecords.count, forKey: MacAppKeys.weeklyUsageCount)
+        defaults.set(nextWeekStart.timeIntervalSince1970, forKey: MacAppKeys.weeklyUsageResetsAt)
+
+        let thisMonthCount = records.filter { record in
+            let recordMonth = calendar.dateComponents([.year, .month], from: record.createdAt)
+            return recordMonth.year == currentMonth.year && recordMonth.month == currentMonth.month
+        }.count
+        defaults.set(thisMonthCount, forKey: MacAppKeys.localThisMonthDictations)
+
+        let last7DaysCount = records.filter { record in
+            record.createdAt >= last7DaysStart && record.createdAt < (calendar.date(byAdding: .day, value: 1, to: todayStart) ?? now)
+        }.count
+        defaults.set(last7DaysCount, forKey: MacAppKeys.localLast7DaysDictations)
+
+        let dayCounts = Dictionary(grouping: records) { record in
+            dayKey(for: record.createdAt, calendar: calendar)
+        }.mapValues(\.count)
+
+        if let bestDay = dayCounts.max(by: { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key > rhs.key : lhs.value < rhs.value
+        }) {
+            defaults.set(bestDay.key, forKey: MacAppKeys.localBestDayDate)
+            defaults.set(bestDay.value, forKey: MacAppKeys.localBestDayDictations)
+        }
+
+        let activeDays = Set(dayCounts.keys)
+        var streak = 0
+        var cursor = todayStart
+        while activeDays.contains(dayKey(for: cursor, calendar: calendar)) {
+            streak += 1
+            guard let previousDay = calendar.date(byAdding: .day, value: -1, to: cursor) else { break }
+            cursor = previousDay
+        }
+        defaults.set(streak, forKey: MacAppKeys.localCurrentStreak)
+        defaults.set(max(defaults.integer(forKey: MacAppKeys.localLongestStreak), streak), forKey: MacAppKeys.localLongestStreak)
+
+        saveWeeklyChart(records: records, currentWeekStart: currentWeekStart, calendar: calendar)
+    }
+
+    private func saveWeeklyChart(
+        records: [TranscriptionRecord],
+        currentWeekStart: Date,
+        calendar: Calendar
+    ) {
+        let entries = (0..<8).compactMap { offset -> WeeklyChartEntry? in
+            guard let weekStart = calendar.date(byAdding: .day, value: -7 * (7 - offset), to: currentWeekStart),
+                  let nextWeekStart = calendar.date(byAdding: .day, value: 7, to: weekStart) else {
+                return nil
+            }
+            let count = records.filter { record in
+                record.createdAt >= weekStart && record.createdAt < nextWeekStart
+            }.count
+            return WeeklyChartEntry(weekStart: dayKey(for: weekStart, calendar: calendar), dictations: count)
+        }
+
+        if let data = try? JSONEncoder().encode(entries) {
+            defaults.set(data, forKey: MacAppKeys.localWeeklyChart)
+        }
+    }
+
+    private func weekStart(for date: Date, calendar baseCalendar: Calendar) -> Date {
+        var calendar = baseCalendar
+        calendar.firstWeekday = 2
+        return calendar.dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: date).date
+            ?? calendar.startOfDay(for: date)
+    }
+
+    private func dayKey(for date: Date, calendar: Calendar) -> String {
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        return String(format: "%04d-%02d-%02d", components.year ?? 0, components.month ?? 0, components.day ?? 0)
+    }
+
+    private struct WeeklyChartEntry: Encodable {
+        let weekStart: String
+        let dictations: Int
     }
 
     static func overlayBanner(

@@ -43,10 +43,11 @@ enum ReplacementEngine {
             )
         }
 
-        // Single or multi-word: join escaped words with flexible punctuation/whitespace separator
-        let pattern = words
+        // Single or multi-word: join escaped words with flexible punctuation/whitespace separator.
+        let termPattern = words
             .map { NSRegularExpression.escapedPattern(for: $0) }
             .joined(separator: "[\\p{P}\\s]+")
+        let pattern = "(?<![\\p{L}\\p{N}])\(termPattern)(?![\\p{L}\\p{N}])"
 
         return try? NSRegularExpression(pattern: pattern, options: .caseInsensitive)
     }
