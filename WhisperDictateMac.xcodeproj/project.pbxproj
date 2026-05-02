@@ -14,8 +14,10 @@
 		615A2007A80DF26C37267EFE /* WhisperCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777A8E532211D9EF869A4C9B /* WhisperCommandTests.swift */; };
 		960FDAB8987CD321E6DD3BC4 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CB9B6F8384C3865AC9AE4F /* AudioRecorder.swift */; };
 		ACC973810981885DF1471FD1 /* WhisperDictateMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D26DBD35C621E7BADC1544 /* WhisperDictateMacApp.swift */; };
+		B3F111B76EEA87CBA4D7952F /* DependencyChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A61A9EEE76D5BA742A878A /* DependencyChecker.swift */; };
 		C0E30E57ABCFE7D259E12960 /* DictationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6006089DD8FA9317671045A6 /* DictationController.swift */; };
 		D0A7734236BCCC2BFC0F7917 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24CCEB8BEBC4090CFBF0C638 /* Assets.xcassets */; };
+		DC40EDED8600BC4B0FFE969F /* ExecutableResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67C5D198965FF727B6A28C4 /* ExecutableResolver.swift */; };
 		DC517F992B88E8CE1E086733 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB2703A9C5BC7EF3E341C94 /* AppSettings.swift */; };
 		F24F387488E73B27550B5A4E /* ClipboardPaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BBEA7E0934E0F0823F6715 /* ClipboardPaster.swift */; };
 /* End PBXBuildFile section */
@@ -34,11 +36,13 @@
 		06D26DBD35C621E7BADC1544 /* WhisperDictateMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperDictateMacApp.swift; sourceTree = "<group>"; };
 		0813AF86225EFA7EED3F5385 /* WhisperDictateMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhisperDictateMac.entitlements; sourceTree = "<group>"; };
 		0CB2703A9C5BC7EF3E341C94 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		21A61A9EEE76D5BA742A878A /* DependencyChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyChecker.swift; sourceTree = "<group>"; };
 		24CCEB8BEBC4090CFBF0C638 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BCA5F60AAE5DC8670648985 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		6006089DD8FA9317671045A6 /* DictationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationController.swift; sourceTree = "<group>"; };
 		777A8E532211D9EF869A4C9B /* WhisperCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperCommandTests.swift; sourceTree = "<group>"; };
 		9F004C8BF14A355BA6E7BE53 /* WhisperTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperTranscriber.swift; sourceTree = "<group>"; };
+		A67C5D198965FF727B6A28C4 /* ExecutableResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutableResolver.swift; sourceTree = "<group>"; };
 		A6CB9B6F8384C3865AC9AE4F /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		B83CE49BDC0AFB9DAC808E7C /* WhisperDictateMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhisperDictateMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C691812F630DEFB92E714578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -101,7 +105,9 @@
 				0CB2703A9C5BC7EF3E341C94 /* AppSettings.swift */,
 				A6CB9B6F8384C3865AC9AE4F /* AudioRecorder.swift */,
 				E0BBEA7E0934E0F0823F6715 /* ClipboardPaster.swift */,
+				21A61A9EEE76D5BA742A878A /* DependencyChecker.swift */,
 				6006089DD8FA9317671045A6 /* DictationController.swift */,
+				A67C5D198965FF727B6A28C4 /* ExecutableResolver.swift */,
 				F3ED5EC76C4A8FBD01EAE980 /* GlobalHotkey.swift */,
 				5BCA5F60AAE5DC8670648985 /* PermissionManager.swift */,
 				9F004C8BF14A355BA6E7BE53 /* WhisperTranscriber.swift */,
@@ -219,7 +225,9 @@
 				960FDAB8987CD321E6DD3BC4 /* AudioRecorder.swift in Sources */,
 				F24F387488E73B27550B5A4E /* ClipboardPaster.swift in Sources */,
 				4483C5B57F9AA79A5BC98FF0 /* ContentView.swift in Sources */,
+				B3F111B76EEA87CBA4D7952F /* DependencyChecker.swift in Sources */,
 				C0E30E57ABCFE7D259E12960 /* DictationController.swift in Sources */,
+				DC40EDED8600BC4B0FFE969F /* ExecutableResolver.swift in Sources */,
 				5A0B68A194799C82DB2DB707 /* GlobalHotkey.swift in Sources */,
 				5332CE9F5784C9CB56F4FB32 /* PermissionManager.swift in Sources */,
 				ACC973810981885DF1471FD1 /* WhisperDictateMacApp.swift in Sources */,

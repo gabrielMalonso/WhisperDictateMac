@@ -107,6 +107,12 @@ final class DictationController: ObservableObject {
     private func startRecording() async {
         errorMessage = nil
 
+        let dependencies = DependencyChecker.check()
+        guard dependencies.isReady else {
+            errorMessage = "Configure antes de gravar: \(dependencies.missingItems.joined(separator: ", "))."
+            return
+        }
+
         guard await PermissionManager.requestMicrophoneAccess() else {
             errorMessage = "Permita o microfone para gravar."
             return
@@ -192,4 +198,3 @@ final class DictationController: ObservableObject {
         elapsedSeconds = 0
     }
 }
-

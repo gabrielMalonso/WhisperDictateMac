@@ -32,6 +32,7 @@ final class ClipboardPaster {
 
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
+        let pasteboardChangeCount = pasteboard.changeCount
 
         guard sendPasteShortcut() else {
             if restoreClipboard {
@@ -40,9 +41,9 @@ final class ClipboardPaster {
             throw ClipboardPasterError.pasteFailed
         }
 
-        try await Task.sleep(for: .milliseconds(220))
+        try await Task.sleep(for: .milliseconds(450))
 
-        if restoreClipboard {
+        if restoreClipboard, pasteboard.changeCount == pasteboardChangeCount {
             restorePasteboard(savedItems)
         }
     }
@@ -84,4 +85,3 @@ final class ClipboardPaster {
         return true
     }
 }
-

@@ -15,7 +15,7 @@ struct WhisperConfiguration: Equatable {
     }
 }
 
-enum WhisperTranscriberError: LocalizedError {
+enum WhisperTranscriberError: LocalizedError, Equatable {
     case executableMissing(String)
     case modelMissing
     case processFailed(String)
@@ -68,9 +68,10 @@ final class WhisperTranscriber {
     }
 
     func makeCommand(audioURL: URL, configuration: WhisperConfiguration) throws -> WhisperCommand {
-        let executablePath = expandedPath(configuration.executablePath)
-        guard FileManager.default.isExecutableFile(atPath: executablePath) else {
-            throw WhisperTranscriberError.executableMissing(executablePath)
+        let requestedExecutable = configuration.executablePath.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let executablePath = ExecutableResolver.resolve(requestedExecutable, fallbackName: "mlx_whisper") else {
+            let expandedExecutable = ExecutableResolver.expandedPath(requestedExecutable.isEmpty ? "mlx_whisper" : requestedExecutable)
+            throw WhisperTranscriberError.executableMissing(expandedExecutable)
         }
 
         let model = configuration.model.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -136,6 +137,6 @@ final class WhisperTranscriber {
     }
 
     private func expandedPath(_ path: String) -> String {
-        NSString(string: path.trimmingCharacters(in: .whitespacesAndNewlines)).expandingTildeInPath
+        ExecutableResolver.expandedPath(path)
     }
 }

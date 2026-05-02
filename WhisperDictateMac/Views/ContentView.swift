@@ -19,6 +19,8 @@ struct ContentView: View {
 
             settings
 
+            dependencyPanel
+
             Spacer(minLength: 0)
         }
         .padding(28)
@@ -113,5 +115,47 @@ struct ContentView: View {
                 Toggle("Restaurar clipboard depois de colar", isOn: $restoreClipboard)
             }
         }
+    }
+
+    private var dependencyPanel: some View {
+        let status = dependencyStatus
+
+        return VStack(alignment: .leading, spacing: 12) {
+            Label(
+                status.isReady ? "Dependencias prontas" : "Falta configurar: \(status.missingItems.joined(separator: ", "))",
+                systemImage: status.isReady ? "checkmark.circle.fill" : "exclamationmark.triangle.fill"
+            )
+            .font(.headline)
+            .foregroundStyle(status.isReady ? .green : .orange)
+
+            Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 16, verticalSpacing: 8) {
+                dependencyRow("MLX CLI", value: status.mlxExecutablePath)
+                dependencyRow("ffmpeg", value: status.ffmpegPath)
+                dependencyRow("Modelo", value: status.model.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : status.model)
+            }
+        }
+        .padding(16)
+        .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func dependencyRow(_ title: String, value: String?) -> some View {
+        GridRow {
+            Text(title)
+                .foregroundStyle(.secondary)
+            Text(value ?? "Nao encontrado")
+                .lineLimit(1)
+                .truncationMode(.middle)
+                .foregroundStyle(value == nil ? .red : .primary)
+        }
+    }
+
+    private var dependencyStatus: DependencyStatus {
+        DependencyChecker.check(
+            configuration: WhisperConfiguration(
+                executablePath: executablePath,
+                model: model,
+                language: language
+            )
+        )
     }
 }

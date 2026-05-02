@@ -38,6 +38,12 @@ xcodebuild build -project WhisperDictateMac.xcodeproj -scheme WhisperDictateMac 
 
 Abra o app pelo Xcode ou pelo build gerado.
 
+## Testes
+
+```bash
+xcodebuild test -project WhisperDictateMac.xcodeproj -scheme WhisperDictateMac -destination 'platform=macOS'
+```
+
 ## Configuração
 
 No app, ajuste:
@@ -48,11 +54,16 @@ No app, ajuste:
 
 O hotkey padrão é `Control + Shift + D`.
 
+## Licença
+
+MIT. Use, mexa, quebre, conserte e mande PR se ficar bom.
+
 ## Próximos passos óbvios
 
-- empacotar modelo opcional;
-- trocar CLI Python por integração direta quando existir um caminho Swift bom;
 - seletor visual de microfone;
 - histórico local;
 - VAD para cortar silêncio;
+- hotkey configurável;
+- empacotar modelo opcional;
+- trocar CLI Python por integração direta quando existir um caminho Swift bom;
 - formatter local opcional, só depois que o STT estiver redondo.
