@@ -1,0 +1,690 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		001030FEB5B98CC7C0C958A1 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A67E3342DE3E2652F5DE39E /* FeedbackViewModel.swift */; };
+		06ED61A2E8B70D9744657683 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFC527B4B63C31E544B0581 /* AppConfig.swift */; };
+		0B3E83DB011E11AC2C2C5277 /* PhoneticNormalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B010CD869B4DF68E61E414B /* PhoneticNormalizer.swift */; };
+		0B5A4B190CB45CED25287410 /* GeneralSettingsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BD2AAF57CFEAAD00E18185 /* GeneralSettingsSheetView.swift */; };
+		0DCA6361D194F1164B6AD57A /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62721E1481CDDF88B2D87D5 /* PermissionManager.swift */; };
+		0DCEE66686028CB0C50CC6DE /* OnboardingMicrophoneStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92BBC5C1621F2F621CC0EC4 /* OnboardingMicrophoneStep.swift */; };
+		0ED5B3BE252152091E5B5E85 /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421318F2495449228248E0D /* HotkeyManager.swift */; };
+		0F773BCBA308042C9618BA25 /* MacAppKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A40D722CBE01289DCA0B4D2 /* MacAppKeys.swift */; };
+		11317DC11BCFE5744E6224C3 /* HotkeySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19EDC376D673D9248DB133F /* HotkeySettingView.swift */; };
+		132B15FC1FC49CF73F15201F /* MLXWhisperTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32119895C258CE788D8F4BA /* MLXWhisperTranscriber.swift */; };
+		16990948794353DCD136A9F0 /* ClipboardSwapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C3E7102C78F5F08895861 /* ClipboardSwapManager.swift */; };
+		16D5B4F925CD2BEAB2953E3E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30769FBBA72AA2EC521B162 /* ContentView.swift */; };
+		1EA604439E41958F56254267 /* RecordingTimerFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B452C1B9D5F7689346E053 /* RecordingTimerFormat.swift */; };
+		22C44B2BAB30C7311DC356B4 /* ReplacementRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA915E3DD0FC7C6F607B94A2 /* ReplacementRule.swift */; };
+		22F0208BA0C35CC2BF30B92D /* OverlayPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC38281B75E35EEE89AEAD7F /* OverlayPosition.swift */; };
+		23A264CF28C2BD956FCFA3E1 /* Date+RelativeShort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC2B964D8BD0E5F43AA3831 /* Date+RelativeShort.swift */; };
+		2B7DE41C7E51682E90DD2E28 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5A508938F9455B5F899873 /* HistoryView.swift */; };
+		2D130D838668A9E93F20F66D /* StatsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9FCDCD8D6551658D258072 /* StatsDetailView.swift */; };
+		2FFB054466BFC24B1642EE75 /* AvatarImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED181B9AA2CC0914784FB9D /* AvatarImageCache.swift */; };
+		371EAF262408E5E203D198F2 /* DictionaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF764A1DB18ADF8FD58016FC /* DictionaryEntry.swift */; };
+		3BB7FB83F2331E70608DE5E7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F82E1A19A0EE2DC66F9B73E /* SettingsView.swift */; };
+		4311F0690BA3982133F58ECE /* SpellCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C54B8F9747441AC0522024 /* SpellCheckService.swift */; };
+		45848C464D3AEA81B0516CAD /* MicrophoneSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27893FCDDD1E705794076383 /* MicrophoneSelection.swift */; };
+		489429026235EA74A6421F2B /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8216175935752C5E1266B20F /* RetryPolicy.swift */; };
+		50689903F34B02DC81962525 /* ReplacementRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9ADABFB15C8D1966BDC6F3 /* ReplacementRulesView.swift */; };
+		51E56C38C8F23333900FBB16 /* AppModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5D0709B67F7F5428C0FB6A /* AppModelContainer.swift */; };
+		5AB56DCDA2C9302121737133 /* AppText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77EB774ADCAEE44FC7C8B24 /* AppText.swift */; };
+		5B5F2B91D167CF310E72D5C3 /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB75AA5585511D0FAC3AD19 /* DictionaryView.swift */; };
+		5F7EC5CB96A6B958CC13CB8F /* AccentColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A5A2DBF01276FD6839865D /* AccentColorOption.swift */; };
+		623AD08F28853077DCE6C6AF /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 08B3F23FE466D2535FE7A9AE /* InfoPlist.xcstrings */; };
+		6625FF6CEF0714E10453187C /* StatsQuickCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3CAFA62869EC64029EC547 /* StatsQuickCard.swift */; };
+		67583545706CBE13150945A5 /* DictateSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02A95A27219FCF42F5BE581 /* DictateSettingsView.swift */; };
+		6DEEC7F7368A1DF3D98D9D59 /* DictationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578C165D4B2E4DDCB57FF606 /* DictationManager.swift */; };
+		6E654C83C73EDB98CC8D7E5B /* DictateOSSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642AF726917C6439B7CAB9B5 /* DictateOSSApp.swift */; };
+		6EA56A4E6E7468FC91C86FFE /* OnboardingHotkeyStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEFBAA383A18ADF0BE190D /* OnboardingHotkeyStep.swift */; };
+		6F490C2E6B87236BAB979689 /* ExecutableResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E71C014B53E15CCF7D181 /* ExecutableResolver.swift */; };
+		73EA4D10EC7F94D592F427C5 /* TranscriptionPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2B908124EA57DFEEE8F3E5 /* TranscriptionPipeline.swift */; };
+		7DCD312915A32960DFBB12A9 /* AudioFeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B013FB016A60028D2929B897 /* AudioFeedbackManager.swift */; };
+		7DD2FC6595C79F83B744C160 /* OnboardingPermissionBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1A5EA952F8CE63C4AC0507 /* OnboardingPermissionBadge.swift */; };
+		7F7FEA013A2FF7D4C19635C9 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC98F9A9A2A5FF0F0822D942 /* OnboardingView.swift */; };
+		84C83DA49BEB205E6EA583F1 /* UserDefaults+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762AB210FEC289C8F2C6E19D /* UserDefaults+App.swift */; };
+		8AC44F866E04AC43CDB54033 /* MLXWhisperModelCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33449F67ED136960B3EBD5AA /* MLXWhisperModelCatalog.swift */; };
+		8CC8C9060D1148CEC16D39F7 /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7425089CE4BC93EB3F9E0BFA /* AppTypography.swift */; };
+		933BE094027C03074D45381F /* SpeechLocaleMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649C1B7D458A22F64240CC43 /* SpeechLocaleMapper.swift */; };
+		93E533583186ABF39222173A /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC962A387AFCAC58311AC92C /* FeedbackView.swift */; };
+		9FC8C640A13DFDC091055889 /* RecordingOverlayPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF2A0B6F69D5013C873C990 /* RecordingOverlayPanelController.swift */; };
+		A3077E33AD37E42C409AF94F /* FeatureAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6276DD05A3C02E36BBEA608 /* FeatureAvailability.swift */; };
+		A31CF8F679BA0599E2D2FC3D /* SettingsComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D123E511E5B07996E62443E0 /* SettingsComponents.swift */; };
+		A34E5467ACA30D9B82AB50BA /* LaunchAtLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E314ACF697F5DB7645FD6490 /* LaunchAtLoginManager.swift */; };
+		A4F67D4D6D7C77E741D3A0CB /* ReplacementEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A18F9448D41C6C669F4B87B /* ReplacementEngine.swift */; };
+		A56A8B4840F0F715BAFFA8D0 /* DictionaryMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A604F9F9504812EB3EC38F11 /* DictionaryMatcher.swift */; };
+		AA036B35A56399DF1A4D7A62 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DAB3E9AF2D15223F6C906F /* PermissionsView.swift */; };
+		ADB8605ACEDC568905248C47 /* DeviceLanguageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F887DA63D44C870F138AEBCE /* DeviceLanguageMapper.swift */; };
+		B348C8E0D1A83308468D8312 /* PendingInsertionPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9C92739C9268DB8B31337 /* PendingInsertionPolicy.swift */; };
+		B9E8680B34E5ED018F1EC923 /* SystemSettingsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E81A13D61309AE365DA33 /* SystemSettingsSheetView.swift */; };
+		BC520C2F28BF66A0544F9080 /* FormattingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718687111C39B3AA90C0AA51 /* FormattingMode.swift */; };
+		BF1A972DB71564F569E8829A /* TranscriptionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7E1A0D70F85B23BBA3A4C3 /* TranscriptionRecord.swift */; };
+		C5D13106949D7D56696D4F55 /* OnboardingWelcomeStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE352A36F73A92C9F2E54CD /* OnboardingWelcomeStep.swift */; };
+		C6F06920EC586630077BC0DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E7BE3EE12A3965B67D43E29 /* Assets.xcassets */; };
+		CE58B8B50D5138931C496252 /* AccessibilityTextReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483BCA8D021B640097946186 /* AccessibilityTextReader.swift */; };
+		D29782CEF6C45E879C3EC9EA /* LastTranscriptionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206702101F6E10D1579296E1 /* LastTranscriptionCard.swift */; };
+		D4B375CE3AB5351234008071 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C5CE624F9EDD1CE5EF0071 /* StatsView.swift */; };
+		DCE6CAB96548AFEE06364A79 /* UserDefaultsProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD534037F24400F7C4A9BF9F /* UserDefaultsProviding.swift */; };
+		DE8A17E4DEA3CF77893FFACC /* HistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5E944D9A51C39708FFECE5 /* HistoryDetailView.swift */; };
+		E0345AD7F4FFBE805C885471 /* OverlaySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE8F63B791CB8B7F0DC97B /* OverlaySettingsView.swift */; };
+		EAC425BE3A9AB633CDAE6644 /* OnboardingAccessibilityStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C2DFF6633C0F710709263D /* OnboardingAccessibilityStep.swift */; };
+		F1E171943ED871CC2E1D5F4F /* LocalTranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31960EE25982B8065D6E33FA /* LocalTranscriptionService.swift */; };
+		F4757C93E4EF41FFE92C86D3 /* AudioRecorderMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88ADB351021990FEBC12F3 /* AudioRecorderMac.swift */; };
+		F5F5BC26F491904EE926A67E /* ToolsSettingsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FF9FDB2EEF1C97D3647BA2 /* ToolsSettingsSheetView.swift */; };
+		F613CCE0CAA71542D7D96457 /* RecordingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61762EB95CA71BA0CDCD9CD6 /* RecordingOverlayView.swift */; };
+		F9DB885772AC85F06D359171 /* ErrorNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF07EC1D8F8D01721479A7B /* ErrorNotificationService.swift */; };
+		FBD79C9D1C7AD9A5F6099448 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D1BC6D2F97E8CD2D248277 /* HomeView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		04FE8F63B791CB8B7F0DC97B /* OverlaySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlaySettingsView.swift; sourceTree = "<group>"; };
+		08B3F23FE466D2535FE7A9AE /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		09D1BC6D2F97E8CD2D248277 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		0AB91B4D86190AD78E6D7C10 /* DictateOSS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DictateOSS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E5D0709B67F7F5428C0FB6A /* AppModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelContainer.swift; sourceTree = "<group>"; };
+		170E81A13D61309AE365DA33 /* SystemSettingsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingsSheetView.swift; sourceTree = "<group>"; };
+		206702101F6E10D1579296E1 /* LastTranscriptionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastTranscriptionCard.swift; sourceTree = "<group>"; };
+		27893FCDDD1E705794076383 /* MicrophoneSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneSelection.swift; sourceTree = "<group>"; };
+		2B7E1A0D70F85B23BBA3A4C3 /* TranscriptionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionRecord.swift; sourceTree = "<group>"; };
+		2CF07EC1D8F8D01721479A7B /* ErrorNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorNotificationService.swift; sourceTree = "<group>"; };
+		31960EE25982B8065D6E33FA /* LocalTranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTranscriptionService.swift; sourceTree = "<group>"; };
+		32B452C1B9D5F7689346E053 /* RecordingTimerFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingTimerFormat.swift; sourceTree = "<group>"; };
+		33449F67ED136960B3EBD5AA /* MLXWhisperModelCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLXWhisperModelCatalog.swift; sourceTree = "<group>"; };
+		3A1A5EA952F8CE63C4AC0507 /* OnboardingPermissionBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPermissionBadge.swift; sourceTree = "<group>"; };
+		3EF2A0B6F69D5013C873C990 /* RecordingOverlayPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayPanelController.swift; sourceTree = "<group>"; };
+		483BCA8D021B640097946186 /* AccessibilityTextReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTextReader.swift; sourceTree = "<group>"; };
+		4B010CD869B4DF68E61E414B /* PhoneticNormalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneticNormalizer.swift; sourceTree = "<group>"; };
+		4B5E944D9A51C39708FFECE5 /* HistoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailView.swift; sourceTree = "<group>"; };
+		4EB75AA5585511D0FAC3AD19 /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
+		4F651F164A71B3DF5A84EE9B /* DictateOSS.Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DictateOSS.Release.entitlements; sourceTree = "<group>"; };
+		55DAB3E9AF2D15223F6C906F /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
+		578C165D4B2E4DDCB57FF606 /* DictationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationManager.swift; sourceTree = "<group>"; };
+		5A18F9448D41C6C669F4B87B /* ReplacementEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementEngine.swift; sourceTree = "<group>"; };
+		5B2B908124EA57DFEEE8F3E5 /* TranscriptionPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionPipeline.swift; sourceTree = "<group>"; };
+		61762EB95CA71BA0CDCD9CD6 /* RecordingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayView.swift; sourceTree = "<group>"; };
+		642AF726917C6439B7CAB9B5 /* DictateOSSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictateOSSApp.swift; sourceTree = "<group>"; };
+		649C1B7D458A22F64240CC43 /* SpeechLocaleMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechLocaleMapper.swift; sourceTree = "<group>"; };
+		64FF9FDB2EEF1C97D3647BA2 /* ToolsSettingsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsSettingsSheetView.swift; sourceTree = "<group>"; };
+		6A1E71C014B53E15CCF7D181 /* ExecutableResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutableResolver.swift; sourceTree = "<group>"; };
+		6A67E3342DE3E2652F5DE39E /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
+		718687111C39B3AA90C0AA51 /* FormattingMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingMode.swift; sourceTree = "<group>"; };
+		736C3E7102C78F5F08895861 /* ClipboardSwapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSwapManager.swift; sourceTree = "<group>"; };
+		7425089CE4BC93EB3F9E0BFA /* AppTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTypography.swift; sourceTree = "<group>"; };
+		762AB210FEC289C8F2C6E19D /* UserDefaults+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+App.swift"; sourceTree = "<group>"; };
+		7A40D722CBE01289DCA0B4D2 /* MacAppKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppKeys.swift; sourceTree = "<group>"; };
+		7B9ADABFB15C8D1966BDC6F3 /* ReplacementRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementRulesView.swift; sourceTree = "<group>"; };
+		7F5A508938F9455B5F899873 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		8216175935752C5E1266B20F /* RetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryPolicy.swift; sourceTree = "<group>"; };
+		83C2DFF6633C0F710709263D /* OnboardingAccessibilityStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAccessibilityStep.swift; sourceTree = "<group>"; };
+		8CC2B964D8BD0E5F43AA3831 /* Date+RelativeShort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RelativeShort.swift"; sourceTree = "<group>"; };
+		8FE352A36F73A92C9F2E54CD /* OnboardingWelcomeStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomeStep.swift; sourceTree = "<group>"; };
+		93BD2AAF57CFEAAD00E18185 /* GeneralSettingsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsSheetView.swift; sourceTree = "<group>"; };
+		96FEFBAA383A18ADF0BE190D /* OnboardingHotkeyStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHotkeyStep.swift; sourceTree = "<group>"; };
+		9E7BE3EE12A3965B67D43E29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9ED181B9AA2CC0914784FB9D /* AvatarImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageCache.swift; sourceTree = "<group>"; };
+		9F82E1A19A0EE2DC66F9B73E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A604F9F9504812EB3EC38F11 /* DictionaryMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryMatcher.swift; sourceTree = "<group>"; };
+		AF764A1DB18ADF8FD58016FC /* DictionaryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryEntry.swift; sourceTree = "<group>"; };
+		AFB9C92739C9268DB8B31337 /* PendingInsertionPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingInsertionPolicy.swift; sourceTree = "<group>"; };
+		B013FB016A60028D2929B897 /* AudioFeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFeedbackManager.swift; sourceTree = "<group>"; };
+		B02A95A27219FCF42F5BE581 /* DictateSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictateSettingsView.swift; sourceTree = "<group>"; };
+		B32119895C258CE788D8F4BA /* MLXWhisperTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLXWhisperTranscriber.swift; sourceTree = "<group>"; };
+		BA915E3DD0FC7C6F607B94A2 /* ReplacementRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementRule.swift; sourceTree = "<group>"; };
+		BD534037F24400F7C4A9BF9F /* UserDefaultsProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsProviding.swift; sourceTree = "<group>"; };
+		BD9FCDCD8D6551658D258072 /* StatsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDetailView.swift; sourceTree = "<group>"; };
+		C30769FBBA72AA2EC521B162 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C62721E1481CDDF88B2D87D5 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		CE88ADB351021990FEBC12F3 /* AudioRecorderMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorderMac.swift; sourceTree = "<group>"; };
+		D123E511E5B07996E62443E0 /* SettingsComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsComponents.swift; sourceTree = "<group>"; };
+		D19EDC376D673D9248DB133F /* HotkeySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeySettingView.swift; sourceTree = "<group>"; };
+		D6276DD05A3C02E36BBEA608 /* FeatureAvailability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureAvailability.swift; sourceTree = "<group>"; };
+		D92BBC5C1621F2F621CC0EC4 /* OnboardingMicrophoneStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMicrophoneStep.swift; sourceTree = "<group>"; };
+		DB3CAFA62869EC64029EC547 /* StatsQuickCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsQuickCard.swift; sourceTree = "<group>"; };
+		DC962A387AFCAC58311AC92C /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		DC98F9A9A2A5FF0F0822D942 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		E0A5A2DBF01276FD6839865D /* AccentColorOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccentColorOption.swift; sourceTree = "<group>"; };
+		E314ACF697F5DB7645FD6490 /* LaunchAtLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginManager.swift; sourceTree = "<group>"; };
+		E421318F2495449228248E0D /* HotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyManager.swift; sourceTree = "<group>"; };
+		F235E8E180D83A2F0D4B7905 /* DictateOSS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DictateOSS.entitlements; sourceTree = "<group>"; };
+		F3C54B8F9747441AC0522024 /* SpellCheckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellCheckService.swift; sourceTree = "<group>"; };
+		F3C5CE624F9EDD1CE5EF0071 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		F77EB774ADCAEE44FC7C8B24 /* AppText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppText.swift; sourceTree = "<group>"; };
+		F887DA63D44C870F138AEBCE /* DeviceLanguageMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceLanguageMapper.swift; sourceTree = "<group>"; };
+		FC38281B75E35EEE89AEAD7F /* OverlayPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayPosition.swift; sourceTree = "<group>"; };
+		FDFC527B4B63C31E544B0581 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1CC48353C3A34DBBD2800E38 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				4B5E944D9A51C39708FFECE5 /* HistoryDetailView.swift */,
+				7F5A508938F9455B5F899873 /* HistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		2A4F731B9DAFBCED9CF9927D /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				83C2DFF6633C0F710709263D /* OnboardingAccessibilityStep.swift */,
+				96FEFBAA383A18ADF0BE190D /* OnboardingHotkeyStep.swift */,
+				D92BBC5C1621F2F621CC0EC4 /* OnboardingMicrophoneStep.swift */,
+				3A1A5EA952F8CE63C4AC0507 /* OnboardingPermissionBadge.swift */,
+				DC98F9A9A2A5FF0F0822D942 /* OnboardingView.swift */,
+				8FE352A36F73A92C9F2E54CD /* OnboardingWelcomeStep.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		34038596040B0F5176B1B6AA = {
+			isa = PBXGroup;
+			children = (
+				4ED30E8EE87DB22FFD68526B /* DictateOSS */,
+				44D029B5B6EBABC7DA6FE90E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3A12D17F1EFAAAD10149B460 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0E5D0709B67F7F5428C0FB6A /* AppModelContainer.swift */,
+				AF764A1DB18ADF8FD58016FC /* DictionaryEntry.swift */,
+				BA915E3DD0FC7C6F607B94A2 /* ReplacementRule.swift */,
+				2B7E1A0D70F85B23BBA3A4C3 /* TranscriptionRecord.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		44D029B5B6EBABC7DA6FE90E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0AB91B4D86190AD78E6D7C10 /* DictateOSS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4ED30E8EE87DB22FFD68526B /* DictateOSS */ = {
+			isa = PBXGroup;
+			children = (
+				9E7BE3EE12A3965B67D43E29 /* Assets.xcassets */,
+				F235E8E180D83A2F0D4B7905 /* DictateOSS.entitlements */,
+				4F651F164A71B3DF5A84EE9B /* DictateOSS.Release.entitlements */,
+				08B3F23FE466D2535FE7A9AE /* InfoPlist.xcstrings */,
+				C1BFABF44DEFFF8A626DE1DE /* App */,
+				65FB2E707EAF45A1109027F8 /* Core */,
+				3A12D17F1EFAAAD10149B460 /* Models */,
+				9D2EFA3D3FF2F27D701AE8F7 /* Services */,
+				8B74DFEF1321488456CDD34C /* ViewModels */,
+				D992FB7772C71D29A414708A /* Views */,
+			);
+			path = DictateOSS;
+			sourceTree = "<group>";
+		};
+		5A16376D2D7CC4FB205B37F5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B02A95A27219FCF42F5BE581 /* DictateSettingsView.swift */,
+				4EB75AA5585511D0FAC3AD19 /* DictionaryView.swift */,
+				DC962A387AFCAC58311AC92C /* FeedbackView.swift */,
+				93BD2AAF57CFEAAD00E18185 /* GeneralSettingsSheetView.swift */,
+				D19EDC376D673D9248DB133F /* HotkeySettingView.swift */,
+				04FE8F63B791CB8B7F0DC97B /* OverlaySettingsView.swift */,
+				55DAB3E9AF2D15223F6C906F /* PermissionsView.swift */,
+				7B9ADABFB15C8D1966BDC6F3 /* ReplacementRulesView.swift */,
+				9F82E1A19A0EE2DC66F9B73E /* SettingsView.swift */,
+				170E81A13D61309AE365DA33 /* SystemSettingsSheetView.swift */,
+				64FF9FDB2EEF1C97D3647BA2 /* ToolsSettingsSheetView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		65FB2E707EAF45A1109027F8 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				FDFC527B4B63C31E544B0581 /* AppConfig.swift */,
+				F77EB774ADCAEE44FC7C8B24 /* AppText.swift */,
+				7425089CE4BC93EB3F9E0BFA /* AppTypography.swift */,
+				9ED181B9AA2CC0914784FB9D /* AvatarImageCache.swift */,
+				8CC2B964D8BD0E5F43AA3831 /* Date+RelativeShort.swift */,
+				F887DA63D44C870F138AEBCE /* DeviceLanguageMapper.swift */,
+				D6276DD05A3C02E36BBEA608 /* FeatureAvailability.swift */,
+				718687111C39B3AA90C0AA51 /* FormattingMode.swift */,
+				7A40D722CBE01289DCA0B4D2 /* MacAppKeys.swift */,
+				FC38281B75E35EEE89AEAD7F /* OverlayPosition.swift */,
+				AFB9C92739C9268DB8B31337 /* PendingInsertionPolicy.swift */,
+				32B452C1B9D5F7689346E053 /* RecordingTimerFormat.swift */,
+				8216175935752C5E1266B20F /* RetryPolicy.swift */,
+				649C1B7D458A22F64240CC43 /* SpeechLocaleMapper.swift */,
+				762AB210FEC289C8F2C6E19D /* UserDefaults+App.swift */,
+				BD534037F24400F7C4A9BF9F /* UserDefaultsProviding.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		786F1B193BD3CB4A2BEC4C6B /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				BD9FCDCD8D6551658D258072 /* StatsDetailView.swift */,
+				F3C5CE624F9EDD1CE5EF0071 /* StatsView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		8B74DFEF1321488456CDD34C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A67E3342DE3E2652F5DE39E /* FeedbackViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		973CEFE938CA13246DAF3116 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				09D1BC6D2F97E8CD2D248277 /* HomeView.swift */,
+				206702101F6E10D1579296E1 /* LastTranscriptionCard.swift */,
+				DB3CAFA62869EC64029EC547 /* StatsQuickCard.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9D2EFA3D3FF2F27D701AE8F7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				483BCA8D021B640097946186 /* AccessibilityTextReader.swift */,
+				B013FB016A60028D2929B897 /* AudioFeedbackManager.swift */,
+				CE88ADB351021990FEBC12F3 /* AudioRecorderMac.swift */,
+				736C3E7102C78F5F08895861 /* ClipboardSwapManager.swift */,
+				578C165D4B2E4DDCB57FF606 /* DictationManager.swift */,
+				A604F9F9504812EB3EC38F11 /* DictionaryMatcher.swift */,
+				2CF07EC1D8F8D01721479A7B /* ErrorNotificationService.swift */,
+				6A1E71C014B53E15CCF7D181 /* ExecutableResolver.swift */,
+				E421318F2495449228248E0D /* HotkeyManager.swift */,
+				E314ACF697F5DB7645FD6490 /* LaunchAtLoginManager.swift */,
+				31960EE25982B8065D6E33FA /* LocalTranscriptionService.swift */,
+				27893FCDDD1E705794076383 /* MicrophoneSelection.swift */,
+				33449F67ED136960B3EBD5AA /* MLXWhisperModelCatalog.swift */,
+				B32119895C258CE788D8F4BA /* MLXWhisperTranscriber.swift */,
+				C62721E1481CDDF88B2D87D5 /* PermissionManager.swift */,
+				4B010CD869B4DF68E61E414B /* PhoneticNormalizer.swift */,
+				3EF2A0B6F69D5013C873C990 /* RecordingOverlayPanelController.swift */,
+				5A18F9448D41C6C669F4B87B /* ReplacementEngine.swift */,
+				F3C54B8F9747441AC0522024 /* SpellCheckService.swift */,
+				5B2B908124EA57DFEEE8F3E5 /* TranscriptionPipeline.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C1BFABF44DEFFF8A626DE1DE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				642AF726917C6439B7CAB9B5 /* DictateOSSApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D992FB7772C71D29A414708A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C30769FBBA72AA2EC521B162 /* ContentView.swift */,
+				E76D13E5311415D645CFC402 /* Components */,
+				1CC48353C3A34DBBD2800E38 /* History */,
+				973CEFE938CA13246DAF3116 /* Home */,
+				2A4F731B9DAFBCED9CF9927D /* Onboarding */,
+				5A16376D2D7CC4FB205B37F5 /* Settings */,
+				786F1B193BD3CB4A2BEC4C6B /* Stats */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E76D13E5311415D645CFC402 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E0A5A2DBF01276FD6839865D /* AccentColorOption.swift */,
+				61762EB95CA71BA0CDCD9CD6 /* RecordingOverlayView.swift */,
+				D123E511E5B07996E62443E0 /* SettingsComponents.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		97903CA88878B428295CF180 /* DictateOSS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D95768A8718A3EC6D07FAEAF /* Build configuration list for PBXNativeTarget "DictateOSS" */;
+			buildPhases = (
+				0836231C997B7240AD912D8B /* Sources */,
+				059EB0A5F88714E6839FB7EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DictateOSS;
+			packageProductDependencies = (
+			);
+			productName = DictateOSS;
+			productReference = 0AB91B4D86190AD78E6D7C10 /* DictateOSS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9D288A34AB90E4E7465F4EC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 138EC847280BB4BCDABC932D /* Build configuration list for PBXProject "DictateOSS" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				"pt-BR",
+			);
+			mainGroup = 34038596040B0F5176B1B6AA;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 44D029B5B6EBABC7DA6FE90E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				97903CA88878B428295CF180 /* DictateOSS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		059EB0A5F88714E6839FB7EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6F06920EC586630077BC0DB /* Assets.xcassets in Resources */,
+				623AD08F28853077DCE6C6AF /* InfoPlist.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0836231C997B7240AD912D8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7EC5CB96A6B958CC13CB8F /* AccentColorOption.swift in Sources */,
+				CE58B8B50D5138931C496252 /* AccessibilityTextReader.swift in Sources */,
+				06ED61A2E8B70D9744657683 /* AppConfig.swift in Sources */,
+				51E56C38C8F23333900FBB16 /* AppModelContainer.swift in Sources */,
+				5AB56DCDA2C9302121737133 /* AppText.swift in Sources */,
+				8CC8C9060D1148CEC16D39F7 /* AppTypography.swift in Sources */,
+				7DCD312915A32960DFBB12A9 /* AudioFeedbackManager.swift in Sources */,
+				F4757C93E4EF41FFE92C86D3 /* AudioRecorderMac.swift in Sources */,
+				2FFB054466BFC24B1642EE75 /* AvatarImageCache.swift in Sources */,
+				16990948794353DCD136A9F0 /* ClipboardSwapManager.swift in Sources */,
+				16D5B4F925CD2BEAB2953E3E /* ContentView.swift in Sources */,
+				23A264CF28C2BD956FCFA3E1 /* Date+RelativeShort.swift in Sources */,
+				ADB8605ACEDC568905248C47 /* DeviceLanguageMapper.swift in Sources */,
+				6E654C83C73EDB98CC8D7E5B /* DictateOSSApp.swift in Sources */,
+				67583545706CBE13150945A5 /* DictateSettingsView.swift in Sources */,
+				6DEEC7F7368A1DF3D98D9D59 /* DictationManager.swift in Sources */,
+				371EAF262408E5E203D198F2 /* DictionaryEntry.swift in Sources */,
+				A56A8B4840F0F715BAFFA8D0 /* DictionaryMatcher.swift in Sources */,
+				5B5F2B91D167CF310E72D5C3 /* DictionaryView.swift in Sources */,
+				F9DB885772AC85F06D359171 /* ErrorNotificationService.swift in Sources */,
+				6F490C2E6B87236BAB979689 /* ExecutableResolver.swift in Sources */,
+				A3077E33AD37E42C409AF94F /* FeatureAvailability.swift in Sources */,
+				93E533583186ABF39222173A /* FeedbackView.swift in Sources */,
+				001030FEB5B98CC7C0C958A1 /* FeedbackViewModel.swift in Sources */,
+				BC520C2F28BF66A0544F9080 /* FormattingMode.swift in Sources */,
+				0B5A4B190CB45CED25287410 /* GeneralSettingsSheetView.swift in Sources */,
+				DE8A17E4DEA3CF77893FFACC /* HistoryDetailView.swift in Sources */,
+				2B7DE41C7E51682E90DD2E28 /* HistoryView.swift in Sources */,
+				FBD79C9D1C7AD9A5F6099448 /* HomeView.swift in Sources */,
+				0ED5B3BE252152091E5B5E85 /* HotkeyManager.swift in Sources */,
+				11317DC11BCFE5744E6224C3 /* HotkeySettingView.swift in Sources */,
+				D29782CEF6C45E879C3EC9EA /* LastTranscriptionCard.swift in Sources */,
+				A34E5467ACA30D9B82AB50BA /* LaunchAtLoginManager.swift in Sources */,
+				F1E171943ED871CC2E1D5F4F /* LocalTranscriptionService.swift in Sources */,
+				8AC44F866E04AC43CDB54033 /* MLXWhisperModelCatalog.swift in Sources */,
+				132B15FC1FC49CF73F15201F /* MLXWhisperTranscriber.swift in Sources */,
+				0F773BCBA308042C9618BA25 /* MacAppKeys.swift in Sources */,
+				45848C464D3AEA81B0516CAD /* MicrophoneSelection.swift in Sources */,
+				EAC425BE3A9AB633CDAE6644 /* OnboardingAccessibilityStep.swift in Sources */,
+				6EA56A4E6E7468FC91C86FFE /* OnboardingHotkeyStep.swift in Sources */,
+				0DCEE66686028CB0C50CC6DE /* OnboardingMicrophoneStep.swift in Sources */,
+				7DD2FC6595C79F83B744C160 /* OnboardingPermissionBadge.swift in Sources */,
+				7F7FEA013A2FF7D4C19635C9 /* OnboardingView.swift in Sources */,
+				C5D13106949D7D56696D4F55 /* OnboardingWelcomeStep.swift in Sources */,
+				22F0208BA0C35CC2BF30B92D /* OverlayPosition.swift in Sources */,
+				E0345AD7F4FFBE805C885471 /* OverlaySettingsView.swift in Sources */,
+				B348C8E0D1A83308468D8312 /* PendingInsertionPolicy.swift in Sources */,
+				0DCA6361D194F1164B6AD57A /* PermissionManager.swift in Sources */,
+				AA036B35A56399DF1A4D7A62 /* PermissionsView.swift in Sources */,
+				0B3E83DB011E11AC2C2C5277 /* PhoneticNormalizer.swift in Sources */,
+				9FC8C640A13DFDC091055889 /* RecordingOverlayPanelController.swift in Sources */,
+				F613CCE0CAA71542D7D96457 /* RecordingOverlayView.swift in Sources */,
+				1EA604439E41958F56254267 /* RecordingTimerFormat.swift in Sources */,
+				A4F67D4D6D7C77E741D3A0CB /* ReplacementEngine.swift in Sources */,
+				22C44B2BAB30C7311DC356B4 /* ReplacementRule.swift in Sources */,
+				50689903F34B02DC81962525 /* ReplacementRulesView.swift in Sources */,
+				489429026235EA74A6421F2B /* RetryPolicy.swift in Sources */,
+				A31CF8F679BA0599E2D2FC3D /* SettingsComponents.swift in Sources */,
+				3BB7FB83F2331E70608DE5E7 /* SettingsView.swift in Sources */,
+				933BE094027C03074D45381F /* SpeechLocaleMapper.swift in Sources */,
+				4311F0690BA3982133F58ECE /* SpellCheckService.swift in Sources */,
+				2D130D838668A9E93F20F66D /* StatsDetailView.swift in Sources */,
+				6625FF6CEF0714E10453187C /* StatsQuickCard.swift in Sources */,
+				D4B375CE3AB5351234008071 /* StatsView.swift in Sources */,
+				B9E8680B34E5ED018F1EC923 /* SystemSettingsSheetView.swift in Sources */,
+				F5F5BC26F491904EE926A67E /* ToolsSettingsSheetView.swift in Sources */,
+				73EA4D10EC7F94D592F427C5 /* TranscriptionPipeline.swift in Sources */,
+				BF1A972DB71564F569E8829A /* TranscriptionRecord.swift in Sources */,
+				84C83DA49BEB205E6EA583F1 /* UserDefaults+App.swift in Sources */,
+				DCE6CAB96548AFEE06364A79 /* UserDefaultsProviding.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5203F78CC94AF339DC60E8BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.10;
+			};
+			name = Release;
+		};
+		6EC3DFF2EE4450D7247BAB6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DictateOSS/DictateOSS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 387JVJ66Z3;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = DictateOSS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gmalonso.dictate-oss";
+				PRODUCT_NAME = DictateOSS;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A1DFBBC7C0A0199EF16099B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.10;
+			};
+			name = Debug;
+		};
+		E4A8B6737B939883223CCF0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DictateOSS/DictateOSS.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = DictateOSS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gmalonso.dictate-oss";
+				PRODUCT_NAME = DictateOSS;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		138EC847280BB4BCDABC932D /* Build configuration list for PBXProject "DictateOSS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1DFBBC7C0A0199EF16099B9 /* Debug */,
+				5203F78CC94AF339DC60E8BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D95768A8718A3EC6D07FAEAF /* Build configuration list for PBXNativeTarget "DictateOSS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EC3DFF2EE4450D7247BAB6E /* Debug */,
+				E4A8B6737B939883223CCF0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9D288A34AB90E4E7465F4EC3 /* Project object */;
+}

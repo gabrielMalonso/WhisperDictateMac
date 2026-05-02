@@ -28,7 +28,7 @@ O modelo padrao e `mlx-community/whisper-large-v3-turbo`. No primeiro uso, o MLX
 
 ```bash
 xcodegen generate
-xcodebuild build -project DictateApp.xcodeproj -scheme DictateApp -destination 'platform=macOS'
+xcodebuild build -project DictateOSS.xcodeproj -scheme DictateOSS -destination 'platform=macOS'
 ```
 
 ## Estado

@@ -1,4 +1,4 @@
-name: DictateApp
+name: DictateOSS
 options:
   bundleIdPrefix: com.gmalonso
   deploymentTarget:
@@ -13,30 +13,34 @@ settings:
     ENABLE_DEBUG_DYLIB: false
 
 targets:
-  DictateApp:
+  DictateOSS:
     type: application
     platform: macOS
     sources:
-      - path: DictateApp
+      - path: DictateOSS
         excludes:
           - "**/.DS_Store"
           - "Info.plist"
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.whisper-dictate-mac
-        CODE_SIGN_ENTITLEMENTS: DictateApp/DictateApp.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.dictate-oss
+        CODE_SIGN_ENTITLEMENTS: DictateOSS/DictateOSS.entitlements
         ENABLE_HARDENED_RUNTIME: true
         COMBINE_HIDPI_IMAGES: true
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         MARKETING_VERSION: "0.1.0"
         CURRENT_PROJECT_VERSION: "1"
+        PRODUCT_NAME: DictateOSS
       configs:
         Debug:
           CODE_SIGN_STYLE: Automatic
+          DEVELOPMENT_TEAM: 387JVJ66Z3
     info:
-      path: DictateApp/Info.plist
+      path: DictateOSS/Info.plist
       properties:
         CFBundleDevelopmentRegion: pt-BR
+        CFBundleDisplayName: DictateOSS
+        CFBundleName: DictateOSS
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"

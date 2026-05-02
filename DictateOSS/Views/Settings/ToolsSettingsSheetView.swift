@@ -1,0 +1,232 @@
+import SwiftUI
+
+struct ToolsSettingsSheetView: View {
+    @AppStorage(MacAppKeys.mlxExecutablePath, store: .app)
+    private var mlxExecutablePath: String = AppConfig.defaultMLXExecutablePath
+
+    @AppStorage(MacAppKeys.mlxModel, store: .app)
+    private var mlxModel: String = AppConfig.defaultMLXModel
+
+    @AppStorage(MacAppKeys.keyboardAccentColor, store: .app)
+    private var accentColorRaw: String = AccentColorOption.default.rawValue
+
+    @State private var refreshID = UUID()
+
+    let modalSize: CGSize
+
+    private var accentColor: Color {
+        (AccentColorOption(rawValue: accentColorRaw) ?? .default).color
+    }
+
+    private var resolvedExecutablePath: String? {
+        ExecutableResolver.resolve(mlxExecutablePath, fallbackName: "mlx_whisper")
+    }
+
+    private var executableIsReady: Bool {
+        resolvedExecutablePath != nil
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                header
+                statusCard
+                executableCard
+                modelCard
+            }
+            .padding(24)
+            .frame(maxWidth: 560, alignment: .leading)
+        }
+        .frame(width: modalSize.width, height: modalSize.height)
+        .background(
+            RoundedRectangle(cornerRadius: 30, style: .continuous)
+                .fill(Color(nsColor: .windowBackgroundColor))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 30, style: .continuous)
+                        .strokeBorder(Color.primary.opacity(0.06), lineWidth: 1)
+                )
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+        .shadow(color: .black.opacity(0.14), radius: 24, y: 10)
+        .id(refreshID)
+    }
+
+    private var header: some View {
+        HStack {
+            Text(String(localized: "Ferramentas"))
+                .font(.system(size: 28, weight: .bold, design: .serif))
+
+            Spacer()
+
+            Button {
+                refreshID = UUID()
+            } label: {
+                Image(systemName: "arrow.clockwise")
+            }
+            .buttonStyle(.borderless)
+            .help(String(localized: "Atualizar status"))
+        }
+    }
+
+    private var statusCard: some View {
+        SettingsComponents.card {
+            SettingsComponents.sectionHeader(String(localized: "MLX Whisper"))
+
+            statusRow(
+                icon: executableIsReady ? "checkmark.circle.fill" : "xmark.circle.fill",
+                title: executableIsReady
+                    ? String(localized: "Executável encontrado")
+                    : String(localized: "Executável não encontrado"),
+                detail: resolvedExecutablePath ?? String(localized: "Instale mlx-whisper ou ajuste o caminho abaixo."),
+                color: executableIsReady ? .green : .red
+            )
+
+            SettingsComponents.divider()
+
+            statusRow(
+                icon: MLXWhisperModelCatalog.isInstalled(mlxModel) ? "checkmark.circle.fill" : "arrow.down.circle",
+                title: MLXWhisperModelCatalog.installStateLabel(for: mlxModel),
+                detail: mlxModel,
+                color: MLXWhisperModelCatalog.isInstalled(mlxModel) ? .green : accentColor
+            )
+        }
+    }
+
+    private var executableCard: some View {
+        SettingsComponents.card {
+            SettingsComponents.sectionHeader(String(localized: "Executável"))
+
+            VStack(alignment: .leading, spacing: 10) {
+                TextField(String(localized: "Caminho do mlx_whisper"), text: $mlxExecutablePath)
+                    .textFieldStyle(.roundedBorder)
+                    .font(SettingsComponents.rowFont)
+
+                HStack {
+                    Button(String(localized: "Usar detectado")) {
+                        if let resolvedExecutablePath {
+                            mlxExecutablePath = resolvedExecutablePath
+                        } else if let detected = ExecutableResolver.resolve("mlx_whisper", fallbackName: "mlx_whisper") {
+                            mlxExecutablePath = detected
+                        }
+                    }
+                    .disabled(ExecutableResolver.resolve("mlx_whisper", fallbackName: "mlx_whisper") == nil)
+
+                    Button(String(localized: "Restaurar padrão")) {
+                        mlxExecutablePath = AppConfig.defaultMLXExecutablePath
+                    }
+
+                    Spacer()
+                }
+                .buttonStyle(.borderless)
+                .font(SettingsComponents.helperFont)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+        }
+    }
+
+    private var modelCard: some View {
+        SettingsComponents.card {
+            SettingsComponents.sectionHeader(String(localized: "Modelos"))
+
+            VStack(spacing: 0) {
+                ForEach(MLXWhisperModelCatalog.presets) { preset in
+                    modelPresetRow(preset)
+
+                    if preset.id != MLXWhisperModelCatalog.presets.last?.id {
+                        SettingsComponents.divider()
+                    }
+                }
+            }
+
+            SettingsComponents.divider()
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text(String(localized: "Modelo personalizado"))
+                    .font(SettingsComponents.rowFont)
+
+                TextField(String(localized: "mlx-community/whisper-large-v3-turbo ou caminho local"), text: $mlxModel)
+                    .textFieldStyle(.roundedBorder)
+
+                if let cachePath = MLXWhisperModelCatalog.huggingFaceCachePath(for: mlxModel) {
+                    Text(cachePath)
+                        .font(SettingsComponents.helperFont)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                        .truncationMode(.middle)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+        }
+    }
+
+    private func statusRow(icon: String, title: String, detail: String, color: Color) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.body)
+                .foregroundStyle(color)
+                .frame(width: 24)
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title)
+                    .font(SettingsComponents.rowFont)
+                Text(detail)
+                    .font(SettingsComponents.helperFont)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+                    .truncationMode(.middle)
+            }
+
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+    }
+
+    private func modelPresetRow(_ preset: MLXWhisperModelPreset) -> some View {
+        Button {
+            mlxModel = preset.id
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: mlxModel == preset.id ? "largecircle.fill.circle" : "circle")
+                    .font(.body)
+                    .foregroundStyle(mlxModel == preset.id ? accentColor : .secondary)
+                    .frame(width: 24)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 8) {
+                        Text(preset.name)
+                            .font(SettingsComponents.rowFont)
+
+                        Text(preset.approximateSize)
+                            .font(SettingsComponents.helperFont)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Text(preset.detail)
+                        .font(SettingsComponents.helperFont)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer(minLength: 12)
+
+                Text(MLXWhisperModelCatalog.installStateLabel(for: preset.id))
+                    .font(SettingsComponents.helperFont.weight(.medium))
+                    .foregroundStyle(MLXWhisperModelCatalog.isInstalled(preset.id) ? .green : accentColor)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+#Preview {
+    ToolsSettingsSheetView(
+        modalSize: CGSize(width: SettingsModalLayout.maxWidth, height: SettingsModalLayout.maxHeight)
+    )
+}

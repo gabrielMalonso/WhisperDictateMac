@@ -2,12 +2,12 @@
 
 # Paths to include
 included:
-  - DictateApp
-  - DictateAppTests
+  - DictateOSS
+  - DictateOSSTests
 
 # Paths to exclude
 excluded:
-  - DictateApp.xcodeproj
+  - DictateOSS.xcodeproj
   - .build
 
 # Rules disabled
