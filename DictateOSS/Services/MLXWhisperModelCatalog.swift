@@ -12,25 +12,25 @@ enum MLXWhisperModelCatalog {
         MLXWhisperModelPreset(
             id: "mlx-community/whisper-large-v3-turbo",
             name: "Large v3 Turbo",
-            detail: "Melhor ponto de partida: rapido, forte em portugues e bom para uso diario.",
+            detail: String(localized: "Recomendado para uso diário. Equilibra boa precisão, velocidade e consumo de recursos."),
             approximateSize: "1.61 GB"
         ),
         MLXWhisperModelPreset(
             id: "mlx-community/whisper-large-v3-mlx",
             name: "Large v3",
-            detail: "Mais pesado. Use se quiser priorizar qualidade acima de velocidade.",
+            detail: String(localized: "Maior precisão, com processamento mais lento. Indicado quando qualidade é prioridade."),
             approximateSize: "~3 GB"
         ),
         MLXWhisperModelPreset(
             id: "mlx-community/whisper-small-mlx",
             name: "Small",
-            detail: "Mais leve. Bom para testes rapidos e Macs com menos folga.",
+            detail: String(localized: "Modelo intermediário para transcrições leves, testes e Macs com recursos limitados."),
             approximateSize: "~1 GB"
         ),
         MLXWhisperModelPreset(
             id: "mlx-community/whisper-tiny",
             name: "Tiny",
-            detail: "Muito leve. Serve para validar instalacao, nao para qualidade final.",
+            detail: String(localized: "Opção mínima para validar a configuração. Não é indicada para transcrições finais."),
             approximateSize: "74 MB"
         )
     ]
@@ -105,12 +105,12 @@ enum MLXWhisperModelManagementError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidRemoteModel(let model):
-            return "Modelo remoto invalido: \(model)"
+            return String(localized: "Modelo remoto inválido: \(model)")
         case .executableMissing(let path):
-            return "Executavel do MLX Whisper nao encontrado: \(path)"
+            return String(localized: "Executável do MLX Whisper não encontrado: \(path)")
         case .processFailed(let output):
             let trimmed = output.trimmingCharacters(in: .whitespacesAndNewlines)
-            return trimmed.isEmpty ? "Download do modelo falhou sem mensagem util." : trimmed
+            return trimmed.isEmpty ? String(localized: "Download do modelo falhou sem mensagem útil.") : trimmed
         }
     }
 }
