@@ -24,3 +24,7 @@ Package.resolved
 
 # Logs
 *.log
+
+# LLVM coverage
+*.profraw
+*.profdata

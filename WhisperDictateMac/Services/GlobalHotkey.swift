@@ -42,7 +42,7 @@ final class GlobalHotkey {
             &eventHandler
         )
 
-        var hotkeyID = EventHotKeyID(signature: OSType(0x57444D43), id: 1)
+        let hotkeyID = EventHotKeyID(signature: OSType(0x57444D43), id: 1)
         RegisterEventHotKey(
             UInt32(kVK_ANSI_D),
             UInt32(controlKey | shiftKey),
@@ -69,4 +69,3 @@ final class GlobalHotkey {
         unregister()
     }
 }
-
