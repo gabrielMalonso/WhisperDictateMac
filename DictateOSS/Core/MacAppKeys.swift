@@ -10,6 +10,11 @@ enum MacAppKeys {
     static let dictionaryEnabled = "dictionaryEnabled"
     static let mlxExecutablePath = "mlxExecutablePath"
     static let mlxModel = "mlxModel"
+    static let localFormattingLLMEnabled = "localFormattingLLMEnabled"
+    static let localFormattingLLMEndpoint = "localFormattingLLMEndpoint"
+    static let localFormattingLLMModel = "localFormattingLLMModel"
+    static let localFormattingLLMTimeoutSeconds = "localFormattingLLMTimeoutSeconds"
+    static let localFormattingMinChars = "localFormattingMinChars"
 
     // MARK: - Translation
 

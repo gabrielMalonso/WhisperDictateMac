@@ -42,6 +42,8 @@ enum AppConfig {
     static let defaultDictationTimeout: TimeInterval = 240  // 4 minutes
     static let defaultClipboardRestoreDelayMs = 200
     static let defaultMLXModel = "mlx-community/whisper-large-v3-turbo"
+    static let defaultLocalFormattingLLMEndpoint = LocalLLMConfiguration.defaultEndpoint
+    static let defaultLocalFormattingLLMModel = LocalLLMConfiguration.defaultModel
 
     static var defaultMLXExecutablePath: String {
         ExecutableResolver.resolve("mlx_whisper", fallbackName: "mlx_whisper")
