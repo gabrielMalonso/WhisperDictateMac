@@ -357,6 +357,11 @@ struct OllamaLocalLLMClient: LocalLLMClient {
 }
 
 enum OllamaServerLauncher {
+    static var isInstalled: Bool {
+        ExecutableResolver.resolve("ollama", fallbackName: "ollama") != nil
+            || FileManager.default.fileExists(atPath: "/Applications/Ollama.app")
+    }
+
     static func start() throws {
         var startedSomething = false
 
@@ -381,6 +386,49 @@ enum OllamaServerLauncher {
 
         if !startedSomething {
             throw OllamaLocalLLMError.ollamaNotFound
+        }
+    }
+}
+
+enum OllamaInstaller {
+    static let officialDownloadURL = URL(string: "https://ollama.com/download")!
+
+    static var canInstallWithHomebrew: Bool {
+        ExecutableResolver.resolve("brew", fallbackName: "brew") != nil
+    }
+
+    static func installWithHomebrew(progress: @escaping (String) async -> Void = { _ in }) async throws {
+        guard let brewPath = ExecutableResolver.resolve("brew", fallbackName: "brew") else {
+            throw OllamaLocalLLMError.ollamaNotFound
+        }
+
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: brewPath)
+        process.arguments = ["install", "--cask", "ollama"]
+
+        let pipe = Pipe()
+        process.standardOutput = pipe
+        process.standardError = pipe
+
+        try process.run()
+
+        let handle = pipe.fileHandleForReading
+        while process.isRunning {
+            let data = handle.availableData
+            if !data.isEmpty, let line = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines), !line.isEmpty {
+                await progress(line)
+            }
+            try await Task.sleep(nanoseconds: 200_000_000)
+        }
+
+        let remaining = handle.availableData
+        if !remaining.isEmpty, let line = String(data: remaining, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines), !line.isEmpty {
+            await progress(line)
+        }
+
+        process.waitUntilExit()
+        guard process.terminationStatus == 0 else {
+            throw OllamaLocalLLMError.httpError(Int(process.terminationStatus), String(localized: "Falha ao instalar Ollama via Homebrew."))
         }
     }
 }

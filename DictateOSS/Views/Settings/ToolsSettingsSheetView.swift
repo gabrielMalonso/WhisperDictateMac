@@ -33,6 +33,7 @@ struct ToolsSettingsSheetView: View {
     @State private var installedOllamaModels: [String] = []
     @State private var ollamaStatusMessage: String?
     @State private var isCheckingOllama = false
+    @State private var isInstallingOllama = false
     @State private var isStartingOllama = false
     @State private var isTestingFormatting = false
     @State private var formattingTestMessage: String?
@@ -73,6 +74,10 @@ struct ToolsSettingsSheetView: View {
 
     private var selectedOllamaModelIsInstalled: Bool {
         installedOllamaModels.contains(localFormattingModel)
+    }
+
+    private var ollamaIsInstalled: Bool {
+        OllamaServerLauncher.isInstalled
     }
 
     var body: some View {
@@ -288,6 +293,11 @@ struct ToolsSettingsSheetView: View {
 
             ollamaStatusRow
 
+            if !ollamaIsInstalled {
+                SettingsComponents.divider()
+                ollamaInstallRow
+            }
+
             SettingsComponents.divider()
 
             VStack(alignment: .leading, spacing: 10) {
@@ -454,12 +464,18 @@ struct ToolsSettingsSheetView: View {
             } else {
                 Image(systemName: ready ? "checkmark.circle.fill" : "xmark.circle.fill")
                     .font(.body)
-                    .foregroundStyle(ready ? .green : .red)
+                    .foregroundStyle(ready ? .green : ollamaIsInstalled ? .orange : .red)
                     .frame(width: 24)
             }
 
             VStack(alignment: .leading, spacing: 3) {
-                Text(ready ? String(localized: "Ollama encontrado") : String(localized: "Ollama não encontrado"))
+                Text(
+                    ready
+                        ? String(localized: "Ollama encontrado")
+                        : ollamaIsInstalled
+                            ? String(localized: "Ollama instalado, mas parado")
+                            : String(localized: "Ollama não instalado")
+                )
                     .font(SettingsComponents.rowFont)
                 Text(ollamaStatusMessage ?? localFormattingEndpoint)
                     .font(SettingsComponents.helperFont)
@@ -470,7 +486,7 @@ struct ToolsSettingsSheetView: View {
 
             Spacer()
 
-            if !ready {
+            if !ready && ollamaIsInstalled {
                 Button {
                     startOllama()
                 } label: {
@@ -485,6 +501,59 @@ struct ToolsSettingsSheetView: View {
                 .buttonStyle(.borderless)
                 .disabled(isStartingOllama || !localEndpointIsValid)
                 .help(String(localized: "Abrir ou iniciar o Ollama"))
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+    }
+
+    private var ollamaInstallRow: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 12) {
+                Image(systemName: "square.and.arrow.down")
+                    .font(.body)
+                    .foregroundStyle(accentColor)
+                    .frame(width: 24)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(String(localized: "Instalar Ollama"))
+                        .font(SettingsComponents.rowFont)
+                    Text(
+                        OllamaInstaller.canInstallWithHomebrew
+                            ? String(localized: "Instala pelo Homebrew e depois inicia o servidor local.")
+                            : String(localized: "Homebrew não encontrado. Posso abrir o instalador oficial.")
+                    )
+                    .font(SettingsComponents.helperFont)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer()
+
+                Button {
+                    installOllama()
+                } label: {
+                    if isInstallingOllama {
+                        ProgressView()
+                            .controlSize(.small)
+                    } else {
+                        Label(
+                            OllamaInstaller.canInstallWithHomebrew
+                                ? String(localized: "Instalar")
+                                : String(localized: "Baixar"),
+                            systemImage: OllamaInstaller.canInstallWithHomebrew ? "terminal" : "safari"
+                        )
+                    }
+                }
+                .disabled(isInstallingOllama)
+                .buttonStyle(.borderless)
+            }
+
+            if let ollamaDownloadMessage, isInstallingOllama {
+                Text(ollamaDownloadMessage)
+                    .font(SettingsComponents.helperFont)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding(.horizontal, 20)
@@ -773,6 +842,41 @@ struct ToolsSettingsSheetView: View {
                     isStartingOllama = false
                     modelManagementError = error.localizedDescription
                     ollamaStatusMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    private func installOllama() {
+        guard !isInstallingOllama else { return }
+
+        if !OllamaInstaller.canInstallWithHomebrew {
+            NSWorkspace.shared.open(OllamaInstaller.officialDownloadURL)
+            ollamaStatusMessage = String(localized: "Abrindo o instalador oficial do Ollama.")
+            return
+        }
+
+        isInstallingOllama = true
+        ollamaDownloadMessage = String(localized: "Instalando Ollama via Homebrew...")
+
+        Task {
+            do {
+                try await OllamaInstaller.installWithHomebrew { line in
+                    await MainActor.run {
+                        ollamaDownloadMessage = line
+                    }
+                }
+
+                await MainActor.run {
+                    isInstallingOllama = false
+                    ollamaDownloadMessage = String(localized: "Ollama instalado. Iniciando servidor...")
+                }
+                startOllama()
+            } catch {
+                await MainActor.run {
+                    isInstallingOllama = false
+                    ollamaDownloadMessage = error.localizedDescription
+                    modelManagementError = error.localizedDescription
                 }
             }
         }
