@@ -57,3 +57,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.dictate-oss.tests
         GENERATE_INFOPLIST_FILE: true
+      configs:
+        Debug:
+          CODE_SIGN_STYLE: Automatic
+          DEVELOPMENT_TEAM: 387JVJ66Z3

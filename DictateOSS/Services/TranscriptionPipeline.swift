@@ -79,10 +79,12 @@ enum TranscriptionPipeline {
         persistResult: Bool = true,
         translationRequested: Bool = false,
         defaults: UserDefaultsProviding = UserDefaults.app,
-        modelContext: ModelContext = ModelContext(AppModelContainer.container)
+        modelContext: ModelContext = ModelContext(AppModelContainer.container),
+        dependencies: TranscriptionPipelineDependencies = TranscriptionPipelineDependencies()
     ) async -> Result<TranscriptionResult, TranscriptionPipelineError> {
         let selectedLanguage = defaults.string(forKey: MacAppKeys.transcriptionLanguage) ?? DeviceLanguageMapper.deviceDefault
         let persistedLanguage = selectedLanguage
+        let formattingOptions = FormattingOptions.load(from: defaults)
         let dictionaryTerms = loadDictionaryTerms(
             language: selectedLanguage,
             modelContext: modelContext,
@@ -97,7 +99,7 @@ enum TranscriptionPipeline {
             """
         )
 
-        let localResult = await LocalTranscriptionService.transcribe(
+        let localResult = await dependencies.transcriber.transcribe(
             audioURL: audioURL,
             language: selectedLanguage == "auto" ? nil : selectedLanguage
         )
@@ -106,18 +108,34 @@ enum TranscriptionPipeline {
             return .failure(.cancelled)
         }
 
-        let route: TranscriptionRouteResult
+        let rawText: String
         switch localResult {
         case .success(let text):
             let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !trimmed.isEmpty else {
                 return .failure(.emptyResult)
             }
-            route = .localOnly(text: trimmed)
+            rawText = trimmed
         case .failure(let error):
             return .failure(.localTranscriptionFailed(error.localizedDescription))
         }
 
+        if await cancelIfRequested(clientId: clientId) {
+            return .failure(.cancelled)
+        }
+
+        let formattedText = await dependencies.formatter.format(
+            rawText: rawText,
+            options: formattingOptions,
+            language: selectedLanguage,
+            defaults: defaults
+        )
+
+        if await cancelIfRequested(clientId: clientId) {
+            return .failure(.cancelled)
+        }
+
+        let route = TranscriptionRouteResult.localOnly(text: formattedText)
         let finalText = postProcess(
             route: route,
             dictionaryTerms: dictionaryTerms,

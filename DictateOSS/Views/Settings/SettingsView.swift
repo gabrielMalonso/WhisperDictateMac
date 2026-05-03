@@ -91,7 +91,7 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(String(localized: "Ferramentas"))
                             .font(SettingsComponents.rowFont)
-                        Text(String(localized: "MLX Whisper e modelos locais"))
+                        Text(String(localized: "MLX Whisper, Ollama e modelos locais"))
                             .font(SettingsComponents.helperFont)
                             .foregroundStyle(.secondary)
                     }

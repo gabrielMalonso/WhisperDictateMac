@@ -7,6 +7,21 @@ struct ToolsSettingsSheetView: View {
     @AppStorage(MacAppKeys.mlxModel, store: .app)
     private var mlxModel: String = AppConfig.defaultMLXModel
 
+    @AppStorage(MacAppKeys.localFormattingLLMEnabled, store: .app)
+    private var localFormattingEnabled: Bool = true
+
+    @AppStorage(MacAppKeys.localFormattingLLMEndpoint, store: .app)
+    private var localFormattingEndpoint: String = AppConfig.defaultLocalFormattingLLMEndpoint
+
+    @AppStorage(MacAppKeys.localFormattingLLMModel, store: .app)
+    private var localFormattingModel: String = AppConfig.defaultLocalFormattingLLMModel
+
+    @AppStorage(MacAppKeys.localFormattingLLMTimeoutSeconds, store: .app)
+    private var localFormattingTimeoutSeconds: Double = LocalLLMConfiguration.defaultTimeoutSeconds
+
+    @AppStorage(MacAppKeys.localFormattingMinChars, store: .app)
+    private var localFormattingMinChars: Int = LocalLLMConfiguration.defaultMinCharsToFormat
+
     @AppStorage(MacAppKeys.keyboardAccentColor, store: .app)
     private var accentColorRaw: String = AccentColorOption.default.rawValue
 
@@ -15,6 +30,11 @@ struct ToolsSettingsSheetView: View {
     @State private var deletingModels: Set<String> = []
     @State private var deletionTargetModel: String?
     @State private var modelManagementError: String?
+    @State private var installedOllamaModels: [String] = []
+    @State private var ollamaStatusMessage: String?
+    @State private var isCheckingOllama = false
+    @State private var isTestingFormatting = false
+    @State private var formattingTestMessage: String?
 
     let modalSize: CGSize
 
@@ -30,6 +50,25 @@ struct ToolsSettingsSheetView: View {
         resolvedExecutablePath != nil
     }
 
+    private var localLLMConfiguration: LocalLLMConfiguration {
+        LocalLLMConfiguration(
+            isEnabled: localFormattingEnabled,
+            endpoint: localFormattingEndpoint,
+            model: localFormattingModel,
+            timeoutSeconds: localFormattingTimeoutSeconds,
+            minCharsToFormat: localFormattingMinChars,
+            temperature: LocalLLMConfiguration.defaultTemperature
+        )
+    }
+
+    private var localEndpointIsValid: Bool {
+        localLLMConfiguration.isLocalEndpoint
+    }
+
+    private var selectedOllamaModelIsInstalled: Bool {
+        installedOllamaModels.contains(localFormattingModel)
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
@@ -37,6 +76,7 @@ struct ToolsSettingsSheetView: View {
                 statusCard
                 executableCard
                 modelCard
+                formattingLLMCard
             }
             .padding(24)
             .frame(maxWidth: 560, alignment: .leading)
@@ -53,6 +93,9 @@ struct ToolsSettingsSheetView: View {
         .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
         .shadow(color: .black.opacity(0.14), radius: 24, y: 10)
         .id(refreshID)
+        .task(id: refreshID) {
+            await refreshOllamaStatus()
+        }
         .confirmationDialog(
             String(localized: "Excluir modelo?"),
             isPresented: Binding(
@@ -198,6 +241,163 @@ struct ToolsSettingsSheetView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 14)
         }
+    }
+
+    private var formattingLLMCard: some View {
+        SettingsComponents.card {
+            SettingsComponents.sectionHeader(String(localized: "LLM de formatação"))
+
+            SettingsComponents.rowWithDescription(
+                icon: "sparkles",
+                title: String(localized: "Ativar formatação local"),
+                description: String(localized: "Usa uma LLM local depois do Whisper e antes do dicionário/regras.")
+            ) {
+                Toggle("", isOn: $localFormattingEnabled)
+                    .labelsHidden()
+                    .toggleStyle(.switch)
+            }
+
+            SettingsComponents.divider()
+
+            ollamaStatusRow
+
+            SettingsComponents.divider()
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text(String(localized: "Endpoint do Ollama"))
+                    .font(SettingsComponents.rowFont)
+
+                TextField(String(localized: "http://localhost:11434"), text: $localFormattingEndpoint)
+                    .textFieldStyle(.roundedBorder)
+                    .font(SettingsComponents.rowFont)
+
+                HStack {
+                    Button(String(localized: "Restaurar padrão")) {
+                        localFormattingEndpoint = LocalLLMConfiguration.defaultEndpoint
+                    }
+                    Button(String(localized: "Atualizar modelos")) {
+                        Task { await refreshOllamaStatus() }
+                    }
+                    Spacer()
+                }
+                .buttonStyle(.borderless)
+                .font(SettingsComponents.helperFont)
+
+                if !localEndpointIsValid {
+                    Label(String(localized: "Somente endpoints locais são permitidos."), systemImage: "lock")
+                        .font(SettingsComponents.helperFont)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+
+            SettingsComponents.divider()
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text(String(localized: "Modelo de formatação"))
+                    .font(SettingsComponents.rowFont)
+
+                TextField(String(localized: "qwen2.5:3b"), text: $localFormattingModel)
+                    .textFieldStyle(.roundedBorder)
+                    .font(SettingsComponents.rowFont)
+
+                if !installedOllamaModels.isEmpty {
+                    Picker(String(localized: "Modelos instalados"), selection: $localFormattingModel) {
+                        ForEach(installedOllamaModels, id: \.self) { model in
+                            Text(model).tag(model)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                }
+
+                Label(
+                    selectedOllamaModelIsInstalled
+                        ? String(localized: "Modelo instalado no Ollama.")
+                        : String(localized: "Baixe com: ollama pull \(localFormattingModel)"),
+                    systemImage: selectedOllamaModelIsInstalled ? "checkmark.circle" : "arrow.down.circle"
+                )
+                .font(SettingsComponents.helperFont)
+                .foregroundStyle(selectedOllamaModelIsInstalled ? .green : .secondary)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+
+            SettingsComponents.divider()
+
+            SettingsComponents.row(icon: "textformat.size", title: String(localized: "Caracteres mínimos")) {
+                Stepper("\(localFormattingMinChars)", value: $localFormattingMinChars, in: 0...2_000, step: 25)
+                    .labelsHidden()
+                    .frame(width: 110)
+            }
+
+            SettingsComponents.divider()
+
+            SettingsComponents.row(icon: "timer", title: String(localized: "Timeout")) {
+                Stepper("\(Int(localFormattingTimeoutSeconds))s", value: $localFormattingTimeoutSeconds, in: 5...120, step: 5)
+                    .labelsHidden()
+                    .frame(width: 110)
+            }
+
+            SettingsComponents.divider()
+
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Button {
+                        testFormatting()
+                    } label: {
+                        if isTestingFormatting {
+                            ProgressView()
+                                .controlSize(.small)
+                        } else {
+                            Label(String(localized: "Testar formatação"), systemImage: "checkmark.seal")
+                        }
+                    }
+                    .disabled(isTestingFormatting || !localEndpointIsValid)
+
+                    Spacer()
+                }
+
+                if let formattingTestMessage {
+                    Text(formattingTestMessage)
+                        .font(SettingsComponents.helperFont)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+        }
+    }
+
+    private var ollamaStatusRow: some View {
+        let ready = localEndpointIsValid && !installedOllamaModels.isEmpty
+        return HStack(spacing: 12) {
+            if isCheckingOllama {
+                ProgressView()
+                    .controlSize(.small)
+                    .frame(width: 24)
+            } else {
+                Image(systemName: ready ? "checkmark.circle.fill" : "xmark.circle.fill")
+                    .font(.body)
+                    .foregroundStyle(ready ? .green : .red)
+                    .frame(width: 24)
+            }
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text(ready ? String(localized: "Ollama encontrado") : String(localized: "Ollama não encontrado"))
+                    .font(SettingsComponents.rowFont)
+                Text(ollamaStatusMessage ?? localFormattingEndpoint)
+                    .font(SettingsComponents.helperFont)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(3)
+                    .truncationMode(.middle)
+            }
+
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
     }
 
     private func statusRow(icon: String, title: String, detail: String, color: Color) -> some View {
@@ -432,6 +632,52 @@ struct ToolsSettingsSheetView: View {
                     deletingModels.remove(model)
                     modelManagementError = error.localizedDescription
                 }
+            }
+        }
+    }
+
+    @MainActor
+    private func refreshOllamaStatus() async {
+        isCheckingOllama = true
+        defer { isCheckingOllama = false }
+
+        guard localEndpointIsValid else {
+            installedOllamaModels = []
+            ollamaStatusMessage = String(localized: "Somente endpoints locais são permitidos.")
+            return
+        }
+
+        do {
+            let models = try await OllamaLocalLLMClient().installedModels(configuration: localLLMConfiguration)
+            installedOllamaModels = models
+            if models.isEmpty {
+                ollamaStatusMessage = String(localized: "Ollama respondeu, mas nenhum modelo foi encontrado.")
+            } else {
+                ollamaStatusMessage = String(localized: "\(models.count) modelo(s) instalado(s).")
+            }
+        } catch {
+            installedOllamaModels = []
+            ollamaStatusMessage = error.localizedDescription
+        }
+    }
+
+    private func testFormatting() {
+        guard !isTestingFormatting else { return }
+        isTestingFormatting = true
+        formattingTestMessage = nil
+
+        Task {
+            let sample = String(localized: "olá pessoal então amanhã às nove horas eu vou revisar os itens um dois e três.")
+            let options = FormattingOptions.default
+            let result = await LocalFormattingService().format(
+                rawText: sample,
+                options: options,
+                language: "pt",
+                defaults: UserDefaults.app
+            )
+            await MainActor.run {
+                isTestingFormatting = false
+                formattingTestMessage = result
             }
         }
     }
