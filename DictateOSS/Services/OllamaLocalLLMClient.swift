@@ -64,9 +64,26 @@ struct LocalLLMConfiguration: Equatable {
     }
 }
 
+struct OllamaModelPullProgress: Equatable {
+    let status: String
+    let digest: String?
+    let total: Int64?
+    let completed: Int64?
+
+    var fractionCompleted: Double? {
+        guard let total, total > 0, let completed else {
+            return nil
+        }
+        return min(max(Double(completed) / Double(total), 0), 1)
+    }
+}
+
 enum OllamaLocalLLMError: LocalizedError, Equatable {
     case invalidEndpoint
+    case invalidModelName
+    case ollamaNotFound
     case remoteEndpointNotAllowed
+    case connectionFailed(String)
     case emptyResponse
     case httpError(Int, String)
     case decodingFailed
@@ -75,8 +92,14 @@ enum OllamaLocalLLMError: LocalizedError, Equatable {
         switch self {
         case .invalidEndpoint:
             return String(localized: "Endpoint do Ollama inválido.")
+        case .invalidModelName:
+            return String(localized: "Nome do modelo inválido.")
+        case .ollamaNotFound:
+            return String(localized: "Não encontrei o Ollama. Instale com `brew install ollama` ou abra o app Ollama.")
         case .remoteEndpointNotAllowed:
             return String(localized: "Somente endpoints locais são permitidos.")
+        case .connectionFailed(let endpoint):
+            return String(localized: "Não consegui conectar ao Ollama em \(endpoint). Abra o Ollama ou rode `ollama serve` e tente novamente.")
         case .emptyResponse:
             return String(localized: "A LLM local retornou uma resposta vazia.")
         case .httpError(let status, let body):
@@ -118,6 +141,23 @@ struct OllamaLocalLLMClient: LocalLLMClient {
         struct Model: Decodable {
             let name: String
         }
+    }
+
+    private struct PullRequest: Encodable, Equatable {
+        let name: String
+        let stream: Bool
+    }
+
+    private struct PullResponse: Decodable {
+        let status: String?
+        let digest: String?
+        let total: Int64?
+        let completed: Int64?
+        let error: String?
+    }
+
+    private struct DeleteRequest: Encodable, Equatable {
+        let name: String
     }
 
     private let session: URLSession
@@ -173,6 +213,78 @@ struct OllamaLocalLLMClient: LocalLLMClient {
         return decoded.models.map(\.name).sorted()
     }
 
+    func pullModel(
+        named modelName: String,
+        configuration: LocalLLMConfiguration,
+        progress: @escaping (OllamaModelPullProgress) async -> Void = { _ in }
+    ) async throws {
+        let modelName = try normalizedModelName(modelName)
+        let body = PullRequest(name: modelName, stream: true)
+        let request = try makeJSONRequest(
+            body,
+            to: apiURL(path: "api/pull", configuration: configuration),
+            timeout: max(configuration.timeoutSeconds, 3_600),
+            method: "POST"
+        )
+
+        let bytes: URLSession.AsyncBytes
+        let response: URLResponse
+        do {
+            (bytes, response) = try await session.bytes(for: request)
+        } catch let error as URLError {
+            throw mapNetworkError(error, endpoint: configuration.endpoint)
+        }
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw OllamaLocalLLMError.decodingFailed
+        }
+        guard (200..<300).contains(httpResponse.statusCode) else {
+            var body = ""
+            do {
+                for try await line in bytes.lines {
+                    body += line
+                }
+            } catch let error as URLError {
+                throw mapNetworkError(error, endpoint: configuration.endpoint)
+            }
+            throw OllamaLocalLLMError.httpError(httpResponse.statusCode, body)
+        }
+
+        do {
+            for try await line in bytes.lines {
+                guard !line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                    continue
+                }
+                guard let data = line.data(using: .utf8),
+                      let decoded = try? JSONDecoder().decode(PullResponse.self, from: data) else {
+                    throw OllamaLocalLLMError.decodingFailed
+                }
+                if let error = decoded.error, !error.isEmpty {
+                    throw OllamaLocalLLMError.httpError(200, error)
+                }
+                await progress(
+                    OllamaModelPullProgress(
+                        status: decoded.status ?? String(localized: "Baixando modelo"),
+                        digest: decoded.digest,
+                        total: decoded.total,
+                        completed: decoded.completed
+                    )
+                )
+            }
+        } catch let error as URLError {
+            throw mapNetworkError(error, endpoint: configuration.endpoint)
+        }
+    }
+
+    func deleteModel(named modelName: String, configuration: LocalLLMConfiguration) async throws {
+        let modelName = try normalizedModelName(modelName)
+        _ = try await sendJSON(
+            DeleteRequest(name: modelName),
+            to: try apiURL(path: "api/delete", configuration: configuration),
+            timeout: configuration.timeoutSeconds,
+            method: "DELETE"
+        )
+    }
+
     private func apiURL(path: String, configuration: LocalLLMConfiguration) throws -> URL {
         guard configuration.isLocalEndpoint else {
             throw configuration.endpointURL == nil
@@ -185,12 +297,20 @@ struct OllamaLocalLLMClient: LocalLLMClient {
         return baseURL.appendingPathComponent(path)
     }
 
-    private func sendJSON<T: Encodable>(
+    private func normalizedModelName(_ modelName: String) throws -> String {
+        let trimmed = modelName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            throw OllamaLocalLLMError.invalidModelName
+        }
+        return trimmed
+    }
+
+    private func makeJSONRequest<T: Encodable>(
         _ body: T?,
         to url: URL,
         timeout: Double,
         method: String
-    ) async throws -> Data {
+    ) throws -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.timeoutInterval = timeout
@@ -198,8 +318,24 @@ struct OllamaLocalLLMClient: LocalLLMClient {
         if let body {
             request.httpBody = try JSONEncoder().encode(body)
         }
+        return request
+    }
 
-        let (data, response) = try await session.data(for: request)
+    private func sendJSON<T: Encodable>(
+        _ body: T?,
+        to url: URL,
+        timeout: Double,
+        method: String
+    ) async throws -> Data {
+        let request = try makeJSONRequest(body, to: url, timeout: timeout, method: method)
+
+        let data: Data
+        let response: URLResponse
+        do {
+            (data, response) = try await session.data(for: request)
+        } catch let error as URLError {
+            throw mapNetworkError(error, endpoint: url.absoluteString)
+        }
         guard let httpResponse = response as? HTTPURLResponse else {
             throw OllamaLocalLLMError.decodingFailed
         }
@@ -208,5 +344,43 @@ struct OllamaLocalLLMClient: LocalLLMClient {
             throw OllamaLocalLLMError.httpError(httpResponse.statusCode, body)
         }
         return data
+    }
+
+    private func mapNetworkError(_ error: URLError, endpoint: String) -> Error {
+        switch error.code {
+        case .cannotConnectToHost, .notConnectedToInternet, .networkConnectionLost, .timedOut, .cannotFindHost:
+            return OllamaLocalLLMError.connectionFailed(endpoint)
+        default:
+            return error
+        }
+    }
+}
+
+enum OllamaServerLauncher {
+    static func start() throws {
+        var startedSomething = false
+
+        if let openPath = ExecutableResolver.resolve("open", fallbackName: "open") {
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: openPath)
+            process.arguments = ["-a", "Ollama"]
+            try? process.run()
+            process.waitUntilExit()
+            if process.terminationStatus == 0 {
+                startedSomething = true
+            }
+        }
+
+        if let ollamaPath = ExecutableResolver.resolve("ollama", fallbackName: "ollama") {
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: ollamaPath)
+            process.arguments = ["serve"]
+            try process.run()
+            startedSomething = true
+        }
+
+        if !startedSomething {
+            throw OllamaLocalLLMError.ollamaNotFound
+        }
     }
 }

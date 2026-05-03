@@ -25,13 +25,14 @@ python3 -m pip install --user mlx-whisper
 
 O modelo padrao e `mlx-community/whisper-large-v3-turbo`. No primeiro uso, o MLX pode baixar o modelo.
 
-Para a camada de formatação local, instale o Ollama e baixe o modelo padrão:
+Para a camada de formatação local, instale o Ollama:
 
 ```bash
 brew install ollama
 ollama serve
-ollama pull qwen2.5:3b
 ```
+
+O modelo padrão é `qwen2.5:3b`. Ele pode ser baixado pela tela **Ferramentas > LLM de formatação**, que usa a API local do Ollama (`/api/pull`) e também lista/remove modelos instalados.
 
 O app fala apenas com endpoints locais (`localhost`, `127.0.0.1` ou `::1`). Se o Ollama estiver desligado ou o modelo não estiver disponível, a transcrição continua funcionando e usa o texto bruto do Whisper.
 

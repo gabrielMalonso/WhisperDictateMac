@@ -1,6 +1,18 @@
 import XCTest
 @testable import DictateOSS
 
+private actor PullProgressRecorder {
+    private var events: [OllamaModelPullProgress] = []
+
+    func append(_ event: OllamaModelPullProgress) {
+        events.append(event)
+    }
+
+    func all() -> [OllamaModelPullProgress] {
+        events
+    }
+}
+
 final class OllamaLocalLLMClientTests: XCTestCase {
     override func tearDown() {
         MockURLProtocol.reset()
@@ -87,6 +99,63 @@ final class OllamaLocalLLMClientTests: XCTestCase {
         let client = OllamaLocalLLMClient(session: MockURLProtocol.makeSession())
 
         _ = try await client.complete(systemPrompt: "system", userText: "raw", configuration: config)
+    }
+
+    func testPullModelStreamsProgress() async throws {
+        MockURLProtocol.requestHandler = { request in
+            let body = try XCTUnwrap(request.testBodyData)
+            let json = try JSONSerialization.jsonObject(with: body) as? [String: Any]
+
+            XCTAssertEqual(request.url?.path, "/api/pull")
+            XCTAssertEqual(request.httpMethod, "POST")
+            XCTAssertEqual(request.timeoutInterval, 3_600)
+            XCTAssertEqual(json?["name"] as? String, "qwen2.5:3b")
+            XCTAssertEqual(json?["stream"] as? Bool, true)
+
+            let stream = """
+            {"status":"pulling manifest"}
+            {"status":"downloading","digest":"sha256:abc","total":100,"completed":50}
+            {"status":"success"}
+
+            """
+            return MockURLProtocol.Stub(
+                statusCode: 200,
+                data: Data(stream.utf8),
+                headers: ["Content-Type": "application/x-ndjson"]
+            )
+        }
+
+        let recorder = PullProgressRecorder()
+        let client = OllamaLocalLLMClient(session: MockURLProtocol.makeSession())
+
+        try await client.pullModel(named: "qwen2.5:3b", configuration: .default) { progress in
+            await recorder.append(progress)
+        }
+
+        let events = await recorder.all()
+        XCTAssertEqual(events.map(\.status), ["pulling manifest", "downloading", "success"])
+        XCTAssertEqual(events[1].fractionCompleted, 0.5)
+    }
+
+    func testDeleteModelSendsDeletePayload() async throws {
+        MockURLProtocol.requestHandler = { request in
+            let body = try XCTUnwrap(request.testBodyData)
+            let json = try JSONSerialization.jsonObject(with: body) as? [String: Any]
+
+            XCTAssertEqual(request.url?.path, "/api/delete")
+            XCTAssertEqual(request.httpMethod, "DELETE")
+            XCTAssertEqual(json?["name"] as? String, "qwen2.5:3b")
+
+            return MockURLProtocol.Stub(
+                statusCode: 200,
+                data: Data(),
+                headers: [:]
+            )
+        }
+
+        let client = OllamaLocalLLMClient(session: MockURLProtocol.makeSession())
+
+        try await client.deleteModel(named: "qwen2.5:3b", configuration: .default)
     }
 
     func testRemoteEndpointIsRejected() async {

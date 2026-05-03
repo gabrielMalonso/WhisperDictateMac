@@ -33,8 +33,14 @@ struct ToolsSettingsSheetView: View {
     @State private var installedOllamaModels: [String] = []
     @State private var ollamaStatusMessage: String?
     @State private var isCheckingOllama = false
+    @State private var isStartingOllama = false
     @State private var isTestingFormatting = false
     @State private var formattingTestMessage: String?
+    @State private var isDownloadingOllamaModel = false
+    @State private var isDeletingOllamaModel = false
+    @State private var ollamaDownloadMessage: String?
+    @State private var ollamaDownloadFraction: Double?
+    @State private var ollamaDeletionTargetModel: String?
 
     let modalSize: CGSize
 
@@ -116,6 +122,27 @@ struct ToolsSettingsSheetView: View {
             }
         } message: {
             Text(deletionTargetModel ?? "")
+        }
+        .confirmationDialog(
+            String(localized: "Excluir modelo do Ollama?"),
+            isPresented: Binding(
+                get: { ollamaDeletionTargetModel != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        ollamaDeletionTargetModel = nil
+                    }
+                }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button(String(localized: "Excluir do Ollama"), role: .destructive) {
+                deletePendingOllamaModel()
+            }
+            Button(String(localized: "Cancelar"), role: .cancel) {
+                ollamaDeletionTargetModel = nil
+            }
+        } message: {
+            Text(ollamaDeletionTargetModel ?? "")
         }
         .alert(
             String(localized: "Não deu para gerenciar o modelo"),
@@ -314,11 +341,58 @@ struct ToolsSettingsSheetView: View {
                 Label(
                     selectedOllamaModelIsInstalled
                         ? String(localized: "Modelo instalado no Ollama.")
-                        : String(localized: "Baixe com: ollama pull \(localFormattingModel)"),
+                        : String(localized: "Modelo ainda não instalado no Ollama."),
                     systemImage: selectedOllamaModelIsInstalled ? "checkmark.circle" : "arrow.down.circle"
                 )
                 .font(SettingsComponents.helperFont)
                 .foregroundStyle(selectedOllamaModelIsInstalled ? .green : .secondary)
+
+                HStack(spacing: 10) {
+                    Button {
+                        downloadOllamaModel()
+                    } label: {
+                        if isDownloadingOllamaModel {
+                            ProgressView()
+                                .controlSize(.small)
+                        } else {
+                            Label(String(localized: "Baixar modelo"), systemImage: "arrow.down.circle")
+                        }
+                    }
+                    .disabled(isDownloadingOllamaModel || isDeletingOllamaModel || selectedOllamaModelIsInstalled || !localEndpointIsValid)
+
+                    Button(role: .destructive) {
+                        ollamaDeletionTargetModel = localFormattingModel
+                    } label: {
+                        if isDeletingOllamaModel {
+                            ProgressView()
+                                .controlSize(.small)
+                        } else {
+                            Label(String(localized: "Excluir"), systemImage: "trash")
+                        }
+                    }
+                    .disabled(isDeletingOllamaModel || isDownloadingOllamaModel || !selectedOllamaModelIsInstalled)
+
+                    Spacer()
+                }
+                .buttonStyle(.borderless)
+                .font(SettingsComponents.helperFont)
+
+                if isDownloadingOllamaModel || ollamaDownloadMessage != nil {
+                    VStack(alignment: .leading, spacing: 6) {
+                        if let ollamaDownloadFraction {
+                            ProgressView(value: ollamaDownloadFraction)
+                                .progressViewStyle(.linear)
+                        } else if isDownloadingOllamaModel {
+                            ProgressView()
+                                .controlSize(.small)
+                        }
+
+                        Text(ollamaDownloadMessage ?? String(localized: "Baixando via Ollama..."))
+                            .font(SettingsComponents.helperFont)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 14)
@@ -395,6 +469,23 @@ struct ToolsSettingsSheetView: View {
             }
 
             Spacer()
+
+            if !ready {
+                Button {
+                    startOllama()
+                } label: {
+                    if isStartingOllama {
+                        ProgressView()
+                            .controlSize(.small)
+                    } else {
+                        Label(String(localized: "Iniciar"), systemImage: "play.circle")
+                            .labelStyle(.iconOnly)
+                    }
+                }
+                .buttonStyle(.borderless)
+                .disabled(isStartingOllama || !localEndpointIsValid)
+                .help(String(localized: "Abrir ou iniciar o Ollama"))
+            }
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 14)
@@ -658,6 +749,103 @@ struct ToolsSettingsSheetView: View {
         } catch {
             installedOllamaModels = []
             ollamaStatusMessage = error.localizedDescription
+        }
+    }
+
+    private func startOllama() {
+        guard !isStartingOllama else { return }
+
+        isStartingOllama = true
+        ollamaStatusMessage = String(localized: "Tentando iniciar o Ollama...")
+
+        Task {
+            do {
+                try await Task.detached(priority: .userInitiated) {
+                    try OllamaServerLauncher.start()
+                }.value
+                try? await Task.sleep(nanoseconds: 1_500_000_000)
+                await MainActor.run {
+                    isStartingOllama = false
+                }
+                await refreshOllamaStatus()
+            } catch {
+                await MainActor.run {
+                    isStartingOllama = false
+                    modelManagementError = error.localizedDescription
+                    ollamaStatusMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    private func downloadOllamaModel() {
+        let model = localFormattingModel.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !model.isEmpty, localEndpointIsValid, !isDownloadingOllamaModel else { return }
+
+        let configuration = localLLMConfiguration
+        isDownloadingOllamaModel = true
+        ollamaDownloadFraction = nil
+        ollamaDownloadMessage = String(localized: "Preparando download de \(model)...")
+
+        Task {
+            do {
+                try await OllamaLocalLLMClient().pullModel(named: model, configuration: configuration) { progress in
+                    await MainActor.run {
+                        ollamaDownloadFraction = progress.fractionCompleted
+                        if let fraction = progress.fractionCompleted {
+                            ollamaDownloadMessage = String(localized: "\(progress.status) \(Int(fraction * 100))%")
+                        } else {
+                            ollamaDownloadMessage = progress.status
+                        }
+                    }
+                }
+
+                await MainActor.run {
+                    isDownloadingOllamaModel = false
+                    ollamaDownloadFraction = 1
+                    ollamaDownloadMessage = String(localized: "\(model) instalado.")
+                }
+                await refreshOllamaStatus()
+            } catch {
+                await MainActor.run {
+                    isDownloadingOllamaModel = false
+                    ollamaDownloadFraction = nil
+                    ollamaDownloadMessage = error.localizedDescription
+                    modelManagementError = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    private func deletePendingOllamaModel() {
+        guard let model = ollamaDeletionTargetModel?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !model.isEmpty,
+              !isDeletingOllamaModel else {
+            return
+        }
+
+        let configuration = localLLMConfiguration
+        ollamaDeletionTargetModel = nil
+        isDeletingOllamaModel = true
+        ollamaDownloadMessage = String(localized: "Excluindo \(model)...")
+
+        Task {
+            do {
+                try await OllamaLocalLLMClient().deleteModel(named: model, configuration: configuration)
+                await MainActor.run {
+                    isDeletingOllamaModel = false
+                    ollamaDownloadFraction = nil
+                    ollamaDownloadMessage = String(localized: "\(model) excluído.")
+                }
+                await refreshOllamaStatus()
+            } catch {
+                await MainActor.run {
+                    isDeletingOllamaModel = false
+                    ollamaDownloadFraction = nil
+                    ollamaDownloadMessage = error.localizedDescription
+                    modelManagementError = error.localizedDescription
+                }
+            }
         }
     }
 
