@@ -80,6 +80,7 @@
 		DCE6CAB96548AFEE06364A79 /* UserDefaultsProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD534037F24400F7C4A9BF9F /* UserDefaultsProviding.swift */; };
 		DE8A17E4DEA3CF77893FFACC /* HistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5E944D9A51C39708FFECE5 /* HistoryDetailView.swift */; };
 		E0345AD7F4FFBE805C885471 /* OverlaySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE8F63B791CB8B7F0DC97B /* OverlaySettingsView.swift */; };
+		E130BA42B8BFEA5EDDF68A8D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 181767C1A86EF64781F7DFC1 /* Localizable.xcstrings */; };
 		EAC425BE3A9AB633CDAE6644 /* OnboardingAccessibilityStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C2DFF6633C0F710709263D /* OnboardingAccessibilityStep.swift */; };
 		F1E171943ED871CC2E1D5F4F /* LocalTranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31960EE25982B8065D6E33FA /* LocalTranscriptionService.swift */; };
 		F4757C93E4EF41FFE92C86D3 /* AudioRecorderMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88ADB351021990FEBC12F3 /* AudioRecorderMac.swift */; };
@@ -109,6 +110,7 @@
 		0E5D0709B67F7F5428C0FB6A /* AppModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelContainer.swift; sourceTree = "<group>"; };
 		10E2300497490122D0D37958 /* AIProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIProviders.swift; sourceTree = "<group>"; };
 		170E81A13D61309AE365DA33 /* SystemSettingsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingsSheetView.swift; sourceTree = "<group>"; };
+		181767C1A86EF64781F7DFC1 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		206702101F6E10D1579296E1 /* LastTranscriptionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastTranscriptionCard.swift; sourceTree = "<group>"; };
 		27893FCDDD1E705794076383 /* MicrophoneSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneSelection.swift; sourceTree = "<group>"; };
 		2B7E1A0D70F85B23BBA3A4C3 /* TranscriptionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionRecord.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				F235E8E180D83A2F0D4B7905 /* DictateOSS.entitlements */,
 				4F651F164A71B3DF5A84EE9B /* DictateOSS.Release.entitlements */,
 				08B3F23FE466D2535FE7A9AE /* InfoPlist.xcstrings */,
+				181767C1A86EF64781F7DFC1 /* Localizable.xcstrings */,
 				C1BFABF44DEFFF8A626DE1DE /* App */,
 				65FB2E707EAF45A1109027F8 /* Core */,
 				3A12D17F1EFAAAD10149B460 /* Models */,
@@ -451,10 +454,13 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					825DFA2ECA8613289F213B89 = {
+						DevelopmentTeam = 387JVJ66Z3;
+					};
 				};
 			};
 			buildConfigurationList = 138EC847280BB4BCDABC932D /* Build configuration list for PBXProject "DictateOSS" */;
-			developmentRegion = en;
+			developmentRegion = "pt-BR";
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
@@ -481,6 +487,7 @@
 			files = (
 				C6F06920EC586630077BC0DB /* Assets.xcassets in Resources */,
 				623AD08F28853077DCE6C6AF /* InfoPlist.xcstrings in Resources */,
+				E130BA42B8BFEA5EDDF68A8D /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +652,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.10;
 			};
@@ -732,6 +740,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.10;
 			};
@@ -761,7 +770,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 387JVJ66Z3;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -779,6 +790,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 387JVJ66Z3;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

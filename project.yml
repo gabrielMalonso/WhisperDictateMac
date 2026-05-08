@@ -1,6 +1,7 @@
 name: DictateOSS
 options:
   bundleIdPrefix: com.gmalonso
+  developmentLanguage: pt-BR
   deploymentTarget:
     macOS: "14.0"
   xcodeVersion: "16.0"
@@ -9,6 +10,7 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.10"
+    SWIFT_EMIT_LOC_STRINGS: true
     ENABLE_HARDENED_RUNTIME: true
     ENABLE_DEBUG_DYLIB: false
 
@@ -56,4 +58,8 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gmalonso.dictate-oss.tests
+        DEVELOPMENT_TEAM: 387JVJ66Z3
         GENERATE_INFOPLIST_FILE: true
+      configs:
+        Debug:
+          CODE_SIGN_STYLE: Automatic
