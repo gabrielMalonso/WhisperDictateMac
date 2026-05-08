@@ -80,6 +80,8 @@ private actor TranscriptionCancellationRegistry {
 
 enum TranscriptionPipeline {
     private static let cancellationRegistry = TranscriptionCancellationRegistry()
+    typealias RouteTranscriber = (TranscriptionRequest, AIProviderSelection, UserDefaultsProviding) async throws -> TranscriptionRouteResult
+    typealias LLMRouteProcessor = (TranscriptionRouteResult, AIProviderSelection, String, Bool, UserDefaultsProviding) async -> TranscriptionRouteResult
 
     struct TranscriptionResult {
         let text: String
@@ -98,7 +100,9 @@ enum TranscriptionPipeline {
         persistResult: Bool = true,
         translationRequested: Bool = false,
         defaults: UserDefaultsProviding = UserDefaults.app,
-        modelContext: ModelContext = ModelContext(AppModelContainer.container)
+        modelContext: ModelContext = ModelContext(AppModelContainer.container),
+        routeTranscriber: RouteTranscriber? = nil,
+        llmProcessor: LLMRouteProcessor? = nil
     ) async -> Result<TranscriptionResult, TranscriptionPipelineError> {
         let selectedLanguage = defaults.string(forKey: MacAppKeys.transcriptionLanguage) ?? DeviceLanguageMapper.deviceDefault
         let persistedLanguage = selectedLanguage
@@ -128,23 +132,33 @@ enum TranscriptionPipeline {
 
         let route: TranscriptionRouteResult
         do {
-            route = try await transcribe(
-                request: transcriptionRequest,
-                providerSelection: providerSelection,
-                defaults: defaults
-            )
+            let transcribeRoute = routeTranscriber ?? { request, selection, defaults in
+                try await TranscriptionPipeline.transcribe(
+                    request: request,
+                    providerSelection: selection,
+                    defaults: defaults
+                )
+            }
+            route = try await transcribeRoute(transcriptionRequest, providerSelection, defaults)
         } catch {
             return .failure(.localTranscriptionFailed(error.localizedDescription))
         }
 
-        let finalText = postProcess(
-            route: await processWithLLMIfNeeded(
+        if await cancelIfRequested(clientId: clientId) {
+            return .failure(.cancelled)
+        }
+
+        let processRouteWithLLM = llmProcessor ?? { route, selection, language, translationRequested, defaults in
+            await TranscriptionPipeline.processWithLLMIfNeeded(
                 route: route,
-                providerSelection: providerSelection,
-                language: selectedLanguage,
+                providerSelection: selection,
+                language: language,
                 translationRequested: translationRequested,
                 defaults: defaults
-            ),
+            )
+        }
+        let finalText = postProcess(
+            route: await processRouteWithLLM(route, providerSelection, selectedLanguage, translationRequested, defaults),
             dictionaryTerms: dictionaryTerms,
             language: selectedLanguage,
             defaults: defaults,
