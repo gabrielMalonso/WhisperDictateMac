@@ -4438,23 +4438,6 @@
         }
       }
     },
-    "Groq LLM" : {
-      "comment" : "Ported from DictateOSS source during i18n base preparation.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Groq LLM"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Groq LLM"
-          }
-        }
-      }
-    },
     "Groq sem chave ou recusou a chave. Usei a transcrição local." : {
       "comment" : "Ported from DictateOSS source during i18n base preparation.",
       "localizations" : {
@@ -4468,23 +4451,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Groq sem chave ou recusou a chave. Usei a transcrição local."
-          }
-        }
-      }
-    },
-    "Groq Whisper" : {
-      "comment" : "Ported from DictateOSS source during i18n base preparation.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Groq Whisper"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Groq Whisper"
           }
         }
       }
@@ -5197,23 +5163,6 @@
         }
       }
     },
-    "LLM Groq" : {
-      "comment" : "Ported from DictateOSS source during i18n base preparation.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Groq LLM"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "LLM Groq"
-          }
-        }
-      }
-    },
     "Local" : {
       "comment" : "Ported from DictateOSS source during i18n base preparation.",
       "localizations" : {
@@ -5571,19 +5520,34 @@
         }
       }
     },
-    "Modelo LLM" : {
-      "comment" : "Ported from DictateOSS source during i18n base preparation.",
+    "Modelo de texto via Groq" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "LLM model"
+            "value" : "Text model through Groq"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Modelo LLM"
+            "value" : "Modelo de texto via Groq"
+          }
+        }
+      }
+    },
+    "Modelo de transcrição via Groq" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transcription model through Groq"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Modelo de transcrição via Groq"
           }
         }
       }
@@ -5628,23 +5592,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Invalid remote model: %@"
-          }
-        }
-      }
-    },
-    "Modelo Whisper" : {
-      "comment" : "Ported from DictateOSS source during i18n base preparation.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Whisper model"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Modelo Whisper"
           }
         }
       }
@@ -9872,23 +9819,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "WhatsApp"
-          }
-        }
-      }
-    },
-    "Whisper Groq" : {
-      "comment" : "Ported from DictateOSS source during i18n base preparation.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Groq Whisper"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Whisper Groq"
           }
         }
       }

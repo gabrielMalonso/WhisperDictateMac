@@ -40,7 +40,7 @@ enum TranscriptionProviderKind: String, CaseIterable, Identifiable {
     var label: String {
         switch self {
         case .local: String(localized: "MLX Whisper local")
-        case .groq: String(localized: "Groq Whisper")
+        case .groq: String(localized: "Groq")
         }
     }
 }
@@ -56,7 +56,7 @@ enum LLMProviderKind: String, CaseIterable, Identifiable {
         switch self {
         case .none: String(localized: "Desligado")
         case .local: String(localized: "Ollama local")
-        case .groq: String(localized: "Groq LLM")
+        case .groq: String(localized: "Groq")
         }
     }
 }

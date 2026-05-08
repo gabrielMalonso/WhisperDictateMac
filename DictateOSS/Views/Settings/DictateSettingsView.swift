@@ -238,7 +238,7 @@ struct DictateSettingsView: View {
 
             SettingsComponents.rowWithDescription(
                 icon: "waveform.path.ecg",
-                title: String(localized: "Modelo Whisper"),
+                title: String(localized: "Modelo de transcrição via Groq"),
                 description: String(localized: "Turbo é o padrão rápido e barato.")
             ) {
                 Picker("", selection: $groqWhisperModel) {
@@ -253,7 +253,7 @@ struct DictateSettingsView: View {
                 SettingsComponents.divider()
                 SettingsComponents.rowWithDescription(
                     icon: "sparkles",
-                    title: String(localized: "Modelo LLM"),
+                    title: String(localized: "Modelo de texto via Groq"),
                     description: String(localized: "20B é o melhor padrão para ditado: rápido e barato.")
                 ) {
                     Picker("", selection: $groqLLMModel) {

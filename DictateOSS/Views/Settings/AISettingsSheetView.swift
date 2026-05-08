@@ -252,7 +252,7 @@ struct AISettingsSheetView: View {
             if usesGroq {
                 SettingsComponents.rowWithDescription(
                     icon: "waveform.path.ecg",
-                    title: String(localized: "Whisper Groq"),
+                    title: String(localized: "Modelo de transcrição via Groq"),
                     description: String(localized: "Turbo é o padrão rápido e barato.")
                 ) {
                     Picker("", selection: $groqWhisperModel) {
@@ -267,7 +267,7 @@ struct AISettingsSheetView: View {
 
                 SettingsComponents.rowWithDescription(
                     icon: "sparkles",
-                    title: String(localized: "LLM Groq"),
+                    title: String(localized: "Modelo de texto via Groq"),
                     description: String(localized: "20B é o melhor padrão para ditado: rápido e barato.")
                 ) {
                     Picker("", selection: $groqLLMModel) {
