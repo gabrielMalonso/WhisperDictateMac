@@ -103,7 +103,7 @@ struct RecordingOverlayView: View {
                     .contentShape(Circle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(String(localized: isPreparing ? "Preparando..." : "Parar gravação"))
+            .accessibilityLabel(isPreparing ? String(localized: "Preparando...") : String(localized: "Parar gravação"))
 
             if dictationManager.state == .transcribing || isPreparing {
                 ProgressView()

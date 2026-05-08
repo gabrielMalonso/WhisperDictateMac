@@ -25,9 +25,9 @@ enum TranscriptionDomain: String, Codable, CaseIterable, Identifiable {
 
     var description: String {
         switch self {
-        case .general: String(localized: "Transcricao padrao, sem contexto especializado")
+        case .general: String(localized: "Transcrição padrão, sem contexto especializado")
         case .tech: String(localized: "Frameworks, linguagens, siglas de TI e DevOps")
-        case .medical: String(localized: "Termos anatomicos, patologias, exames e laudos")
+        case .medical: String(localized: "Termos anatômicos, patologias, exames e laudos")
         }
     }
 }

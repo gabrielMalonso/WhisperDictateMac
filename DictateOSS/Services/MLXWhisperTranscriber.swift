@@ -24,18 +24,18 @@ enum MLXWhisperError: LocalizedError, Equatable {
     var errorDescription: String? {
         switch self {
         case .executableMissing(let path):
-            return "Executavel do MLX Whisper nao encontrado: \(path)"
+            return String(localized: "Executável do MLX Whisper não encontrado: \(path)")
         case .modelMissing:
-            return "Configure o modelo MLX antes de transcrever."
+            return String(localized: "Configure o modelo MLX antes de transcrever.")
         case .processFailed(let output):
-            return output.isEmpty ? "MLX Whisper falhou sem mensagem util." : output
+            return output.isEmpty ? String(localized: "MLX Whisper falhou sem mensagem útil.") : output
         case .transcriptMissing(let expectedPath, let processOutput, let generatedFiles):
             let files = generatedFiles.isEmpty ? "nenhum arquivo encontrado" : generatedFiles.joined(separator: ", ")
             let output = processOutput.trimmingCharacters(in: .whitespacesAndNewlines)
             if output.isEmpty {
-                return "MLX Whisper terminou, mas nao gerou transcricao. Esperado: \(expectedPath). Gerados: \(files)."
+                return String(localized: "MLX Whisper terminou, mas não gerou transcrição. Esperado: \(expectedPath). Gerados: \(files).")
             }
-            return "MLX Whisper terminou, mas nao gerou transcricao. Esperado: \(expectedPath). Gerados: \(files). Saida: \(output)"
+            return String(localized: "MLX Whisper terminou, mas não gerou transcrição. Esperado: \(expectedPath). Gerados: \(files). Saída: \(output)")
         }
     }
 }
