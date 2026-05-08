@@ -3,7 +3,7 @@ import SwiftUI
 struct OnboardingGroqStep: View {
     private let steps = [
         String(localized: "Acesse a Groq e crie uma conta ou faça login."),
-        String(localized: "Abra API Keys e crie uma nova chave."),
+        String(localized: "Abra API Keys e crie uma chave gratuita."),
         String(localized: "Copie a chave e cole no modal de IA do Dictate.")
     ]
 
@@ -18,7 +18,7 @@ struct OnboardingGroqStep: View {
                 .font(.title2)
                 .fontWeight(.semibold)
 
-            Text(String(localized: "O Dictate usa Groq como caminho rápido. Para ativar, gere uma chave e salve no Keychain pelo modal de IA."))
+            Text(String(localized: "O Dictate usa Groq como caminho rápido. No Free Tier, a chave é gratuita e generosa para começar."))
                 .font(AppTypography.row)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -50,7 +50,7 @@ struct OnboardingGroqStep: View {
             .controlSize(.large)
             .padding(.top, 8)
 
-            Text(String(localized: "Ao concluir o onboarding, abriremos Dictate > Modo de IA para você colar a chave."))
+            Text(String(localized: "Ao concluir, abriremos Dictate > Modo de IA para você colar a chave. No Free Tier, você usa até os limites gratuitos."))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
