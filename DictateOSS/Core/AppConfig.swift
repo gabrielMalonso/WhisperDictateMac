@@ -45,6 +45,7 @@ enum AppConfig {
     static let defaultGroqWhisperModel = "whisper-large-v3-turbo"
     static let defaultGroqLLMModel = "openai/gpt-oss-20b"
     static let defaultLocalLLMModel = "llama3.1"
+    static let groqAPIKeysURL = makeURL("https://console.groq.com/keys")
     static let groqAPIBaseURL = makeURL("https://api.groq.com/openai/v1")
     static let ollamaAPIBaseURL = makeURL("http://localhost:11434")
 

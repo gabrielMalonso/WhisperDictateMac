@@ -88,9 +88,11 @@ Models are downloaded by MLX/Hugging Face on first use unless already cached.
 
 | Mode | Transcription | LLM cleanup | Best for |
 | --- | --- | --- | --- |
+| Groq | Groq Whisper | Groq LLM | Default fast path, low CPU/RAM use, simple setup |
 | Local | MLX Whisper | Off by default | Privacy, offline use, no API cost |
-| Groq | Groq Whisper | Groq LLM | Speed, low CPU/RAM use, simple setup |
 | Custom | Local or Groq | Off, Ollama, or Groq | Mixing privacy and convenience |
+
+The app now treats Groq as the primary quick mode. Private local models are still available, but their model/tool setup lives in Settings > Tools.
 
 Groq settings use these defaults:
 

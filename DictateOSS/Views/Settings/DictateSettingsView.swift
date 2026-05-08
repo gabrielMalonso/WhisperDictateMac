@@ -48,8 +48,10 @@ private enum TranslationTarget: String, CaseIterable, Identifiable {
 // MARK: - DictateSettingsView
 
 struct DictateSettingsView: View {
+    @Binding var activeSettingsModal: SettingsModal?
+
     @AppStorage(MacAppKeys.aiMode, store: .app)
-    private var aiModeRaw: String = AIMode.local.rawValue
+    private var aiModeRaw: String = AIMode.groq.rawValue
 
     @AppStorage(MacAppKeys.transcriptionProvider, store: .app)
     private var transcriptionProviderRaw: String = TranscriptionProviderKind.local.rawValue
@@ -140,43 +142,37 @@ struct DictateSettingsView: View {
         SettingsComponents.card {
             SettingsComponents.sectionHeader(String(localized: "Modo de IA"))
 
-            VStack(alignment: .leading, spacing: 12) {
-                Picker("", selection: $aiModeRaw) {
-                    ForEach(AIMode.allCases) { mode in
-                        Text(mode.label).tag(mode.rawValue)
+            Button {
+                withAnimation(SettingsModalLayout.animation) {
+                    activeSettingsModal = .ai
+                }
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: currentAIMode == .local ? "lock.shield" : "bolt.horizontal")
+                        .font(.body)
+                        .foregroundStyle(accentColor)
+                        .frame(width: 24)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(modeSummaryTitle)
+                            .font(SettingsComponents.rowFont)
+                        Text(modeSummaryDetail)
+                            .font(SettingsComponents.helperFont)
+                            .foregroundStyle(.secondary)
                     }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.tertiary)
                 }
-                .labelsHidden()
-                .pickerStyle(.segmented)
-
-                Text(currentAIMode.detail)
-                    .font(SettingsComponents.helperFont)
-                    .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
+                .contentShape(Rectangle())
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
-
-            if currentAIMode == .custom {
-                customProviderRows
-            }
-
-            if usesGroq {
-                SettingsComponents.divider()
-                groqSettingsSection
-            }
-
-            if usesLocalLLM {
-                SettingsComponents.divider()
-                SettingsComponents.rowWithDescription(
-                    icon: "cpu",
-                    title: String(localized: "Modelo Ollama"),
-                    description: String(localized: "Nome do modelo local já disponível no Ollama.")
-                ) {
-                    TextField(String(localized: "llama3.1"), text: $localLLMModel)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 180)
-                }
-            }
+            .buttonStyle(.plain)
         }
     }
 
@@ -529,7 +525,7 @@ struct DictateSettingsView: View {
     // MARK: - Helpers
 
     private var currentAIMode: AIMode {
-        AIMode(rawValue: aiModeRaw) ?? .local
+        AIMode(rawValue: aiModeRaw) ?? .groq
     }
 
     private var selectedTranscriptionProvider: TranscriptionProviderKind {
@@ -547,6 +543,29 @@ struct DictateSettingsView: View {
 
     private var usesLocalLLM: Bool {
         currentAIMode == .custom && selectedLLMProvider == .local
+    }
+
+    private var modeSummaryTitle: String {
+        switch currentAIMode {
+        case .local:
+            String(localized: "Privado")
+        case .groq:
+            String(localized: "Rápido")
+        case .custom:
+            String(localized: "Avançado")
+        }
+    }
+
+    private var modeSummaryDetail: String {
+        let groqKey = hasGroqAPIKey ? String(localized: "chave Groq salva") : String(localized: "sem chave Groq")
+        switch currentAIMode {
+        case .local:
+            return String(localized: "Tudo roda neste Mac. Modelos locais ficam em Ajustes > Ferramentas.")
+        case .groq:
+            return String(localized: "Usa Groq para acelerar transcrição e texto; \(groqKey).")
+        case .custom:
+            return String(localized: "Fluxo personalizado; \(groqKey).")
+        }
     }
 
     private func toneLabel(_ tone: Tone) -> String {
@@ -650,6 +669,6 @@ struct DictateSettingsView: View {
 }
 
 #Preview {
-    DictateSettingsView()
+    DictateSettingsView(activeSettingsModal: .constant(nil))
         .frame(width: 600, height: 800)
 }

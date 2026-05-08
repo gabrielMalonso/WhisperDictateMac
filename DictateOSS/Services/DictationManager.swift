@@ -583,7 +583,7 @@ final class DictationManager: ObservableObject {
             case .offline:
                 message = String(localized: "Sem internet. Usei a transcrição local.")
             case .unauthenticated:
-                message = String(localized: "Groq recusou a chave. Usei a transcrição local.")
+                message = String(localized: "Groq sem chave ou recusou a chave. Usei a transcrição local.")
             case .networkFailure:
                 message = String(localized: "Groq falhou. Usei a transcrição local.")
             case .rateLimited:

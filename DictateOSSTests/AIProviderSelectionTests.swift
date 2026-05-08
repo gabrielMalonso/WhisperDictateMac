@@ -2,6 +2,17 @@ import XCTest
 @testable import DictateOSS
 
 final class AIProviderSelectionTests: XCTestCase {
+    func testDefaultModeUsesGroqAsFastPath() {
+        let defaults = makeDefaults()
+
+        let selection = AIProviderSelection.current(from: defaults)
+
+        XCTAssertEqual(selection.mode, .groq)
+        XCTAssertEqual(selection.transcriptionProvider, .groq)
+        XCTAssertEqual(selection.llmProvider, .groq)
+        XCTAssertTrue(selection.fallbackToLocal)
+    }
+
     func testLocalModeUsesLocalTranscriptionAndNoLLM() {
         let defaults = makeDefaults()
         defaults.set(AIMode.local.rawValue, forKey: MacAppKeys.aiMode)

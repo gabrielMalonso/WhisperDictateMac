@@ -30,6 +30,7 @@ enum MacAppKeys {
     // MARK: - Onboarding
 
     static let onboardingCompleted = "onboardingCompleted"
+    static let openAISettingsAfterOnboarding = "openAISettingsAfterOnboarding"
 
     // MARK: - Local Stats
 

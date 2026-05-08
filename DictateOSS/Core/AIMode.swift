@@ -18,7 +18,7 @@ enum AIMode: String, CaseIterable, Identifiable {
     var detail: String {
         switch self {
         case .local:
-            String(localized: "Transcreve no Mac e mantém áudio e texto fora de APIs externas.")
+            String(localized: "Tudo roda neste Mac. As ferramentas e modelos locais são configurados em Ajustes > Ferramentas.")
         case .groq:
             String(localized: "Mais rápido, mas envia áudio e texto para a Groq usando sua chave.")
         case .custom:
@@ -27,7 +27,7 @@ enum AIMode: String, CaseIterable, Identifiable {
     }
 
     static func current(from defaults: UserDefaultsProviding = UserDefaults.app) -> AIMode {
-        AIMode(rawValue: defaults.string(forKey: MacAppKeys.aiMode) ?? "") ?? .local
+        AIMode(rawValue: defaults.string(forKey: MacAppKeys.aiMode) ?? "") ?? .groq
     }
 }
 

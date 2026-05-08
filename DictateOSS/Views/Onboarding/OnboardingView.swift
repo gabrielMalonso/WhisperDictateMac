@@ -4,6 +4,7 @@ import SwiftUI
 
 enum OnboardingStep: Int, CaseIterable {
     case welcome = 0
+    case groq
     case microphone
     case accessibility
     case hotkey
@@ -49,7 +50,7 @@ struct OnboardingView: View {
         ZStack {
             progressDots
 
-            Button(String(localized: "Pular")) { completeOnboarding() }
+            Button(String(localized: "Pular")) { completeOnboarding(openAISettings: false) }
                 .buttonStyle(.borderless)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -75,6 +76,9 @@ struct OnboardingView: View {
         switch currentStep {
         case .welcome:
             OnboardingWelcomeStep()
+                .transition(slideTransition)
+        case .groq:
+            OnboardingGroqStep()
                 .transition(slideTransition)
         case .microphone:
             OnboardingMicrophoneStep()
@@ -102,7 +106,7 @@ struct OnboardingView: View {
 
             Button(currentStep == OnboardingStep.allCases.last ? String(localized: "Concluir") : String(localized: "Continuar")) {
                 if currentStep == OnboardingStep.allCases.last {
-                    completeOnboarding()
+                    completeOnboarding(openAISettings: true)
                 } else {
                     withAnimation { goToNextStep() }
                 }
@@ -117,7 +121,7 @@ struct OnboardingView: View {
 
     private var canContinue: Bool {
         switch currentStep {
-        case .welcome, .hotkey:
+        case .welcome, .groq, .hotkey:
             true
         case .microphone:
             permissionManager.microphoneGranted
@@ -136,8 +140,9 @@ struct OnboardingView: View {
         currentStep = prev
     }
 
-    private func completeOnboarding() {
+    private func completeOnboarding(openAISettings: Bool) {
         withAnimation(ContentView.rootTransitionAnimation) {
+            UserDefaults.app.set(openAISettings, forKey: MacAppKeys.openAISettingsAfterOnboarding)
             UserDefaults.app.set(true, forKey: MacAppKeys.onboardingCompleted)
             permissionManager.stopPolling()
         }
