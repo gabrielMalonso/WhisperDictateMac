@@ -293,6 +293,12 @@
     "20B é o melhor padrão para ditado: rápido e barato.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "20B is the best default for dictation: fast and cheap."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -348,6 +354,12 @@
     "A Groq retornou texto vazio.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq returned empty text."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -359,6 +371,12 @@
     "A Groq retornou uma resposta inválida.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq returned an invalid response."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -387,6 +405,12 @@
     "A chamada para a Groq falhou.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The call to Groq failed."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -398,6 +422,12 @@
     "A chave de API da Groq foi recusada.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Groq API key was rejected."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -409,6 +439,12 @@
     "A chave fica no Keychain, não em UserDefaults.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The key is stored in Keychain, not UserDefaults."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -420,6 +456,12 @@
     "A chave fica salva neste Mac, no Keychain.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The key is saved on this Mac, in Keychain."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -431,6 +473,12 @@
     "A chave salva no Keychain não pôde ser lida.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The key saved in Keychain could not be read."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -464,6 +512,12 @@
     "A transcrição ficou vazia.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The transcription was empty."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -508,6 +562,12 @@
     "Abra API Keys e crie uma nova chave.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open API Keys and create a new key."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -584,6 +644,12 @@
     "Abrir chaves da Groq": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Groq keys"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -606,6 +672,12 @@
     "Acesse a Groq e crie uma conta ou faça login.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to Groq and create an account or sign in."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -828,6 +900,12 @@
     "Ao concluir o onboarding, abriremos Dictate > Modo de IA para você colar a chave.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After onboarding, we'll open Dictate > AI mode for you to paste the key."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -892,6 +970,12 @@
     "Armazenamento local indisponível.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local storage unavailable."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1160,6 +1244,12 @@
     "Atualizar status": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refresh status"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1246,6 +1336,12 @@
     "Avançado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Advanced"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1301,6 +1397,12 @@
     "Baixa no primeiro uso": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Downloads on first use"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1312,6 +1414,12 @@
     "Baixando": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Downloading"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1323,6 +1431,12 @@
     "Baixando modelo": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Downloading model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1345,6 +1459,12 @@
     "Baixar modelo": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1433,6 +1553,12 @@
     "Caminho do mlx_whisper": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mlx_whisper path"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1500,6 +1626,12 @@
     "Chave apagada.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key deleted."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1511,6 +1643,12 @@
     "Chave da Groq": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq API key"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1522,6 +1660,12 @@
     "Chave salva no Keychain.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key saved in Keychain."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1533,6 +1677,12 @@
     "Chave salva.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key saved."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1685,6 +1835,12 @@
     "Conexão OK.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connection OK."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1707,6 +1863,12 @@
     "Configurar IA": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure AI"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1742,6 +1904,12 @@
     "Configure o executável antes de baixar": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure the executable before downloading"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1753,6 +1921,12 @@
     "Configure o modelo MLX antes de transcrever.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure the MLX model before transcribing."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1797,6 +1971,12 @@
     "Conta Groq": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq account"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -1956,6 +2136,12 @@
     "Copie a chave e cole no modal de IA do Dictate.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy the key and paste it in Dictate's AI modal."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -2132,6 +2318,12 @@
     "Desligado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -2358,6 +2550,12 @@
     "Download do modelo falhou sem mensagem útil.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model download failed without a useful message."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -2468,6 +2666,12 @@
     "Edição": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editing"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -2489,6 +2693,12 @@
     "Em breve": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coming soon"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -2855,6 +3065,12 @@
     "Escolha quem transforma áudio em texto.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose what turns audio into text."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -2866,6 +3082,12 @@
     "Escolha transcrição e LLM separadamente.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose transcription and LLM separately."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -2984,6 +3206,12 @@
     "Excluindo": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deleting"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -2995,6 +3223,12 @@
     "Excluindo modelo": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deleting model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3014,8 +3248,26 @@
         }
       }
     },
-    "Excluir %lld Regras": {},
-    "Excluir %lld Termos": {},
+    "Excluir %lld Regras": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete %lld Rules"
+          }
+        }
+      }
+    },
+    "Excluir %lld Termos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete %lld Terms"
+          }
+        }
+      }
+    },
     "Excluir Conta": {
       "extractionState": "stale",
       "localizations": {
@@ -3074,6 +3326,12 @@
     "Excluir do cache": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete from cache"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3085,6 +3343,12 @@
     "Excluir modelo baixado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete downloaded model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3096,6 +3360,12 @@
     "Excluir modelo?": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete model?"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3107,6 +3377,12 @@
     "Executável": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executable"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3115,10 +3391,25 @@
         }
       }
     },
-    "Executável do MLX Whisper não encontrado: %@": {},
+    "Executável do MLX Whisper não encontrado: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MLX Whisper executable not found: %@"
+          }
+        }
+      }
+    },
     "Executável encontrado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executable found"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3130,6 +3421,12 @@
     "Executável não encontrado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Executable not found"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3268,6 +3565,12 @@
     "Falha na transcrição local.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local transcription failed."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3312,6 +3615,12 @@
     "Fallback local": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local fallback"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3410,6 +3719,12 @@
     "Ferramentas": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tools"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3418,7 +3733,16 @@
         }
       }
     },
-    "Fluxo personalizado; %@.": {},
+    "Fluxo personalizado; %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom flow; %@."
+          }
+        }
+      }
+    },
     "Formal": {
       "localizations": {
         "en": {
@@ -3622,6 +3946,12 @@
     "Groq": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3633,6 +3963,12 @@
     "Groq LLM": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq LLM"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3644,6 +3980,12 @@
     "Groq Whisper": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq Whisper"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3655,6 +3997,12 @@
     "Groq atingiu o limite. Usei a transcrição local.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq hit the limit. Used local transcription."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3666,6 +4014,12 @@
     "Groq falhou. Usei a transcrição local.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq failed. Used local transcription."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3677,6 +4031,12 @@
     "Groq sem chave ou recusou a chave. Usei a transcrição local.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq has no key or rejected the key. Used local transcription."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -3904,6 +4264,12 @@
     "Informe uma chave de API da Groq antes de usar esse modo.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provide a Groq API key before using this mode."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4003,6 +4369,12 @@
     "Instalado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installed"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4014,6 +4386,12 @@
     "Instale mlx-whisper ou ajuste o caminho abaixo.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install mlx-whisper or adjust the path below."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4064,10 +4442,25 @@
         }
       }
     },
-    "Keychain retornou erro %d.": {},
+    "Keychain retornou erro %d.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keychain returned error %d."
+          }
+        }
+      }
+    },
     "LLM": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LLM"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4079,6 +4472,12 @@
     "LLM Groq": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq LLM"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4121,6 +4520,12 @@
     "Limite da Groq atingido. Tente novamente em instantes.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq limit reached. Try again in a moment."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4193,6 +4598,12 @@
     "Local": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4204,6 +4615,12 @@
     "MLX Whisper": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MLX Whisper"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4215,6 +4632,12 @@
     "MLX Whisper e modelos locais": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MLX Whisper and local models"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4226,6 +4649,12 @@
     "MLX Whisper falhou sem mensagem útil.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MLX Whisper failed without a useful message."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4237,6 +4666,12 @@
     "MLX Whisper local": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local MLX Whisper"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4248,6 +4683,12 @@
     "MLX Whisper não está disponível neste Mac.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MLX Whisper is not available on this Mac."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4258,6 +4699,12 @@
     },
     "MLX Whisper terminou, mas não gerou transcrição. Esperado: %@. Gerados: %@.": {
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MLX Whisper finished, but did not generate a transcription. Expected: %@. Generated: %@."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4268,6 +4715,12 @@
     },
     "MLX Whisper terminou, mas não gerou transcrição. Esperado: %@. Gerados: %@. Saída: %@": {
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MLX Whisper finished, but did not generate a transcription. Expected: %@. Generated: %@. Output: %@"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4279,6 +4732,12 @@
     "Maior precisão, com processamento mais lento. Indicado quando qualidade é prioridade.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Higher accuracy, with slower processing. Recommended when quality is a priority."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4302,6 +4761,12 @@
     "Mais rápido, mas envia áudio e texto para a Groq usando sua chave.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faster, but sends audio and text to Groq using your key."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4335,6 +4800,12 @@
     "Melhorar texto": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Improve text"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4433,6 +4904,12 @@
     "Modelo LLM": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LLM model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4444,6 +4921,12 @@
     "Modelo Ollama": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ollama model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4455,6 +4938,12 @@
     "Modelo Whisper": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Whisper model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4466,6 +4955,12 @@
     "Modelo instalado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model installed"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4477,6 +4972,12 @@
     "Modelo intermediário para transcrições leves, testes e Macs com recursos limitados.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intermediate model for light transcriptions, testing, and Macs with limited resources."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4488,6 +4989,12 @@
     "Modelo personalizado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4496,10 +5003,25 @@
         }
       }
     },
-    "Modelo remoto inválido: %@": {},
+    "Modelo remoto inválido: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid remote model: %@"
+          }
+        }
+      }
+    },
     "Modelos": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Models"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4511,6 +5033,12 @@
     "Modelos ainda não baixados serão baixados automaticamente no primeiro uso. Se quiser evitar espera na primeira transcrição, use o botão de download agora.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Models not yet downloaded will be downloaded automatically on first use. To avoid waiting on the first transcription, use the download button now."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4522,6 +5050,12 @@
     "Modo de IA": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI mode"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4533,6 +5067,12 @@
     "Modo rápido com Groq": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fast mode with Groq"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4729,7 +5269,16 @@
         }
       }
     },
-    "Nenhuma transcrição ainda.\nPressione %@ para começar.": {},
+    "Nenhuma transcrição ainda.\nPressione %@ para começar.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No transcriptions yet.\nPress %@ to start."
+          }
+        }
+      }
+    },
     "Nenhuma transcrição ainda.\nPressione \\(hotkeyManager.formattedHotkey(for: .dictation)) para começar.": {
       "extractionState": "manual",
       "localizations": {
@@ -4779,6 +5328,12 @@
     "Nome do modelo local já disponível no Ollama.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local model name already available in Ollama."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -4876,6 +5431,12 @@
     "Não deu para gerenciar o modelo": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not manage the model"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5074,6 +5635,12 @@
     "O Dictate usa Groq como caminho rápido. Para ativar, gere uma chave e salve no Keychain pelo modal de IA.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dictate uses Groq as the fast path. To enable, generate a key and save it in Keychain through the AI modal."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5129,6 +5696,12 @@
     "O envio abre uma issue no GitHub com a mensagem preenchida.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submitting opens a GitHub issue with the message filled in."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5261,6 +5834,12 @@
     "Ollama local": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local Ollama"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5272,6 +5851,12 @@
     "Ollama local falhou.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local Ollama failed."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5283,6 +5868,12 @@
     "Ollama local não respondeu. Abra o Ollama ou escolha outro modo.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local Ollama did not respond. Open Ollama or choose another mode."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5294,6 +5885,12 @@
     "Ollama retornou texto vazio.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ollama returned empty text."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5325,6 +5922,12 @@
     "Open Source": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Source"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5364,6 +5967,12 @@
     "Opção mínima para validar a configuração. Não é indicada para transcrições finais.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimal option to validate the setup. Not recommended for final transcriptions."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5437,7 +6046,16 @@
         }
       }
     },
-    "Padrão do sistema (%@)": {},
+    "Padrão do sistema (%@)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System default (%@)"
+          }
+        }
+      }
+    },
     "Padrão do sistema (\\(systemDefaultMicrophoneName))": {
       "extractionState": "manual",
       "localizations": {
@@ -5699,6 +6317,12 @@
     "Personalizado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5764,6 +6388,12 @@
     "Pontua, reescreve e traduz quando solicitado.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adds punctuation, rewrites, and translates when requested."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5884,6 +6514,12 @@
     "Privado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Private"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -5959,6 +6595,12 @@
     "Recomendado para uso diário. Equilibra boa precisão, velocidade e consumo de recursos.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recommended for daily use. Balances good accuracy, speed, and resource consumption."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -6184,7 +6826,16 @@
         }
       }
     },
-    "Reseta em: %@": {},
+    "Reseta em: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resets in: %@"
+          }
+        }
+      }
+    },
     "Reseta em: \\(formattedResetDate)": {
       "extractionState": "manual",
       "localizations": {
@@ -6221,6 +6872,12 @@
     "Restaurar padrão": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore default"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -6309,6 +6966,12 @@
     "Rápido": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fast"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -6385,6 +7048,12 @@
     "Se a Groq falhar, tenta MLX Whisper local antes de desistir.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If Groq fails, try local MLX Whisper before giving up."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -6586,7 +7255,16 @@
         }
       }
     },
-    "Semana": {},
+    "Semana": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Week"
+          }
+        }
+      }
+    },
     "Sempre ativo": {
       "extractionState": "stale",
       "localizations": {
@@ -7086,7 +7764,16 @@
         }
       }
     },
-    "Tem certeza que deseja excluir as %lld regras selecionadas?": {},
+    "Tem certeza que deseja excluir as %lld regras selecionadas?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Are you sure you want to delete the %lld selected rules?"
+          }
+        }
+      }
+    },
     "Tem certeza que deseja excluir as \\(pendingDeleteRules.count) regras selecionadas?": {
       "extractionState": "manual",
       "localizations": {
@@ -7120,7 +7807,16 @@
         }
       }
     },
-    "Tem certeza que deseja excluir os %lld termos selecionados?": {},
+    "Tem certeza que deseja excluir os %lld termos selecionados?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Are you sure you want to delete the %lld selected terms?"
+          }
+        }
+      }
+    },
     "Tem certeza que deseja excluir os \\(pendingDeleteEntries.count) termos selecionados?": {
       "extractionState": "manual",
       "localizations": {
@@ -7145,7 +7841,16 @@
         }
       }
     },
-    "Tempo de gravação: %@": {},
+    "Tempo de gravação: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording time: %@"
+          }
+        }
+      }
+    },
     "Tempo de gravação: \\(timerText)": {
       "extractionState": "manual",
       "localizations": {
@@ -7273,6 +7978,12 @@
     "Testar conexão": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test connection"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -7668,6 +8379,12 @@
     "Tudo roda neste Mac. As ferramentas e modelos locais são configurados em Ajustes > Ferramentas.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everything runs on this Mac. Local tools and models are configured in Settings > Tools."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -7679,6 +8396,12 @@
     "Tudo roda neste Mac. Modelos locais ficam em Ajustes > Ferramentas.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everything runs on this Mac. Local models are in Settings > Tools."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -7690,6 +8413,12 @@
     "Turbo é o padrão rápido e barato.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turbo is the fast and cheap default."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -7708,7 +8437,16 @@
         }
       }
     },
-    "Usa Groq para acelerar transcrição e texto; %@.": {},
+    "Usa Groq para acelerar transcrição e texto; %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uses Groq to speed up transcription and text; %@."
+          }
+        }
+      }
+    },
     "Usada %lld×": {
       "localizations": {
         "en": {
@@ -7730,7 +8468,16 @@
         }
       }
     },
-    "Usado %lld×": {},
+    "Usado %lld×": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used %lld×"
+          }
+        }
+      }
+    },
     "Usado \\(entry.useCount)×": {
       "extractionState": "manual",
       "localizations": {
@@ -7745,6 +8492,12 @@
     "Usar detectado": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use detected"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -7767,6 +8520,12 @@
     "Use para reescrever, pontuar e traduzir o texto ditado.": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use to rewrite, punctuate, and translate dictated text."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -8019,6 +8778,12 @@
     "Whisper Groq": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq Whisper"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -8063,6 +8828,12 @@
     "chave Groq salva": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groq key saved"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -8413,6 +9184,12 @@
     "gsk_...": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "gsk_..."
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -8559,6 +9336,12 @@
     "llama3.1": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "llama3.1"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -8583,6 +9366,12 @@
     "mlx-community/whisper-large-v3-turbo ou caminho local": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mlx-community/whisper-large-v3-turbo or local path"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
@@ -8790,6 +9579,12 @@
     "sem chave Groq": {
       "comment": "Ported from DictateOSS source during i18n base preparation.",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "no Groq key"
+          }
+        },
         "pt-BR": {
           "stringUnit": {
             "state": "new",
