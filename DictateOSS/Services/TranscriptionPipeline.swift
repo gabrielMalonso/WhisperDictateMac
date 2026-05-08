@@ -8,6 +8,7 @@ enum TranscriptionFallbackReason: Equatable {
     case offline
     case unauthenticated
     case networkFailure
+    case rateLimited
 }
 
 struct TranscriptionRouteResult {
@@ -22,6 +23,24 @@ struct TranscriptionRouteResult {
             rawText: nil,
             usedLocalFallback: false,
             fallbackReason: nil
+        )
+    }
+
+    static func remote(text: String, rawText: String?) -> TranscriptionRouteResult {
+        TranscriptionRouteResult(
+            text: text,
+            rawText: rawText,
+            usedLocalFallback: false,
+            fallbackReason: nil
+        )
+    }
+
+    static func localFallback(text: String, reason: TranscriptionFallbackReason) -> TranscriptionRouteResult {
+        TranscriptionRouteResult(
+            text: text,
+            rawText: nil,
+            usedLocalFallback: true,
+            fallbackReason: reason
         )
     }
 }
@@ -61,6 +80,8 @@ private actor TranscriptionCancellationRegistry {
 
 enum TranscriptionPipeline {
     private static let cancellationRegistry = TranscriptionCancellationRegistry()
+    typealias RouteTranscriber = (TranscriptionRequest, AIProviderSelection, UserDefaultsProviding) async throws -> TranscriptionRouteResult
+    typealias LLMRouteProcessor = (TranscriptionRouteResult, AIProviderSelection, String, Bool, UserDefaultsProviding) async -> TranscriptionRouteResult
 
     struct TranscriptionResult {
         let text: String
@@ -79,7 +100,9 @@ enum TranscriptionPipeline {
         persistResult: Bool = true,
         translationRequested: Bool = false,
         defaults: UserDefaultsProviding = UserDefaults.app,
-        modelContext: ModelContext = ModelContext(AppModelContainer.container)
+        modelContext: ModelContext = ModelContext(AppModelContainer.container),
+        routeTranscriber: RouteTranscriber? = nil,
+        llmProcessor: LLMRouteProcessor? = nil
     ) async -> Result<TranscriptionResult, TranscriptionPipelineError> {
         let selectedLanguage = defaults.string(forKey: MacAppKeys.transcriptionLanguage) ?? DeviceLanguageMapper.deviceDefault
         let persistedLanguage = selectedLanguage
@@ -89,37 +112,53 @@ enum TranscriptionPipeline {
             defaults: defaults
         )
 
+        let providerSelection = AIProviderSelection.current(from: defaults)
         logger.info(
             """
-            Pipeline start: mode=mlx, \
+            Pipeline start: mode=\(providerSelection.mode.rawValue, privacy: .public), \
+            transcriptionProvider=\(providerSelection.transcriptionProvider.rawValue, privacy: .public), \
+            llmProvider=\(providerSelection.llmProvider.rawValue, privacy: .public), \
             selectedLanguage=\(selectedLanguage, privacy: .public), \
             dictionaryTermsCount=\(dictionaryTerms.count)
             """
         )
 
-        let localResult = await LocalTranscriptionService.transcribe(
+        let transcriptionRequest = TranscriptionRequest(
             audioURL: audioURL,
-            language: selectedLanguage == "auto" ? nil : selectedLanguage
+            language: selectedLanguage == "auto" ? nil : selectedLanguage,
+            dictionaryTerms: dictionaryTerms,
+            translationRequested: translationRequested
         )
+
+        let route: TranscriptionRouteResult
+        do {
+            let transcribeRoute = routeTranscriber ?? { request, selection, defaults in
+                try await TranscriptionPipeline.transcribe(
+                    request: request,
+                    providerSelection: selection,
+                    defaults: defaults
+                )
+            }
+            route = try await transcribeRoute(transcriptionRequest, providerSelection, defaults)
+        } catch {
+            return .failure(.localTranscriptionFailed(error.localizedDescription))
+        }
 
         if await cancelIfRequested(clientId: clientId) {
             return .failure(.cancelled)
         }
 
-        let route: TranscriptionRouteResult
-        switch localResult {
-        case .success(let text):
-            let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !trimmed.isEmpty else {
-                return .failure(.emptyResult)
-            }
-            route = .localOnly(text: trimmed)
-        case .failure(let error):
-            return .failure(.localTranscriptionFailed(error.localizedDescription))
+        let processRouteWithLLM = llmProcessor ?? { route, selection, language, translationRequested, defaults in
+            await TranscriptionPipeline.processWithLLMIfNeeded(
+                route: route,
+                providerSelection: selection,
+                language: language,
+                translationRequested: translationRequested,
+                defaults: defaults
+            )
         }
-
         let finalText = postProcess(
-            route: route,
+            route: await processRouteWithLLM(route, providerSelection, selectedLanguage, translationRequested, defaults),
             dictionaryTerms: dictionaryTerms,
             language: selectedLanguage,
             defaults: defaults,
@@ -164,6 +203,105 @@ enum TranscriptionPipeline {
 }
 
 private extension TranscriptionPipeline {
+    static func transcribe(
+        request: TranscriptionRequest,
+        providerSelection: AIProviderSelection,
+        defaults: UserDefaultsProviding
+    ) async throws -> TranscriptionRouteResult {
+        let provider = AIProviderFactory.transcriptionProvider(
+            for: providerSelection.transcriptionProvider,
+            defaults: defaults
+        )
+        do {
+            let result = try await provider.transcribe(request)
+            let trimmed = result.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else {
+                throw TranscriptionPipelineError.emptyResult
+            }
+            if providerSelection.transcriptionProvider == .local {
+                return .localOnly(text: trimmed)
+            }
+            return .remote(text: trimmed, rawText: result.rawText)
+        } catch {
+            guard providerSelection.transcriptionProvider == .groq, providerSelection.fallbackToLocal else {
+                throw error
+            }
+            let localResult = await LocalTranscriptionService.transcribe(
+                audioURL: request.audioURL,
+                language: request.language
+            )
+            switch localResult {
+            case .success(let text):
+                let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !trimmed.isEmpty else {
+                    throw TranscriptionPipelineError.emptyResult
+                }
+                return .localFallback(text: trimmed, reason: fallbackReason(for: error))
+            case .failure(let localError):
+                throw localError
+            }
+        }
+    }
+
+    static func processWithLLMIfNeeded(
+        route: TranscriptionRouteResult,
+        providerSelection: AIProviderSelection,
+        language: String,
+        translationRequested: Bool,
+        defaults: UserDefaultsProviding
+    ) async -> TranscriptionRouteResult {
+        guard providerSelection.llmProvider != .none else {
+            return route
+        }
+        let provider = AIProviderFactory.llmProvider(
+            for: providerSelection.llmProvider,
+            defaults: defaults
+        )
+        let formattingOptions = FormattingOptions.load(from: defaults)
+        let targetLanguage = defaults.string(forKey: MacAppKeys.translationTargetLanguage) ?? "en"
+
+        do {
+            let processed = try await provider.process(LLMProcessingRequest(
+                text: route.text,
+                language: language,
+                formattingOptions: formattingOptions,
+                translationRequested: translationRequested,
+                translationTargetLanguage: targetLanguage
+            ))
+            let trimmed = processed.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else {
+                return route
+            }
+            return TranscriptionRouteResult(
+                text: trimmed,
+                rawText: route.rawText ?? route.text,
+                usedLocalFallback: route.usedLocalFallback,
+                fallbackReason: route.fallbackReason
+            )
+        } catch {
+            logger.error("LLM post-processing failed: \(error.localizedDescription)")
+            return route
+        }
+    }
+
+    static func fallbackReason(for error: Error) -> TranscriptionFallbackReason {
+        if let groqError = error as? GroqClientError {
+            switch groqError {
+            case .authenticationFailed, .apiKeyMissing:
+                return .unauthenticated
+            case .rateLimited:
+                return .rateLimited
+            default:
+                return .networkFailure
+            }
+        }
+        let nsError = error as NSError
+        if nsError.domain == NSURLErrorDomain, nsError.code == NSURLErrorNotConnectedToInternet {
+            return .offline
+        }
+        return .networkFailure
+    }
+
     static func makeResult(
         text: String,
         clientId: UUID,

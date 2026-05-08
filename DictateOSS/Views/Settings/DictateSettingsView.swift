@@ -48,6 +48,29 @@ private enum TranslationTarget: String, CaseIterable, Identifiable {
 // MARK: - DictateSettingsView
 
 struct DictateSettingsView: View {
+    @Binding var activeSettingsModal: SettingsModal?
+
+    @AppStorage(MacAppKeys.aiMode, store: .app)
+    private var aiModeRaw: String = AIMode.groq.rawValue
+
+    @AppStorage(MacAppKeys.transcriptionProvider, store: .app)
+    private var transcriptionProviderRaw: String = TranscriptionProviderKind.local.rawValue
+
+    @AppStorage(MacAppKeys.llmProvider, store: .app)
+    private var llmProviderRaw: String = LLMProviderKind.none.rawValue
+
+    @AppStorage(MacAppKeys.groqWhisperModel, store: .app)
+    private var groqWhisperModel: String = AppConfig.defaultGroqWhisperModel
+
+    @AppStorage(MacAppKeys.groqLLMModel, store: .app)
+    private var groqLLMModel: String = AppConfig.defaultGroqLLMModel
+
+    @AppStorage(MacAppKeys.localLLMModel, store: .app)
+    private var localLLMModel: String = AppConfig.defaultLocalLLMModel
+
+    @AppStorage(MacAppKeys.groqFallbackToLocal, store: .app)
+    private var groqFallbackToLocal: Bool = true
+
     @AppStorage(MacAppKeys.transcriptionLanguage, store: .app)
     private var selectedLanguage: String = DeviceLanguageMapper.deviceDefault
 
@@ -58,6 +81,11 @@ struct DictateSettingsView: View {
     private var translationTargetLanguage: String = "en"
 
     @State private var formattingOptions = FormattingOptions.load()
+    @State private var groqAPIKeyInput = ""
+    @State private var hasGroqAPIKey = false
+    @State private var groqStatusMessage: String?
+    @State private var groqStatusIsError = false
+    @State private var isTestingGroq = false
 
     @Query(filter: #Predicate<ReplacementRule> { $0.isEnabled })
     private var activeRules: [ReplacementRule]
@@ -77,6 +105,7 @@ struct DictateSettingsView: View {
             VStack(alignment: .leading, spacing: 24) {
                 SettingsComponents.brandedHeader("DictateOSS")
 
+                aiModeCard
                 transcricaoCard
                 traducaoCard
             }
@@ -88,6 +117,13 @@ struct DictateSettingsView: View {
         .onChange(of: selectedLanguage) { _, _ in
             persistSettings()
         }
+        .onChange(of: aiModeRaw) { _, _ in persistSettings() }
+        .onChange(of: transcriptionProviderRaw) { _, _ in persistSettings() }
+        .onChange(of: llmProviderRaw) { _, _ in persistSettings() }
+        .onChange(of: groqWhisperModel) { _, _ in persistSettings() }
+        .onChange(of: groqLLMModel) { _, _ in persistSettings() }
+        .onChange(of: localLLMModel) { _, _ in persistSettings() }
+        .onChange(of: groqFallbackToLocal) { _, _ in persistSettings() }
         .onChange(of: translationEnabled) { _, _ in
             sanitizeTranslationState()
             persistSettings()
@@ -96,6 +132,176 @@ struct DictateSettingsView: View {
         .task {
             clearDeprecatedTranscriptionDomainIfNeeded()
             sanitizeUnavailableFeatures()
+            refreshGroqKeyState()
+        }
+    }
+
+    // MARK: - AI Mode Card
+
+    private var aiModeCard: some View {
+        SettingsComponents.card {
+            SettingsComponents.sectionHeader(String(localized: "Modo de IA"))
+
+            Button {
+                withAnimation(SettingsModalLayout.animation) {
+                    activeSettingsModal = .ai
+                }
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: currentAIMode == .local ? "lock.shield" : "bolt.horizontal")
+                        .font(.body)
+                        .foregroundStyle(accentColor)
+                        .frame(width: 24)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(modeSummaryTitle)
+                            .font(SettingsComponents.rowFont)
+                        Text(modeSummaryDetail)
+                            .font(SettingsComponents.helperFont)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.tertiary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var customProviderRows: some View {
+        Group {
+            SettingsComponents.divider()
+            SettingsComponents.rowWithDescription(
+                icon: "waveform",
+                title: String(localized: "Transcrição"),
+                description: String(localized: "Escolha quem transforma áudio em texto.")
+            ) {
+                Picker("", selection: $transcriptionProviderRaw) {
+                    ForEach(TranscriptionProviderKind.allCases) { provider in
+                        Text(provider.label).tag(provider.rawValue)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(.menu)
+            }
+
+            SettingsComponents.divider()
+            SettingsComponents.rowWithDescription(
+                icon: "text.sparkles",
+                title: String(localized: "LLM"),
+                description: String(localized: "Use para reescrever, pontuar e traduzir o texto ditado.")
+            ) {
+                Picker("", selection: $llmProviderRaw) {
+                    ForEach(LLMProviderKind.allCases) { provider in
+                        Text(provider.label).tag(provider.rawValue)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(.menu)
+            }
+        }
+    }
+
+    private var groqSettingsSection: some View {
+        VStack(spacing: 0) {
+            SettingsComponents.rowWithDescription(
+                icon: hasGroqAPIKey ? "key.fill" : "key",
+                title: String(localized: "Chave da Groq"),
+                description: hasGroqAPIKey
+                    ? String(localized: "Chave salva no Keychain.")
+                    : String(localized: "A chave fica no Keychain, não em UserDefaults.")
+            ) {
+                HStack(spacing: 8) {
+                    SecureField(String(localized: "gsk_..."), text: $groqAPIKeyInput)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 180)
+                    Button(String(localized: "Salvar")) {
+                        saveGroqAPIKey()
+                    }
+                    .disabled(groqAPIKeyInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    Button(String(localized: "Apagar")) {
+                        deleteGroqAPIKey()
+                    }
+                    .disabled(!hasGroqAPIKey)
+                }
+            }
+
+            SettingsComponents.divider()
+
+            SettingsComponents.rowWithDescription(
+                icon: "waveform.path.ecg",
+                title: String(localized: "Modelo Whisper"),
+                description: String(localized: "Turbo é o padrão rápido e barato.")
+            ) {
+                Picker("", selection: $groqWhisperModel) {
+                    Text("whisper-large-v3-turbo").tag("whisper-large-v3-turbo")
+                    Text("whisper-large-v3").tag("whisper-large-v3")
+                }
+                .labelsHidden()
+                .pickerStyle(.menu)
+            }
+
+            if currentAIMode == .groq || selectedLLMProvider == .groq {
+                SettingsComponents.divider()
+                SettingsComponents.rowWithDescription(
+                    icon: "sparkles",
+                    title: String(localized: "Modelo LLM"),
+                    description: String(localized: "20B é o melhor padrão para ditado: rápido e barato.")
+                ) {
+                    Picker("", selection: $groqLLMModel) {
+                        Text("openai/gpt-oss-20b").tag("openai/gpt-oss-20b")
+                        Text("openai/gpt-oss-120b").tag("openai/gpt-oss-120b")
+                        Text("llama-3.1-8b-instant").tag("llama-3.1-8b-instant")
+                        Text("llama-3.3-70b-versatile").tag("llama-3.3-70b-versatile")
+                    }
+                    .labelsHidden()
+                    .pickerStyle(.menu)
+                }
+            }
+
+            SettingsComponents.divider()
+
+            SettingsComponents.rowWithDescription(
+                icon: "arrow.triangle.2.circlepath",
+                title: String(localized: "Fallback local"),
+                description: String(localized: "Se a Groq falhar, tenta MLX Whisper local antes de desistir.")
+            ) {
+                Toggle("", isOn: $groqFallbackToLocal)
+                    .labelsHidden()
+                    .toggleStyle(.switch)
+            }
+
+            SettingsComponents.divider()
+
+            HStack(spacing: 12) {
+                Button {
+                    testGroqConnection()
+                } label: {
+                    if isTestingGroq {
+                        ProgressView()
+                            .controlSize(.small)
+                    } else {
+                        Text(String(localized: "Testar conexão"))
+                    }
+                }
+                .disabled(!hasGroqAPIKey || isTestingGroq)
+
+                if let groqStatusMessage {
+                    Text(groqStatusMessage)
+                        .font(SettingsComponents.helperFont)
+                        .foregroundStyle(groqStatusIsError ? .red : .secondary)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
         }
     }
 
@@ -318,6 +524,50 @@ struct DictateSettingsView: View {
 
     // MARK: - Helpers
 
+    private var currentAIMode: AIMode {
+        AIMode(rawValue: aiModeRaw) ?? .groq
+    }
+
+    private var selectedTranscriptionProvider: TranscriptionProviderKind {
+        TranscriptionProviderKind(rawValue: transcriptionProviderRaw) ?? .local
+    }
+
+    private var selectedLLMProvider: LLMProviderKind {
+        LLMProviderKind(rawValue: llmProviderRaw) ?? .none
+    }
+
+    private var usesGroq: Bool {
+        currentAIMode == .groq ||
+            (currentAIMode == .custom && (selectedTranscriptionProvider == .groq || selectedLLMProvider == .groq))
+    }
+
+    private var usesLocalLLM: Bool {
+        currentAIMode == .custom && selectedLLMProvider == .local
+    }
+
+    private var modeSummaryTitle: String {
+        switch currentAIMode {
+        case .local:
+            String(localized: "Privado")
+        case .groq:
+            String(localized: "Rápido")
+        case .custom:
+            String(localized: "Avançado")
+        }
+    }
+
+    private var modeSummaryDetail: String {
+        let groqKey = hasGroqAPIKey ? String(localized: "chave Groq salva") : String(localized: "sem chave Groq")
+        switch currentAIMode {
+        case .local:
+            return String(localized: "Tudo roda neste Mac. Modelos locais ficam em Ajustes > Ferramentas.")
+        case .groq:
+            return String(localized: "Usa Groq para acelerar transcrição e texto; \(groqKey).")
+        case .custom:
+            return String(localized: "Fluxo personalizado; \(groqKey).")
+        }
+    }
+
     private func toneLabel(_ tone: Tone) -> String {
         switch tone {
         case .colloquial: String(localized: "Coloquial")
@@ -359,9 +609,66 @@ struct DictateSettingsView: View {
             UserDefaults.app.removeObject(forKey: MacAppKeys.transcriptionDomain)
         }
     }
+
+    private func refreshGroqKeyState() {
+        do {
+            hasGroqAPIKey = try GroqCredentialStore().apiKey() != nil
+        } catch {
+            hasGroqAPIKey = false
+            groqStatusMessage = error.localizedDescription
+            groqStatusIsError = true
+        }
+    }
+
+    private func saveGroqAPIKey() {
+        do {
+            try GroqCredentialStore().save(apiKey: groqAPIKeyInput)
+            groqAPIKeyInput = ""
+            hasGroqAPIKey = true
+            groqStatusMessage = String(localized: "Chave salva.")
+            groqStatusIsError = false
+        } catch {
+            groqStatusMessage = error.localizedDescription
+            groqStatusIsError = true
+        }
+    }
+
+    private func deleteGroqAPIKey() {
+        do {
+            try GroqCredentialStore().deleteAPIKey()
+            groqAPIKeyInput = ""
+            hasGroqAPIKey = false
+            groqStatusMessage = String(localized: "Chave apagada.")
+            groqStatusIsError = false
+        } catch {
+            groqStatusMessage = error.localizedDescription
+            groqStatusIsError = true
+        }
+    }
+
+    private func testGroqConnection() {
+        isTestingGroq = true
+        groqStatusMessage = nil
+        Task {
+            do {
+                try await GroqClient().testAuthentication()
+                await MainActor.run {
+                    isTestingGroq = false
+                    groqStatusMessage = String(localized: "Conexão OK.")
+                    groqStatusIsError = false
+                }
+            } catch {
+                await MainActor.run {
+                    isTestingGroq = false
+                    groqStatusMessage = error.localizedDescription
+                    groqStatusIsError = true
+                }
+            }
+        }
+    }
 }
 
 #Preview {
-    DictateSettingsView()
+    DictateSettingsView(activeSettingsModal: .constant(nil))
         .frame(width: 600, height: 800)
 }

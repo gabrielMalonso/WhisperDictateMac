@@ -13,6 +13,7 @@ enum DetailRoute: Hashable {
 enum SettingsModal: String, Identifiable {
     case general
     case tools
+    case ai
     case system
 
     var id: String { rawValue }
@@ -79,6 +80,9 @@ struct ContentView: View {
     @AppStorage(MacAppKeys.onboardingCompleted, store: .app)
     private var onboardingCompleted = false
 
+    @AppStorage(MacAppKeys.openAISettingsAfterOnboarding, store: .app)
+    private var openAISettingsAfterOnboarding = false
+
     @AppStorage(MacAppKeys.keyboardAccentColor, store: .app)
     private var accentColorRaw: String = AccentColorOption.default.rawValue
 
@@ -114,6 +118,10 @@ struct ContentView: View {
         }
         .frame(minWidth: WindowLayout.minWidth, minHeight: WindowLayout.minHeight)
         .animation(Self.rootTransitionAnimation, value: onboardingCompleted)
+        .onChange(of: onboardingCompleted) { _, completed in
+            guard completed else { return }
+            presentAISettingsAfterOnboardingIfNeeded()
+        }
     }
 
     // MARK: - Authenticated Content
@@ -172,6 +180,9 @@ struct ContentView: View {
             }
         }
         .toolbar(activeSettingsModal == nil ? .visible : .hidden, for: .windowToolbar)
+        .onAppear {
+            presentAISettingsAfterOnboardingIfNeeded()
+        }
         .onChange(of: selectedTab) { _, newValue in
             if newValue != .settings {
                 withAnimation(SettingsModalLayout.animation) {
@@ -253,7 +264,7 @@ struct ContentView: View {
         case .history:
             HistoryView()
         case .dictateSettings:
-            DictateSettingsView()
+            DictateSettingsView(activeSettingsModal: $activeSettingsModal)
         case .settings:
             SettingsView(activeSettingsModal: $activeSettingsModal)
         case .none:
@@ -271,6 +282,8 @@ struct ContentView: View {
             GeneralSettingsSheetView(modalSize: modalSize)
         case .tools:
             ToolsSettingsSheetView(modalSize: modalSize)
+        case .ai:
+            AISettingsSheetView(modalSize: modalSize)
         case .system:
             SystemSettingsSheetView(
                 modalSize: modalSize,
@@ -289,6 +302,21 @@ struct ContentView: View {
                     }
                 }
             )
+        }
+    }
+
+    private func presentAISettingsAfterOnboardingIfNeeded() {
+        guard openAISettingsAfterOnboarding else { return }
+        openAISettingsAfterOnboarding = false
+        DispatchQueue.main.async {
+            detailPath = NavigationPath()
+            stackID = UUID()
+            selectedTab = .dictateSettings
+            DispatchQueue.main.async {
+                withAnimation(SettingsModalLayout.animation) {
+                    activeSettingsModal = .ai
+                }
+            }
         }
     }
 }

@@ -577,9 +577,27 @@ final class DictationManager: ObservableObject {
     static func overlayBanner(
         for fallbackReason: TranscriptionFallbackReason?
     ) -> RecordingOverlayBanner {
-        RecordingOverlayBanner(
+        if let fallbackReason {
+            let message: String
+            switch fallbackReason {
+            case .offline:
+                message = String(localized: "Sem internet. Usei a transcrição local.")
+            case .unauthenticated:
+                message = String(localized: "Groq sem chave ou recusou a chave. Usei a transcrição local.")
+            case .networkFailure:
+                message = String(localized: "Groq falhou. Usei a transcrição local.")
+            case .rateLimited:
+                message = String(localized: "Groq atingiu o limite. Usei a transcrição local.")
+            }
+            return RecordingOverlayBanner(
+                icon: "arrow.triangle.2.circlepath",
+                message: message,
+                style: .info
+            )
+        }
+        return RecordingOverlayBanner(
             icon: "checkmark.circle.fill",
-            message: String(localized: "Transcrição local concluída."),
+            message: String(localized: "Transcrição concluída."),
             style: .info
         )
     }

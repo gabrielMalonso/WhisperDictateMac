@@ -1,12 +1,12 @@
 # DictateOSS
 
-Local-first dictation for macOS, powered by MLX Whisper.
+Local-first dictation for macOS, powered by MLX Whisper, with optional Groq acceleration.
 
 ```txt
-global hotkey -> record audio -> transcribe locally with MLX Whisper -> paste text into the active app
+global hotkey -> record audio -> transcribe locally or with Groq -> paste text into the active app
 ```
 
-DictateOSS is a native macOS app for people who want fast dictation without sending their voice to a server. It keeps transcription, history, replacement rules, and personal dictionary data on your Mac.
+DictateOSS is a native macOS app for people who want fast dictation and a real privacy choice. Local mode keeps transcription, history, replacement rules, and personal dictionary data on your Mac. Groq mode is optional and faster, but sends audio and text to Groq using your own API key.
 
 ## Why This Exists
 
@@ -14,8 +14,8 @@ Most dictation tools either phone home, hide the model behind a subscription, or
 
 | Thing | DictateOSS |
 | --- | --- |
-| Transcription | Local MLX Whisper |
-| Account | None |
+| Transcription | Local MLX Whisper by default, optional Groq |
+| Account | None for Local mode; Groq key if you choose Groq |
 | Backend | None |
 | Subscription | None |
 | Proprietary telemetry | None |
@@ -25,6 +25,8 @@ Most dictation tools either phone home, hide the model behind a subscription, or
 
 - Global hotkey dictation from any macOS app.
 - Local transcription through `mlx_whisper`.
+- Optional Groq transcription and LLM cleanup with your own API key.
+- Three AI modes: Local, Groq, and Custom.
 - Automatic text insertion into the currently focused app.
 - Local transcription history.
 - Personal dictionary for domain-specific words and names.
@@ -82,6 +84,25 @@ The app also includes presets for:
 
 Models are downloaded by MLX/Hugging Face on first use unless already cached.
 
+## AI Modes
+
+| Mode | Transcription | LLM cleanup | Best for |
+| --- | --- | --- | --- |
+| Groq | Groq Whisper | Groq LLM | Default fast path, low CPU/RAM use, simple setup |
+| Local | MLX Whisper | Off by default | Privacy, offline use, no API cost |
+| Custom | Local or Groq | Off, Ollama, or Groq | Mixing privacy and convenience |
+
+The app now treats Groq as the primary quick mode. Private local models are still available, but their model/tool setup lives in Settings > Tools.
+
+Groq settings use these defaults:
+
+| Stage | Default model | Notes |
+| --- | --- | --- |
+| Speech-to-text | `whisper-large-v3-turbo` | Fast and cheap for daily dictation |
+| LLM cleanup | `openai/gpt-oss-20b` | Good default for punctuation, formatting, and light rewriting |
+
+Groq API keys are stored in the macOS Keychain, not in UserDefaults. If Groq fails and local fallback is enabled, DictateOSS tries MLX Whisper before giving up. Sensible behavior; shocking concept.
+
 ## Build
 
 Generate the Xcode project:
@@ -129,7 +150,9 @@ If dictation records audio but does not paste text, check Accessibility first. m
 
 DictateOSS is designed to work without an account, server, subscription, or proprietary telemetry.
 
-Your audio is recorded locally, passed to `mlx_whisper`, converted into text, and then deleted as part of the transcription flow. Transcription records, dictionary entries, and replacement rules stay in local app storage.
+In Local mode, your audio is recorded locally, passed to `mlx_whisper`, converted into text, and then deleted as part of the transcription flow. Transcription records, dictionary entries, and replacement rules stay in local app storage.
+
+In Groq mode, the recorded audio is sent to Groq for transcription, and the resulting text may be sent to Groq again for LLM cleanup. The temporary audio file is still deleted locally after the flow completes. Use Local mode when privacy matters more than speed.
 
 ## Current Status
 
