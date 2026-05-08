@@ -42,6 +42,11 @@ enum AppConfig {
     static let defaultDictationTimeout: TimeInterval = 240  // 4 minutes
     static let defaultClipboardRestoreDelayMs = 200
     static let defaultMLXModel = "mlx-community/whisper-large-v3-turbo"
+    static let defaultGroqWhisperModel = "whisper-large-v3-turbo"
+    static let defaultGroqLLMModel = "openai/gpt-oss-20b"
+    static let defaultLocalLLMModel = "llama3.1"
+    static let groqAPIBaseURL = makeURL("https://api.groq.com/openai/v1")
+    static let ollamaAPIBaseURL = makeURL("http://localhost:11434")
 
     static var defaultMLXExecutablePath: String {
         ExecutableResolver.resolve("mlx_whisper", fallbackName: "mlx_whisper")

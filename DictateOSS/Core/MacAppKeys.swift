@@ -10,6 +10,13 @@ enum MacAppKeys {
     static let dictionaryEnabled = "dictionaryEnabled"
     static let mlxExecutablePath = "mlxExecutablePath"
     static let mlxModel = "mlxModel"
+    static let aiMode = "aiMode"
+    static let transcriptionProvider = "transcriptionProvider"
+    static let llmProvider = "llmProvider"
+    static let groqWhisperModel = "groqWhisperModel"
+    static let groqLLMModel = "groqLLMModel"
+    static let localLLMModel = "localLLMModel"
+    static let groqFallbackToLocal = "groqFallbackToLocal"
 
     // MARK: - Translation
 
