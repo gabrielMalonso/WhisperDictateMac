@@ -2,9 +2,9 @@ import SwiftUI
 
 struct OnboardingGroqStep: View {
     private let steps = [
-        String(localized: "Acesse a Groq e crie uma conta ou faça login."),
-        String(localized: "Abra API Keys e crie uma chave gratuita."),
-        String(localized: "Copie a chave e cole no modal de IA do Dictate.")
+        String(localized: "onboarding.groq.step.sign_in"),
+        String(localized: "onboarding.groq.step.create_free_key"),
+        String(localized: "onboarding.groq.step.paste_key")
     ]
 
     var body: some View {
@@ -14,11 +14,11 @@ struct OnboardingGroqStep: View {
                 .foregroundStyle(.tint)
                 .padding(.bottom, 8)
 
-            Text(String(localized: "Modo rápido com Groq"))
+            Text(String(localized: "onboarding.groq.title"))
                 .font(.title2)
                 .fontWeight(.semibold)
 
-            Text(String(localized: "O Dictate usa Groq como caminho rápido. No Free Tier, a chave é gratuita e generosa para começar."))
+            Text(String(localized: "onboarding.groq.subtitle"))
                 .font(AppTypography.row)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -42,7 +42,7 @@ struct OnboardingGroqStep: View {
             .padding(.top, 2)
 
             Link(destination: AppConfig.groqAPIKeysURL) {
-                Label(String(localized: "Abrir chaves da Groq"), systemImage: "key")
+                Label(String(localized: "onboarding.groq.open_keys"), systemImage: "key")
                     .frame(maxWidth: 220)
                     .padding(.vertical, 6)
             }
@@ -50,7 +50,7 @@ struct OnboardingGroqStep: View {
             .controlSize(.large)
             .padding(.top, 8)
 
-            Text(String(localized: "Ao concluir, abriremos Dictate > Modo de IA para você colar a chave. No Free Tier, você usa até os limites gratuitos."))
+            Text(String(localized: "onboarding.groq.footer"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

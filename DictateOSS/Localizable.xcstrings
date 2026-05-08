@@ -9380,6 +9380,118 @@
         }
       }
     },
+    "onboarding.groq.footer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After onboarding, we'll open Dictate > AI mode so you can paste the key. On the Free Tier, you can use Groq up to the free limits."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ao concluir, abriremos Dictate > Modo de IA para você colar a chave. No Free Tier, você usa até os limites gratuitos."
+          }
+        }
+      }
+    },
+    "onboarding.groq.open_keys": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Groq keys"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir chaves da Groq"
+          }
+        }
+      }
+    },
+    "onboarding.groq.step.create_free_key": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open API Keys and create a free key."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abra API Keys e crie uma chave gratuita."
+          }
+        }
+      }
+    },
+    "onboarding.groq.step.paste_key": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy the key and paste it in Dictate's AI modal."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copie a chave e cole no modal de IA do Dictate."
+          }
+        }
+      }
+    },
+    "onboarding.groq.step.sign_in": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to Groq and create an account or sign in."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acesse a Groq e crie uma conta ou faça login."
+          }
+        }
+      }
+    },
+    "onboarding.groq.subtitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dictate uses Groq as the fast path. On the Free Tier, the key is free and generous enough to get started."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Dictate usa Groq como caminho rápido. No Free Tier, a chave é gratuita e generosa para começar."
+          }
+        }
+      }
+    },
+    "onboarding.groq.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fast mode with Groq"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo rápido com Groq"
+          }
+        }
+      }
+    },
     "notification_tip_action_button_body": {
       "extractionState": "stale",
       "localizations": {
