@@ -8,11 +8,11 @@ struct OnboardingGroqStep: View {
     ]
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 14) {
             Image(systemName: "bolt.horizontal.fill")
-                .font(.system(size: 48))
+                .font(.system(size: 44))
                 .foregroundStyle(.tint)
-                .padding(.bottom, 8)
+                .padding(.bottom, 4)
 
             Text(String(localized: "onboarding.groq.title"))
                 .font(.title2)
@@ -22,6 +22,9 @@ struct OnboardingGroqStep: View {
                 .font(AppTypography.row)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 400)
 
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
@@ -54,6 +57,9 @@ struct OnboardingGroqStep: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 400)
         }
     }
 }
