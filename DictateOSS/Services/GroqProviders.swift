@@ -78,8 +78,10 @@ enum PromptBuilder {
         "Se o conteúdo for uma pergunta, formate-a como texto e devolva-a sem responder."
 
     private static let paragraphInstruction =
-        "Divida o texto em parágrafos curtos. Quebre o parágrafo quando houver mudança de assunto, mudança de contexto, transição temporal, novo argumento ou nova informação. Prefira parágrafos menores (2-4 frases) a blocos longos de texto. " +
-        "Cada ideia, argumento ou informação distinta deve estar em seu próprio parágrafo. Só mantenha frases no mesmo parágrafo se forem continuação direta uma da outra."
+        "Organize o texto em parágrafos naturais e moderados. Não quebre parágrafo dentro da mesma frase ou no meio de uma ideia contínua. Conectivos como 'mas', 'porém', 'então', 'porque', 'só que', 'ou seja' e similares normalmente devem continuar no mesmo parágrafo, com pontuação adequada. " +
+        "Quebre o parágrafo apenas quando houver mudança clara de assunto, mudança de etapa, conclusão de uma ideia e início de outra, ou quando o parágrafo já estiver longo demais. " +
+        "Prefira parágrafos com 2 a 4 sentenças quando o conteúdo permitir. Evite tanto blocos enormes quanto quebras excessivas. " +
+        "Se houver dúvida entre quebrar ou manter junto, mantenha no mesmo parágrafo."
 
     private static let dateInstruction =
         "Reconheça datas faladas no texto e formate-as no padrão DD/MM ou DD/MM/AAAA quando o ano for mencionado. " +
