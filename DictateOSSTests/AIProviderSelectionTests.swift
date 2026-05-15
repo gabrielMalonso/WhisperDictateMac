@@ -89,6 +89,19 @@ final class AIProviderSelectionTests: XCTestCase {
         XCTAssertFalse(llmCall.called)
     }
 
+    @MainActor
+    func testSuccessfulTranscriptionWithoutFallbackDoesNotShowOverlayBanner() {
+        XCTAssertNil(DictationManager.overlayBanner(for: nil))
+    }
+
+    @MainActor
+    func testFallbackTranscriptionStillShowsOverlayBanner() {
+        let banner = DictationManager.overlayBanner(for: .offline)
+
+        XCTAssertEqual(banner?.icon, "arrow.triangle.2.circlepath")
+        XCTAssertEqual(banner?.style, .info)
+    }
+
     private func makeDefaults() -> UserDefaults {
         let suiteName = "AIProviderSelectionTests-\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suiteName)!

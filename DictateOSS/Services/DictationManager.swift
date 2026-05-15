@@ -290,7 +290,11 @@ final class DictationManager: ObservableObject {
             )
             storeLatestTranscription(text)
             lastError = nil
-            flashOverlayBanner(Self.overlayBanner(for: pipelineResult.fallbackReason))
+            if let banner = Self.overlayBanner(for: pipelineResult.fallbackReason) {
+                flashOverlayBanner(banner)
+            } else {
+                clearOverlayBanner()
+            }
             state = .idle
             audioFeedback.playSuccess()
             updateCumulativeStats(wordCount: pipelineResult.wordCount, audioDuration: audioDuration)
@@ -576,28 +580,26 @@ final class DictationManager: ObservableObject {
 
     static func overlayBanner(
         for fallbackReason: TranscriptionFallbackReason?
-    ) -> RecordingOverlayBanner {
-        if let fallbackReason {
-            let message: String
-            switch fallbackReason {
-            case .offline:
-                message = String(localized: "Sem internet. Usei a transcrição local.")
-            case .unauthenticated:
-                message = String(localized: "Groq sem chave ou recusou a chave. Usei a transcrição local.")
-            case .networkFailure:
-                message = String(localized: "Groq falhou. Usei a transcrição local.")
-            case .rateLimited:
-                message = String(localized: "Groq atingiu o limite. Usei a transcrição local.")
-            }
-            return RecordingOverlayBanner(
-                icon: "arrow.triangle.2.circlepath",
-                message: message,
-                style: .info
-            )
+    ) -> RecordingOverlayBanner? {
+        guard let fallbackReason else {
+            return nil
         }
+
+        let message: String
+        switch fallbackReason {
+        case .offline:
+            message = String(localized: "Sem internet. Usei a transcrição local.")
+        case .unauthenticated:
+            message = String(localized: "Groq sem chave ou recusou a chave. Usei a transcrição local.")
+        case .networkFailure:
+            message = String(localized: "Groq falhou. Usei a transcrição local.")
+        case .rateLimited:
+            message = String(localized: "Groq atingiu o limite. Usei a transcrição local.")
+        }
+
         return RecordingOverlayBanner(
-            icon: "checkmark.circle.fill",
-            message: String(localized: "Transcrição concluída."),
+            icon: "arrow.triangle.2.circlepath",
+            message: message,
             style: .info
         )
     }
